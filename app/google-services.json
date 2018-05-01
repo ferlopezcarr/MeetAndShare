@@ -1,0 +1,187 @@
+{
+  "project_info": {
+    "project_number": "928981390849",
+    "firebase_url": "https://meetandshare-fyjm.firebaseio.com",
+    "project_id": "meetandshare-fyjm",
+    "storage_bucket": "meetandshare-fyjm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928981390849:android:a200b6f70e54105c",
+        "android_client_info": {
+          "package_name": "ferlo.meetandshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928981390849-iuhknr26ctcaqffqe3hnp10ees3680l4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ferlo.meetandshare",
+            "certificate_hash": "c24694e4715b2ba7f049587ecfe8a4b7134b2c44"
+          }
+        },
+        {
+          "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLueMzyoj1cVHTB65LswX-qY9g2rpe18"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928981390849:android:571875ce69baf2a2",
+        "android_client_info": {
+          "package_name": "fyjm.meetandshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928981390849-df4bkfuol08npsts709c2nishilo3ob4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fyjm.meetandshare",
+            "certificate_hash": "c24694e4715b2ba7f049587ecfe8a4b7134b2c44"
+          }
+        },
+        {
+          "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLueMzyoj1cVHTB65LswX-qY9g2rpe18"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928981390849:android:1735f989121ca2f7",
+        "android_client_info": {
+          "package_name": "pad.meetandshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928981390849-ufej8h6n8rkejtajhccj1ksjrqn0aec0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pad.meetandshare",
+            "certificate_hash": "c24694e4715b2ba7f049587ecfe8a4b7134b2c44"
+          }
+        },
+        {
+          "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLueMzyoj1cVHTB65LswX-qY9g2rpe18"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928981390849:android:a184e6b39bb7b0a4",
+        "android_client_info": {
+          "package_name": "pad.meetshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928981390849-qvl7gdvuo86sckv3nf5tn8c4g0gt50ei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pad.meetshare",
+            "certificate_hash": "c24694e4715b2ba7f049587ecfe8a4b7134b2c44"
+          }
+        },
+        {
+          "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLueMzyoj1cVHTB65LswX-qY9g2rpe18"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928981390849-0mvquqaq172tq0b2ge6etbloii5n438j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
