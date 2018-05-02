@@ -57,6 +57,19 @@
     color: #FFFFFF;
 }
 
+.btn-outline-secondary {
+    background-color: #E9ECEF;
+    color: #212529;
+    border-color: #CED4DA;
+    white-space: pre-wrap;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #A93B47;
+    color: #FFFFFF;
+    border-color: #A93B47;
+}
+
 .ul {
     list-style: none;
 }
