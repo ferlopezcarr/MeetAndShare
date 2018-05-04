@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Title -->
+    <title>MeetAndShare</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row navbar d-flex flex-row justify-content-start pb-0">
+            <a class="">
+                <i class="material-icons i-menu white-color mr-3">menu</i>
+            </a>
+            <h1 class="navbar-title">Meet&Share</h1>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-auto mx-auto">
+                <div class="px-3 py-2 border-ratius lightgrey-bkcolor">
+                    <h4>Modificar Perfil</h4>
+                    <hr>
+                    
+                    <div class="d-fex flex-column justify-content-between px-3 mt-3">
+
+                        <img class="img mx-auto d-block mb-3" src="img/perfil.jpg" height="150 rem" width="auto"/>
+                        <!--
+                        <div class="form-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile03">
+                                <label class="custom-file-label" for="inputGroupFile03">Selecciona un archivo...</label>
+                            </div>
+                        </div>
+                        -->                    
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" id="inputEmail" class="form-control" value="ferlopezcarr@gmail.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputNombre">Nombre</label>
+                            <input type="text" id="inputNombre" class="form-control" value="Fernando López" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputDate">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" id="inputDate" min="1000-01-01" max="2000-12-31" value="1998-12-10" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="inputCategory">Categorías</label>
+                            <div class="input-group d-flex flex-column">
+                                <div class="d-flex flex-row">
+                                    <input type="text" class="form-control" id="inputCategory" placeholder="Selecciona...">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <div class="row dropdown-menu dropdown-menu-right pr-1">
+                                            <div class="d-flex flex-row flex-nowrap">
+                                                <div class="col-6 px-1">
+                                                    <div class="form-check dropdown-item pr-1">
+                                                        <input class="form-check-input position-static" type="checkbox" id="category1" value="option1" aria-label="...">
+                                                        <label class="form-check-label" for="category1">
+                                                            Deportes
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 px-1">
+                                                    <div class="form-check dropdown-item pr-1">
+                                                        <input class="form-check-input position-static" type="checkbox" id="category1" value="option1" aria-label="...">
+                                                        <label class="form-check-label" for="category1">
+                                                            Aventura
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3" id="aficiones">
+                                    <span class="aficion">Deportes</span>
+                                    <span class="aficion">Música</span>
+                                    <span class="aficion">Cine</span>
+                                    <span class="aficion">Series</span>
+                                    <span class="aficion">Netfilx</span>
+                                    <span class="aficion">Rock</span>
+                                    <span class="aficion">Youtube</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="2"></textarea>
+                        </div>
+
+                        <div class="btn-group form-group row d-flex flex-row px-3" role="group">
+                            <button type="button" id="btnChangeImg" class="btn btn-outline-secondary col-6">Cambiar imagen</button>
+                            <button type="button" id="btnModifyPass" class="btn btn-outline-secondary col-6">Cambiar contraseña</button>
+                        </div>
+                        
+
+                        <button type="submit" class="btn btn-light btn-block">Guardar cambios</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+ </body>
+
+</html>
