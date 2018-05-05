@@ -57,6 +57,27 @@
     color: #FFFFFF;
 }
 
+.btn-outline-secondary {
+    background-color: #E9ECEF;
+    color: #212529;
+    border-color: #CED4DA;
+    white-space: pre-wrap;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #A93B47;
+    color: #FFFFFF;
+    border-color: #A93B47;
+}
+
+.btn-delete {
+    background-color: #74001e;
+}
+
+.btn-rate {
+    font-size: 18px;
+}
+
 .ul {
     list-style: none;
 }
@@ -81,6 +102,10 @@
     overflow: hidden;
 }
 
+.font-view {
+    font-size: 20px;
+}
+
 .img {
     border: 2px solid #c2c2c3;
     border-radius: .25rem;
@@ -92,3 +117,55 @@
     color: #FFFFFF;
     background-color: #A93B47;
 }
+
+/* --- Puntuacion --- */
+.wrapper {
+    position: relative;
+    display: inline-block;
+    border: none;
+    font-size: 35px;
+    margin: 0px auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .wrapper input {
+    border: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    opacity: 0;
+  }
+  
+  .wrapper label {
+    position: relative;
+    float: right;
+    color: #C8C8C8;
+  }
+  
+  .wrapper label:before {
+    margin: 5px;
+    content: "\f005";
+    font-family: FontAwesome;
+    display: inline-block;
+    font-size: 1.5em;
+    color: #ccc;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  .wrapper input:checked ~ label:before {
+    color: #FFC107;
+  }
+  
+  .wrapper label:hover ~ label:before {
+    color: #ffdb70;
+  }
+  
+  .wrapper label:hover:before {
+    color: #FFC107;
+  }
