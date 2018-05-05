@@ -1,0 +1,4 @@
+#Thu Apr 19 13:15:22 CEST 2018
+base.0=E\:\\Users\\ferlo\\Documents\\Universidad\\4-CUARTO\\2oCUATRIMESTRE\\PAD\\PROYECTO\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\25
+path.0=classes.dex
+renamed.0=classes.dex

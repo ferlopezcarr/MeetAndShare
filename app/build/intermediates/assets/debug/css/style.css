@@ -1,0 +1,94 @@
+/* ---------- CSS MeetAndShare ----------*/
+/* SECTIONS */
+.body {
+    background-color: #E1E2E1;
+    color: #000000;
+}
+
+.navbar {
+    background-color: #A93B47;
+    color: #FFFFFF;
+}
+
+.navbar-title {
+    font-family: 'Caveat', cursive;
+    font-weight: bold;
+    color: white;
+}
+
+.i-menu {
+    font-size: 30px
+}
+
+/* RATIUS */
+.border-ratius {
+    border-radius: .25rem;
+}
+
+/* BACKGROUND COLOR */
+.darkred-bkcolor {
+    background-color:#74001e;
+}
+
+.red-bkcolor {
+    background-color: #A93B47;
+}
+
+.lightgrey-bkcolor {
+    background-color: #F5F5F6;
+}
+
+/* COLOR */
+.darkred-color {
+    color:#74001e;
+}
+
+.red-color {
+    color: #A93B47;
+}
+
+.white-color {
+    color: #FFFFFF;
+}
+
+/* ELEMS */
+.btn {
+    background-color: #A93B47;
+    color: #FFFFFF;
+}
+
+.ul {
+    list-style: none;
+}
+
+.li {
+    border-bottom: 1px solid #c2c2c3;
+    font-size: 20px;
+}
+
+.li-img {
+    border: 2px solid #c2c2c3;
+    border-radius: 800px;
+    overflow: hidden;
+}
+
+.span-lastmsg {
+    font-size: 16px;
+}
+
+.span-numMsg {
+    border-radius: 800px;
+    overflow: hidden;
+}
+
+.img {
+    border: 2px solid #c2c2c3;
+    border-radius: .25rem;
+}
+
+.aficion {
+    border-radius: 800px;
+    padding: 0px 10px;
+    color: #FFFFFF;
+    background-color: #A93B47;
+}
