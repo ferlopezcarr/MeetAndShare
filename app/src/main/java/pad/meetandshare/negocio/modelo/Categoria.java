@@ -1,4 +1,4 @@
-package pad.meetandshare.negocio;
+package pad.meetandshare.negocio.modelo;
 
 public enum Categoria {
 
