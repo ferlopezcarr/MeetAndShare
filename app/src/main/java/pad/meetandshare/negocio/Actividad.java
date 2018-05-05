@@ -24,8 +24,25 @@ public class Actividad {
 
     private List<Usuario> usuariosInscritos;
 
+    private boolean activa;
+
+    private boolean finalizada;
+
+
+    /**
+     * Constructoria por defecto de Actividad
+     */
     public Actividad() {}
 
+    /**
+     * Constructora con argumentos de Actividad
+     * @param nombre
+     * @param fechaInicio
+     * @param fechaFin
+     * @param numParticipantesMax
+     * @param descripcion
+     * @param ubicacion
+     */
     public Actividad(String nombre, Date fechaInicio, Date fechaFin, int numParticipantesMax, String descripcion, String ubicacion) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
@@ -33,11 +50,21 @@ public class Actividad {
         this.numParticipantesMax = numParticipantesMax;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion; // foto por defecto
+        this.activa = true;
+        this.finalizada = false;
 
         this.categorias = new ArrayList<Categoria>();
         this.usuariosInscritos = new ArrayList<Usuario>();
     }
 
+    /*
+     * Constructora con argumentos de Actividad
+     * @param nombre
+     * @param fechaInicio
+     * @param fechaFin
+     * @param numParticipantesMax
+     * @param descripcion
+     */
     public Actividad(String nombre, Date fechaInicio, Date fechaFin, int numParticipantesMax, String descripcion) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
@@ -45,6 +72,8 @@ public class Actividad {
         this.numParticipantesMax = numParticipantesMax;
         this.descripcion = descripcion;
         this.ubicacion = null; // foto por defecto
+        this.activa = true;
+        this.finalizada = false;
 
         this.categorias = new ArrayList<Categoria>();
         this.usuariosInscritos = new ArrayList<Usuario>();
@@ -104,6 +133,22 @@ public class Actividad {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public boolean getActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
+    public boolean getFinalizada() {
+        return finalizada;
+    }
+
+    public void setFinalizada(boolean finalizada) {
+        this.finalizada = finalizada;
     }
 
     /* --- Categorias --- */

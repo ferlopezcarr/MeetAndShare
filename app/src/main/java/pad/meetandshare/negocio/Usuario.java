@@ -22,8 +22,22 @@ public class Usuario {
 
     private List<Categoria> categorias;
 
+    private boolean activo;
+
+
+    /**
+     * Constructora por defecto de Usuario
+     */
     public Usuario() {}
 
+    /**
+     * Constructora con argumentos de Usuario
+     * @param email
+     * @param nombre
+     * @param password
+     * @param fechaNacimiento
+     * @param descripcion
+     */
     public Usuario(String email, String nombre, String password, Date fechaNacimiento, String descripcion) {
         this.email = email;
         this.nombre = nombre;
@@ -31,10 +45,20 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.descripcion = descripcion;
         this.foto = foto; // foto por defecto
+        this.activo = true;
 
         categorias = new ArrayList<Categoria>();
     }
 
+    /**
+     * Constructora con argumentos de Usuario
+     * @param email
+     * @param nombre
+     * @param password
+     * @param fechaNacimiento
+     * @param descripcion
+     * @param foto
+     */
     public Usuario(String email, String nombre, String password, Date fechaNacimiento, String descripcion, String foto) {
         this.email = email;
         this.nombre = nombre;
@@ -42,6 +66,7 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.descripcion = descripcion;
         this.foto = foto;
+        this.activo = true;
 
         categorias = new ArrayList<Categoria>();
     }
@@ -100,6 +125,14 @@ public class Usuario {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     /* --- Categorias --- */
