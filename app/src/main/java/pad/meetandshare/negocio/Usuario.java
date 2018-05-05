@@ -1,5 +1,8 @@
 package pad.meetandshare.negocio;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,8 +12,11 @@ public class Usuario {
     private Integer id;
 
     private String email;
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     private String nombre;
+    private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
 
     private String password;
 
@@ -70,6 +76,52 @@ public class Usuario {
 
         categorias = new ArrayList<Categoria>();
     }
+
+
+    /* PARSERS */
+
+    /**
+     * Valida el email
+     * @param email
+     * @return
+     */
+    private boolean isValidEmail(String email) {
+        //pattern de gps "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$"
+        if(email != null && email.length() > 5) { //"x@x.x".length() = 5
+            Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+            Matcher matcher = pattern.matcher(email);
+            return matcher.matches();
+        }
+        else
+            return false;
+    }
+
+    /**
+     * Valida el nombre
+     * @param nombre
+     * @return
+     */
+    private boolean isValidNombre(String nombre) {
+        if(nombre != null && nombre.length() > 0) {
+            Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
+            Matcher matcher = pattern.matcher(nombre);
+            return matcher.matches();
+        }
+        else
+            return false;
+    }
+
+    /**
+     * Valida la contraseña
+     * @param password
+     * @return
+     */
+    private boolean isValidPassword(String password) {
+        return (password != null && password.length() >=4);
+    }
+
+
+    /* GETTERS Y SETTERS */
 
     public Integer getId() {
         return id;

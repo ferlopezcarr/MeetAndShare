@@ -3,18 +3,22 @@ package pad.meetandshare.negocio;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Actividad {
 
     private Integer id;
 
     private String nombre;
+    private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
 
     private Date fechaInicio;
 
     private Date fechaFin;
 
-    private int numParticipantesMax;
+    private int maxParticipantes;
+    //private static final String MAX_PARTICIPANTES_PATTERN = "^([0-9])*$";
 
     private String descripcion;
 
@@ -39,15 +43,15 @@ public class Actividad {
      * @param nombre
      * @param fechaInicio
      * @param fechaFin
-     * @param numParticipantesMax
+     * @param maxParticipantes
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int numParticipantesMax, String descripcion, String ubicacion) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, String ubicacion) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.numParticipantesMax = numParticipantesMax;
+        this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion; // foto por defecto
         this.activa = true;
@@ -62,14 +66,14 @@ public class Actividad {
      * @param nombre
      * @param fechaInicio
      * @param fechaFin
-     * @param numParticipantesMax
+     * @param maxParticipantes
      * @param descripcion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int numParticipantesMax, String descripcion) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.numParticipantesMax = numParticipantesMax;
+        this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
         this.ubicacion = null; // foto por defecto
         this.activa = true;
@@ -78,6 +82,32 @@ public class Actividad {
         this.categorias = new ArrayList<Categoria>();
         this.usuariosInscritos = new ArrayList<Usuario>();
     }
+
+
+    /* PARSERS */
+
+    /**
+     * Valida el nombre
+     * @param nombre
+     * @return
+     */
+    private boolean isValidNombre(String nombre) {
+        Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
+        Matcher matcher = pattern.matcher(nombre);
+        return matcher.matches();
+    }
+
+    /**
+     * Valida el numero de participantes
+     * @param maxParticipantes
+     * @return
+     */
+    private boolean isValidMaxParticipantes(int maxParticipantes) {
+        return (maxParticipantes > 0);
+    }
+
+
+    /* GETTERS Y SETTERS */
 
     public Integer getId() {
         return id;
@@ -111,12 +141,12 @@ public class Actividad {
         this.fechaFin = fechaFin;
     }
 
-    public int getNumParticipantesMax() {
-        return this.numParticipantesMax;
+    public int getMaxParticipantes() {
+        return this.maxParticipantes;
     }
 
-    public void setNumParticipantesMax(int numParticipantesMax) {
-        this.numParticipantesMax = numParticipantesMax;
+    public void setMaxParticipantes(int maxParticipantes) {
+        this.maxParticipantes = maxParticipantes;
     }
 
     public String getDescripcion() {
