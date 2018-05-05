@@ -1,4 +1,4 @@
-package pad.meetandshare.negocio;
+package pad.meetandshare.actividades;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

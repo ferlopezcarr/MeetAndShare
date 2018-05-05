@@ -1,4 +1,4 @@
-package pad.meetandshare.negocio;
+package pad.meetandshare.actividades;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
