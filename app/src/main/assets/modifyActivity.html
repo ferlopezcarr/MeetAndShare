@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Title -->
+    <title>MeetAndShare</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row navbar d-flex flex-row justify-content-start pb-0">
+            <a class="">
+                <i class="material-icons i-menu white-color mr-3">menu</i>
+            </a>
+            <h1 class="navbar-title">Meet&Share</h1>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-auto mx-auto">
+                
+                <form class="px-3 py-2 border-ratius lightgrey-bkcolor">
+                    <h4>Modificar Actividad</h4>
+                    <hr>
+                    <div class="form-group">
+                        <label for="inputName">Nombre</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Introduce un nombre para la actividad" required>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCategory">Categorías</label>
+                        <div class="input-group d-flex flex-column">
+                            <div class="d-flex flex-row">
+                                <input type="text" class="form-control" id="inputCategory" placeholder="Selecciona una o más">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="row dropdown-menu dropdown-menu-right pr-1">
+                                        <div class="d-flex flex-row flex-nowrap">
+                                            <div class="col-6 px-1">
+                                                <div class="form-check dropdown-item pr-1">
+                                                    <input class="form-check-input position-static" type="checkbox" id="category1" value="option1" aria-label="...">
+                                                    <label class="form-check-label" for="category1">
+                                                        Deportes
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 px-1">
+                                                <div class="form-check dropdown-item pr-1">
+                                                    <input class="form-check-input position-static" type="checkbox" id="category1" value="option1" aria-label="...">
+                                                    <label class="form-check-label" for="category1">
+                                                        Aventura
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3" id="aficiones">
+                                <span class="aficion">Deportes</span>
+                                <span class="aficion">Música</span>
+                                <span class="aficion">Cine</span>
+                                <span class="aficion">Series</span>
+                                <span class="aficion">Netfilx</span>
+                                <span class="aficion">Rock</span>
+                                <span class="aficion">Youtube</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDate">Fecha</label>
+                        <input type="date" class="form-control" id="inputDate" min="1000-01-01" max="2000-12-31" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUbicacion">Ubicación</label>
+                        <div class="mx-auto">
+                            
+                            <div style='overflow:hidden;height:auto;width:auto;'>
+                                <div id='gmap_canvas' style='height:300px;width:auto;'></div>
+                                <style>#gmap_canvas img{max-width:none!important;background:none!important}</style>
+                            </div>
+                            <a href='http://maps-generator.com/es'>maps-generator.com</a>
+                            
+                        </div>
+                        <button type="button" id="btnModifyUbication" class="btn btn-outline-secondary btn-block">Modificar Ubicación</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDate">Número de participantes</label>
+                        <input type="number" min="1" value="1" class="form-control" id="inputDate" min="1000-01-01" max="2000-12-31" required>
+                    </div>
+                    <div class="form-group d-flex flex-column">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" rows="2" value="" placeholder="Introduce una descripción..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-delete btn-block">Eliminar Actividad</button>
+                    <button type="submit" class="btn btn-light btn-block">Modificar Actividad</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBVd5QRp7_Vwz0EIacTJAH39ehhxpqsujc'></script>
+    <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=bbc070c92885c9cd0c274d1c5e27d4c1b65cac15'></script>
+    <script type='text/javascript'>
+        function init_map(){
+            var myOptions = {
+                zoom:12,
+                center:new google.maps.LatLng(38.9844,-3.9295999999999367),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+            marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(38.9844,-3.9295999999999367)});
+            infowindow = new google.maps.InfoWindow({content:'<strong></strong><br><br>13001 Ciudad Real<br>'});
+                
+            google.maps.event.addListener(marker, 'click', function(){
+                infowindow.open(map,marker);
+            });
+            infowindow.open(map,marker);
+        }
+        google.maps.event.addDomListener(window, 'load', init_map);
+    </script>
+</body>
+
+</html>
