@@ -2,23 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".actividades.RegistroActivity">
 
-
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
 
     <TextView
         android:id="@+id/titulo"
@@ -34,10 +24,10 @@
         android:typeface="normal" />
 
     <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
+        android:layout_gravity="center"
         android:layout_marginRight="8dp"
 
         >
@@ -46,8 +36,6 @@
             android:id="@+id/registro_login_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:layout_gravity="center"
             android:orientation="vertical">
 
 
@@ -257,7 +245,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:text="@string/action_register"

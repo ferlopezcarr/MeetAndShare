@@ -7,9 +7,9 @@ package pad.meetandshare.actividades;
         import android.app.DatePickerDialog;;
 
         import android.view.View;
-        import android.widget.Adapter;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
+
+        import android.view.Window;
+        import android.view.WindowManager;
         import android.widget.Button;
         import android.widget.DatePicker;
         import android.widget.EditText;
@@ -54,6 +54,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listItems = Categoria.getArray();
+        checkedItems = new boolean[listItems.length];
         setContentView(R.layout.activity_registro);
         //Widget EditText donde se mostrara la fecha obtenida
         etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
@@ -62,7 +63,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         //Evento setOnClickListener - clic
         ibObtenerFecha.setOnClickListener(this);
 
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         interesesBoton = (Button) findViewById(R.id.botonInteresRegistro);
 
 
@@ -75,7 +76,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-
                         if(isChecked){
                             mUserItems.add(position);
                         }else{
