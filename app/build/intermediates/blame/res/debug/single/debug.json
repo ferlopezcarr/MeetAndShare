@@ -24,12 +24,12 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-mdpi-v4/abc_ic_star_half_black_16dp.png"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xxxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
-    },
-    {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/color_abc_tint_default.xml.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/color/abc_tint_default.xml"
+    },
+    {
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xxxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
@@ -244,16 +244,16 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/play-services-base-11.0.4.aar/5648e6c4ca1eb9fd7f436ac7a579613e/res/drawable/common_google_signin_btn_icon_dark.xml"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xxxhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png"
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/c67109b71dbd0fbecf08b03049e3d314/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/c67109b71dbd0fbecf08b03049e3d314/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xxxhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -340,16 +340,16 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-hdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/anim_abc_slide_out_bottom.xml.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/anim/abc_slide_out_bottom.xml"
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/color-v23_abc_btn_colored_text_material.xml.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/color-v23/abc_btn_colored_text_material.xml"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/anim_abc_shrink_fade_out_from_bottom.xml.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/anim/abc_shrink_fade_out_from_bottom.xml"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/color-v23_abc_btn_colored_text_material.xml.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/color-v23/abc_btn_colored_text_material.xml"
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/anim_abc_slide_out_bottom.xml.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/anim/abc_slide_out_bottom.xml"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_tooltip.xml.flat",
@@ -384,12 +384,12 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable-xhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_abc_action_menu_item_layout.xml.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/layout/abc_action_menu_item_layout.xml"
-    },
-    {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/play-services-base-11.0.4.aar/5648e6c4ca1eb9fd7f436ac7a579613e/res/drawable-hdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_abc_action_menu_item_layout.xml.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/layout/abc_action_menu_item_layout.xml"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_notification_template_big_media_custom.xml.flat",
@@ -476,12 +476,12 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/c67109b71dbd0fbecf08b03049e3d314/res/layout/notification_action.xml"
     },
     {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_abc_select_dialog_material.xml.flat",
-        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/layout/abc_select_dialog_material.xml"
-    },
-    {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable_abc_list_selector_background_transition_holo_light.xml.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/drawable/abc_list_selector_background_transition_holo_light.xml"
+    },
+    {
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/layout_abc_select_dialog_material.xml.flat",
+        "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/layout/abc_select_dialog_material.xml"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_ic_date_range_black_24dp.xml.flat",
@@ -1884,16 +1884,16 @@
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/play-services-base-11.0.4.aar/5648e6c4ca1eb9fd7f436ac7a579613e/res/drawable/common_google_signin_btn_icon_disabled.xml"
     },
     {
+        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_date_range_black_24dp.png.flat",
+        "source": "/Users/Ashet/git/meetandshare/app/build/generated/res/pngs/debug/drawable-xhdpi/ic_date_range_black_24dp.png"
+    },
+    {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
         "source": "/Users/Ashet/git/meetandshare/app/src/main/res/mipmap-mdpi/ic_launcher.png"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/anim_design_snackbar_in.xml.flat",
         "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/747ff07835696c6846d4493eac64d897/res/anim/design_snackbar_in.xml"
-    },
-    {
-        "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_date_range_black_24dp.png.flat",
-        "source": "/Users/Ashet/git/meetandshare/app/build/generated/res/pngs/debug/drawable-xhdpi/ic_date_range_black_24dp.png"
     },
     {
         "merged": "/Users/Ashet/git/meetandshare/app/build/intermediates/res/merged/debug/drawable-ldrtl-xhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",

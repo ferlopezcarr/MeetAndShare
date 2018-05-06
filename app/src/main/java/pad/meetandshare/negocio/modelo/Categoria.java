@@ -1,5 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
+import java.util.Arrays;
+
 public enum Categoria {
 
     //Mantenerlo ordenado para facilitar la busqueda
@@ -19,4 +21,18 @@ public enum Categoria {
     public String getDisplayName() {
         return displayName;
     }
+
+
+
+    public static String[] getArray() {
+        String[] array =new String[Categoria.values().length];
+        int i=0;
+        for (Categoria cat : Categoria.values()) {
+
+            array[i]=cat.displayName;
+            ++i;
+        }
+        return array;
+    }
+
 }
