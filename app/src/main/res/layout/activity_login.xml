@@ -6,7 +6,9 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/colorAccent"
-    tools:context=".actividades.LoginActivity">
+    tools:context=".actividades.LoginActivity"
+
+    >
 
     <!-- Login progress -->
     <ProgressBar
@@ -45,9 +47,7 @@
 
             <TextView
                 android:id="@+id/EmailLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                style="@style/CodeFont"
                 android:textSize="24sp"
                 android:text="@string/prompt_email" />
 
@@ -110,7 +110,7 @@
 
             <Button
                 android:id="@+id/registro"
-                android:layout_width="match_parent"
+                android:layout_width="263dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"

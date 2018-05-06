@@ -6,24 +6,27 @@ package pad.meetandshare.actividades;
         import android.os.Bundle;
         import android.app.DatePickerDialog;;
 
+        import android.view.Gravity;
         import android.view.View;
 
-        import android.view.Window;
         import android.view.WindowManager;
         import android.widget.Button;
         import android.widget.DatePicker;
         import android.widget.EditText;
         import android.widget.ImageButton;
-        import android.widget.ListView;
+        import android.widget.Toast;
 
 
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
         import java.util.ArrayList;
         import java.util.Calendar;
+        import java.util.Date;
 
 
         import pad.meetandshare.R;
         import pad.meetandshare.negocio.modelo.Categoria;
-
+        import pad.meetandshare.negocio.modelo.Usuario;
 
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,10 +55,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         listItems = Categoria.getArray();
         checkedItems = new boolean[listItems.length];
         setContentView(R.layout.activity_registro);
+
         //Widget EditText donde se mostrara la fecha obtenida
         etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
         //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
@@ -63,10 +68,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         //Evento setOnClickListener - clic
         ibObtenerFecha.setOnClickListener(this);
 
+
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
+        //INTERESES
         interesesBoton = (Button) findViewById(R.id.botonInteresRegistro);
-
-
 
         interesesBoton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +128,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+
+        Button registro = (Button) findViewById(R.id.registroPost);
+
+            registro.setOnClickListener(this);
+
     }
 
     @Override
@@ -152,12 +165,14 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
 
             }
+
             //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
             /**
              *También puede cargar los valores que usted desee
              */
         },anio, mes, dia);
         //Muestro el widget
+
         recogerFecha.show();
 
     }
@@ -166,5 +181,36 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private void registro(){
 
 
-    }
+        //OBTENER ELEMENTOS DE LA VISTA
+
+            String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
+            String apellidos = ((EditText) findViewById(R.id.apellidosRegistro)).getText().toString();
+            String fechaString =((EditText) findViewById(R.id.et_mostrar_fecha_picker)).getText().toString();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+            try {
+                Date fecha = dateFormat.parse(fechaString);
+
+
+            String email = ((EditText) findViewById(R.id.emailRegistro)).getText().toString();
+             String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
+             String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
+
+        if(contrasenia.compareTo(contraseniaConfirm)==0) {
+
+                Usuario miUsuario = new Usuario(email,nombre,apellidos,fecha,contrasenia);
+
+        }else{
+            Toast toast1 = Toast.makeText(getApplicationContext(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT);
+            toast1.setGravity(Gravity.CENTER, 0, 0);
+            toast1.show();
+        }
+                }
+                catch (ParseException e){
+
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "Formato de fecha incorrecto", Toast.LENGTH_SHORT);
+                    toast1.setGravity(Gravity.CENTER, 0, 0);
+                    toast1.show();                }
+}
 }

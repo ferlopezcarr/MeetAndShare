@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Ashet/git/meetandshare/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v26/values-v26.xml",
+            "outputFile": "C:\\Users\\Chema Lopez\\Documents\\GitHub\\meetandshare\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
             "map": [
                 {
-                    "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/747ff07835696c6846d4493eac64d897/res/values-v26/values-v26.xml",
+                    "source": "C:\\Users\\Chema Lopez\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\f51d9940c96a82c0efff9294db2e9d18\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,6",
                         "startColumns": "4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/res/values-v26/values-v26.xml",
+                    "source": "C:\\Users\\Chema Lopez\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\c9db1f9bc8456e56ce35a3f9a53c93a5\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",

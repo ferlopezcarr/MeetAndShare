@@ -44,22 +44,18 @@
 
             <TextView
                 android:id="@+id/NombreLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/CodeFont"
                 android:text="@string/nombre"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
 
                 <AutoCompleteTextView
-                    android:id="@+id/nombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    android:id="@+id/nombreRegistro"
+                    style="@style/CodeFont"
                     android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ems="10"
+                    android:hint="@string/nombre"
 
                     />
 
@@ -69,17 +65,14 @@
 
             <TextView
                 android:id="@+id/ApellidosLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CodeFont"
                 android:text="@string/apellidos"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
     <AutoCompleteTextView
-                    android:id="@+id/apellidos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                     android:ems="10"
+                    android:id="@+id/apellidosRegistro"
+                    style="@style/CodeFont"
+             android:hint="@string/apellidos"
+
                      android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -92,11 +85,10 @@
             <!-- FECHA NACIMIENTO-->
             <TextView
                 android:id="@+id/FechaLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CodeFont"
+
                 android:layout_marginBottom="20dp"
                 android:text="@string/fechaNacimiento"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
             <android.support.constraint.ConstraintLayout
@@ -106,13 +98,10 @@
 
                 <EditText
                     android:id="@+id/et_mostrar_fecha_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    style="@style/CodeFont"
                     android:ems="10"
                     android:hint="@string/formato_fecha"
                     android:inputType="date"
-                    android:textColorHint="@color/black"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
 
@@ -148,11 +137,11 @@
 
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    android:id="@+id/emailRegistro"
+                    style="@style/CodeFont"
                     android:inputType="textEmailAddress"
+                    android:hint="@string/prompt_email"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:ems="10"
@@ -165,52 +154,45 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CodeFont"
                 android:layout_weight="1"
                 android:text="@string/prompt_password"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
 
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                    android:imeActionId="6"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:ems="10"
-                    />
+            <EditText
+                android:id="@+id/passwordRegistro"
+                style="@style/CodeFont"
+                android:ems="10"
+                android:hint="@string/prompt_password"
+                android:imeActionId="6"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+
+                />
 
 
             <!-- PASSWORD CONFIRMATION-->
             <TextView
                 android:id="@+id/labelPassConfirmation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/CodeFont"
                 android:text="@string/prompt_password_confirmation"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
 
 
 
                 <EditText
-                    android:id="@+id/passwordConfirmation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    android:id="@+id/passwordConfirmationRegistro"
+                    style="@style/CodeFont"
                     android:imeActionId="6"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ems="10"
+                    android:hint="@string/prompt_password_confirmation"
                     />
 
 
@@ -219,11 +201,8 @@
             <!-- INTERESES-->
             <TextView
                 android:id="@+id/labelInteres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/CodeFont"
                 android:text="@string/intereses"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
 
@@ -231,6 +210,7 @@
                     android:id="@+id/botonInteresRegistro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
                     android:background="@color/colorPrimary"
                     android:text="@string/selecciona"
                     />
