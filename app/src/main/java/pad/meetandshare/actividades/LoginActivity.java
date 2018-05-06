@@ -3,7 +3,6 @@ package pad.meetandshare.actividades;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -101,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         registro.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(LoginActivity.this, Registro.class);
+                Intent myIntent = new Intent(LoginActivity.this, RegistroActivity.class);
 
                 LoginActivity.this.startActivity(myIntent);
             }

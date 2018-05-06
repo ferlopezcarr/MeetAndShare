@@ -72,9 +72,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="pad.meetandshare.actividades.Registro"
-            android:label="@string/title_activity_registro"
+            android:name="pad.meetandshare.actividades.MenuLateralActivity"
+            android:label="@string/title_activity_menu_lateral_actividad"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="pad.meetandshare.actividades.RegistroActivity"
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="android.support.VERSION"

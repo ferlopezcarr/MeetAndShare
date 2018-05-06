@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
+ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
 MERGED from [com.google.firebase:firebase-core:11.0.4] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/firebase-core-11.0.4.aar/900d4d071e431b14a95ca9fc47f467ba/AndroidManifest.xml:2:1-6:12
 MERGED from [com.android.support:design:26.1.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/747ff07835696c6846d4493eac64d897/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/558bdaa8db5eaa5e59ac7494aa61b70e/AndroidManifest.xml:17:1-31:12
@@ -31,20 +31,20 @@ MERGED from [com.android.support:support-media-compat:26.1.0] /Users/Ashet/.grad
 MERGED from [com.android.support:support-core-utils:26.1.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.1.0.aar/de5631e4956d82d2f3f05bbcdd8afafd/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/c67109b71dbd0fbecf08b03049e3d314/AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/9b4f78aad66395cc1d0e99e1dd1b26fc/AndroidManifest.xml:17:1-30:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
-INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
 	package
 		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:3:5-31
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
-		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
-		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-56:12
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:1-59:12
 		INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:2:11-69
@@ -77,7 +77,7 @@ ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:17:5-7
 	android:name
 		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:17:22-69
 application
-ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:19:5-54:19
+ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:19:5-57:19
 MERGED from [com.google.firebase:firebase-core:11.0.4] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/firebase-core-11.0.4.aar/900d4d071e431b14a95ca9fc47f467ba/AndroidManifest.xml:5:5-20
 MERGED from [com.google.firebase:firebase-core:11.0.4] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/firebase-core-11.0.4.aar/900d4d071e431b14a95ca9fc47f467ba/AndroidManifest.xml:5:5-20
 MERGED from [com.android.support:design:26.1.0] /Users/Ashet/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/747ff07835696c6846d4493eac64d897/AndroidManifest.xml:25:5-29:19
@@ -168,14 +168,20 @@ action#android.intent.category.LAUNCHER
 ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:47:17-75
 	android:name
 		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:47:25-72
-activity#pad.meetandshare.actividades.Registro
+activity#pad.meetandshare.actividades.MenuLateralActivity
 ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:50:9-53:75
 	android:label
-		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:52:13-60
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:52:13-74
 	android:theme
 		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:53:13-63
 	android:name
-		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:51:13-49
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:51:13-60
+activity#pad.meetandshare.actividades.RegistroActivity
+ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:54:9-56:57
+	android:label
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:56:13-45
+	android:name
+		ADDED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml:55:13-57
 uses-sdk
 INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/Ashet/git/meetandshare/app/src/main/AndroidManifest.xml
