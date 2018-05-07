@@ -2,6 +2,7 @@ package pad.meetandshare.actividades;
 
         import android.app.AlertDialog;
         import android.content.DialogInterface;
+        import android.graphics.Typeface;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
@@ -15,6 +16,7 @@ package pad.meetandshare.actividades;
         import android.widget.DatePicker;
         import android.widget.EditText;
         import android.widget.ImageButton;
+        import android.widget.TextView;
         import android.widget.Toast;
         import static android.support.constraint.Constraints.TAG;
 
@@ -75,6 +77,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         listItems = Categoria.getArray();
         checkedItems = new boolean[listItems.length];
         setContentView(R.layout.activity_registro);
+
+        Typeface face= Typeface.createFromAsset(getAssets(),"fonts/Caveat-Bold.ttf");
+        TextView titulo =(TextView)findViewById(R.id.titulo);
+        titulo.setTypeface(face);
 
         //Widget EditText donde se mostrara la fecha obtenida
         etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);

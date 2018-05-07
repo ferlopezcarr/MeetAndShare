@@ -20,7 +20,6 @@
     </string>
 
 
-
     <string name="title_activity_registro">Registro</string>
     <string name="title_activity_menu_lateral_actividad">MenuLateralActividad</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -37,15 +36,16 @@
     <string name="fechaNacimiento">Fecha de Nacimiento</string>
     <string name="intereses">Intereses</string>
     <string name="selecciona">Selecciona categorías</string>
+    <string name="cambiarPass">Cambiar contraseña</string>
+    <string name="descripcion">Descripción</string>
 
 
     <string name="formato_fecha">dd/mm/yyyy</string>
 
 
-
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
-    <string name="clear_all">Quitar Seleccion</string>
+    <string name="clear_all">Quitar Selección</string>
 
 
 </resources>

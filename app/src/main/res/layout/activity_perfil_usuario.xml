@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".actividades.PerfilUsuarioActivity">
+
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:padding="5sp"
+        android:text="@string/app_name"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="42sp"
+        android:textStyle="bold|italic"
+        android:typeface="normal" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/registro_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <!-- NOMBRE-->
+
+
+            <TextView
+                android:id="@+id/NombreLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/nombre"
+                android:textSize="24sp" />
+
+
+            <!-- FECHA NACIMIENTO-->
+            <TextView
+                android:id="@+id/Nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fernando López Carrión"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/FechaLabel"
+                style="@style/CodeFont"
+
+                android:layout_marginTop="10sp"
+                android:text="@string/fechaNacimiento"
+                android:textSize="24sp" />
+
+
+            <!-- EMAIL-->
+
+
+            <TextView
+                android:id="@+id/FechaNacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="06/09/1996"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/EmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:text="@string/prompt_email"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+
+            <!-- PASSWORD-->
+
+            <TextView
+                android:id="@+id/Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ferlopezcarr@gmail.com"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="24sp" />
+
+
+            <!-- PASSWORD CONFIRMATION-->
+
+
+            <!-- INTERESES-->
+            <TextView
+                android:id="@+id/labelIntereses"
+                style="@style/CodeFont"
+                android:layout_marginBottom="3sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/intereses"
+                android:textSize="24sp" />
+
+
+            <LinearLayout
+                android:id="@+id/containerIntereses"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2sp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryLight"
+                    android:padding="5sp"
+                    android:text="Aventura"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="2dp" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2sp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryLight"
+                    android:padding="5sp"
+                    android:text="Deportes"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="2dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/labelDescripcion"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/descripcion"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/Descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/background_light"
+                android:padding="5sp"
+                android:text="Hola esto es una descripción muuuuy muy muy larga ..."
+                android:textAlignment="textStart"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+            <!-- BOTON REGISTRO-->
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
