@@ -59,9 +59,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    style="@style/CodeFont"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -72,11 +70,8 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/CodeFont"
                 android:text="@string/prompt_password"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
 
             <android.support.design.widget.TextInputLayout
@@ -86,9 +81,7 @@
 
                 <EditText
                     android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
+                    style="@style/CodeFont"
                     android:imeActionId="6"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"

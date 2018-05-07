@@ -17,10 +17,7 @@ public class Usuario {
 
     private String nombre;
 
-
     private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
-
-    private String password;
 
     private Date fechaNacimiento;
 
@@ -42,28 +39,25 @@ public class Usuario {
      * Constructora con argumentos de Usuario
      * @param email
      * @param nombre
-     * @param password
      * @param fechaNacimiento
      * @param descripcion
      */
-    public Usuario(String email, String nombre ,  String password, Date fechaNacimiento, String descripcion) {
+    public Usuario(String email, String nombre , Date fechaNacimiento, String descripcion, ArrayList<Categoria> lista) {
         this.email = email;
         this.nombre = nombre;
-        this.password = password;
         this.fechaNacimiento = fechaNacimiento;
         this.descripcion = descripcion;
         this.foto = foto; // foto por defecto
         this.activo = true;
-
-        categorias = new ArrayList<Categoria>();
+        categorias = lista;
     }
 
-    public Usuario(String email, String nombre,Date fecha,String pass ){
+    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista  ){
         this.email = email;
         this.nombre = nombre;
-        this.password = pass;
         this.fechaNacimiento = fecha;
-        this.categorias = new ArrayList<Categoria>();
+        this.categorias = lista;
+        this.activo = true;
 
     }
 
@@ -71,20 +65,17 @@ public class Usuario {
      * Constructora con argumentos de Usuario
      * @param email
      * @param nombre
-     * @param password
      * @param fechaNacimiento
      * @param descripcion
      * @param foto
      */
-    public Usuario(String email, String nombre, String password, Date fechaNacimiento, String descripcion, String foto) {
+    public Usuario(String email, String nombre, Date fechaNacimiento, String descripcion, String foto) {
         this.email = email;
         this.nombre = nombre;
-        this.password = password;
         this.fechaNacimiento = fechaNacimiento;
         this.descripcion = descripcion;
         this.foto = foto;
         this.activo = true;
-
         categorias = new ArrayList<Categoria>();
     }
 
@@ -156,14 +147,6 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Date getFechaNacimiento() {

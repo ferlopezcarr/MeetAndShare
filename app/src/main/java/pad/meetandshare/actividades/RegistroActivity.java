@@ -212,7 +212,18 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             String email = ((EditText) findViewById(R.id.emailRegistro)).getText().toString();
             String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
             String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
-            miUsuario = new Usuario(email,nombre,fecha,contrasenia);
+
+
+            ArrayList<Categoria> intereses = new ArrayList<>();
+
+            for(int i =0; i<checkedItems.length;++i){
+
+                if(checkedItems[i]){
+                    intereses.add(Categoria.valueOf(listItems[i]));
+                }
+            }
+
+            miUsuario = new Usuario(email,nombre,fecha, intereses);
 
 
             boolean cancel=false;
