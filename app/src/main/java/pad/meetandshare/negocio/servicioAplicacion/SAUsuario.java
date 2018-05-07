@@ -9,7 +9,7 @@ public interface SAUsuario {
      * @param usuario
      * @return si ha sido borrado o no
      */
-    public boolean delete(Usuario usuario);
+    public boolean delete(Usuario usuario, String ui);
 
     /**
      * Método que recibe un Usuario y lo persiste en la base de datos,
@@ -18,5 +18,5 @@ public interface SAUsuario {
      * @param usuario
      * @return usuario guardado
      */
-    public Usuario save(Usuario usuario);
+    public Usuario save(Usuario usuario, String ui);
 }

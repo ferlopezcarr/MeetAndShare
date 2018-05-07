@@ -1,48 +1,48 @@
 package pad.meetandshare.actividades;
 
-        import android.app.AlertDialog;
-        import android.content.DialogInterface;
-        import android.graphics.Typeface;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.app.DatePickerDialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.app.DatePickerDialog;
 
-        import android.view.Gravity;
-        import android.view.View;
+import android.view.Gravity;
+import android.view.View;
 
-        import android.view.WindowManager;
-        import android.widget.Button;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
-        import android.widget.TextView;
-        import android.widget.Toast;
-        import static android.support.constraint.Constraints.TAG;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+import static android.support.constraint.Constraints.TAG;
 
 
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
-        import java.text.ParseException;
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Calendar;
-        import java.util.Date;
-
-
-        import pad.meetandshare.R;
-        import pad.meetandshare.negocio.modelo.Categoria;
-        import pad.meetandshare.negocio.modelo.Usuario;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
+import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
-        import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import android.util.Log;
 
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,7 +69,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
 
     private FirebaseAuth mAuth;
-
+    private Usuario miUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,10 +77,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         listItems = Categoria.getArray();
         checkedItems = new boolean[listItems.length];
         setContentView(R.layout.activity_registro);
-
-        Typeface face= Typeface.createFromAsset(getAssets(),"fonts/Caveat-Bold.ttf");
-        TextView titulo =(TextView)findViewById(R.id.titulo);
-        titulo.setTypeface(face);
 
         //Widget EditText donde se mostrara la fecha obtenida
         etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
@@ -152,7 +148,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         Button registro = (Button) findViewById(R.id.registroPost);
 
-            registro.setOnClickListener(this);
+        registro.setOnClickListener(this);
 
     }
 
@@ -165,8 +161,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.registroPost:
 
-                    registro();
-                    break;
+                registro();
+                break;
 
         }
     }
@@ -204,71 +200,93 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         //OBTENER ELEMENTOS DE LA VISTA
 
-            String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
-            String fechaString =((EditText) findViewById(R.id.et_mostrar_fecha_picker)).getText().toString();
+        String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
+        String fechaString =((EditText) findViewById(R.id.et_mostrar_fecha_picker)).getText().toString();
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-            try {
-                Date fecha = dateFormat.parse(fechaString);
+        try {
+            Date fecha = dateFormat.parse(fechaString);
 
 
             String email = ((EditText) findViewById(R.id.emailRegistro)).getText().toString();
-             String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
-             String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
+            String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
+            String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
+            miUsuario = new Usuario(email,nombre,fecha,contrasenia);
 
-        if(contrasenia.compareTo(contraseniaConfirm)==0) {
 
-                Usuario miUsuario = new Usuario(email,nombre,fecha,contrasenia);
+            boolean cancel=false;
+            View focusView = null;
 
-            mAuth=FirebaseAuth.getInstance();
+            if(email.isEmpty()){
+                cancel=true;
+                ((EditText) findViewById(R.id.emailRegistro)).setError("El email no puede ser valido");
+                focusView=((EditText) findViewById(R.id.emailRegistro));
+            }else{
+                if(!email.contains("@")){
+                    cancel=true;
+                    ((EditText) findViewById(R.id.emailRegistro)).setError("El email debe de ser un email valido");
+                    focusView=((EditText) findViewById(R.id.emailRegistro));
+                }else{
+                    if(contrasenia.compareTo(contraseniaConfirm)!=0){
+                        ((EditText) findViewById(R.id.passwordRegistro)).setError("Las contraseñas deben coincidir");
+                        focusView = findViewById(R.id.passwordRegistro);
+                        cancel=true;
+                    }
 
-            mAuth.createUserWithEmailAndPassword(email, contrasenia)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference ref = database.getReference("server/saving-data/fireblog");
-                                
-                                updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(RegistroActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUI(null);
-                            }
-
-                            // ...
-                        }
-                    });
-
-        }else{
-            Toast toast1 = Toast.makeText(getApplicationContext(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT);
-            toast1.setGravity(Gravity.CENTER, 0, 0);
-            toast1.show();
-        }
                 }
-                catch (ParseException e){
-
-                    Toast toast1 = Toast.makeText(getApplicationContext(), "Formato de fecha incorrecto", Toast.LENGTH_SHORT);
-                    toast1.setGravity(Gravity.CENTER, 0, 0);
-                    toast1.show();                }
-}
+            }
 
 
 
+            if(!cancel) {
+                mAuth=FirebaseAuth.getInstance();
 
-public void updateUI(FirebaseUser user){
+                mAuth.createUserWithEmailAndPassword(email, contrasenia )
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+
+                                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference ref = database.getReference("server/saving-data/fireblog");
+                                    SAUsuario miSaUsuario = new SAUsuarioImp();
+
+                                    miSaUsuario.save(miUsuario, user.getUid());
+                                    updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
+                                    Toast.makeText(RegistroActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
+                                }
+
+                                // ...
+                            }
+                        });
+
+            }
+        }
+        catch (ParseException e){
+
+            Toast toast1 = Toast.makeText(getApplicationContext(), "Formato de fecha incorrecto", Toast.LENGTH_SHORT);
+            toast1.setGravity(Gravity.CENTER, 0, 0);
+            toast1.show();                }
+    }
 
 
 
-}
+
+    public void updateUI(FirebaseUser user){
+
+
+
+    }
 
 
 

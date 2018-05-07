@@ -11,13 +11,13 @@
 
     <string name="action_sign_in">Accede</string>
     <string name="action_register">Registrate</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="error_invalid_email">Direccion de email invalida</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">El campo es requerido</string>
+    <string name="permission_rationale">"Es necesario el permiso de contactos para la direccion de correo electronico"
     </string>
+
 
 
     <string name="title_activity_registro">Registro</string>
@@ -39,14 +39,17 @@
     <string name="cambiarPass">Cambiar contraseña</string>
     <string name="descripcion">Descripción</string>
 
-
     <string name="formato_fecha">dd/mm/yyyy</string>
+
 
 
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
-    <string name="clear_all">Quitar Selección</string>
+    <string name="clear_all">Quitar Seleccion</string>
 
 
 </resources>
+
+
+
 
