@@ -5,5 +5,7 @@
     <color name ="colorPrimaryLight">#df6b72</color>
     <color name="colorAccent">#e7e2e2</color>
     <color name="black">#000000</color>
+    <color name="grey_input">#c0c0c0</color>
+    <color name="line_input">#949191</color>
 
 </resources>
