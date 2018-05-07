@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context=".actividades.PerfilUsuarioActivity">
+    tools:context=".actividades.PerfilUsuarioFragment">
 
-
+    <!--
     <TextView
         android:id="@+id/titulo"
         android:layout_width="match_parent"
@@ -24,20 +20,19 @@
         android:textSize="42sp"
         android:textStyle="bold|italic"
         android:typeface="normal" />
-
+    -->
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
 
-        >
+        android:background="@color/colorAccent">
 
         <LinearLayout
             android:id="@+id/registro_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
 
@@ -178,4 +173,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>

@@ -6,9 +6,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/colorAccent"
-    tools:context=".actividades.LoginActivity"
-
-    >
+    tools:context=".actividades.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -34,6 +32,7 @@
         android:textStyle="bold|italic"
         android:typeface="normal" />
 
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="wrap_content"
@@ -48,51 +47,59 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/EmailLabel"
-                style="@style/CodeFont"
-                android:text="@string/prompt_email"
+                android:id="@+id/Logintitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/LoginTitle"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    style="@style/CodeFont"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-
-                    />
-
-            </android.support.design.widget.TextInputLayout>
+            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="1dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/EmailLabel"
                 style="@style/CodeFont"
-                android:text="@string/prompt_password"
-                android:textSize="24sp" />
+                android:layout_marginTop="8sp"
+                android:text="@string/prompt_email" />
 
-            <android.support.design.widget.TextInputLayout
+            <AutoCompleteTextView
+                android:id="@+id/email"
+                style="@style/CodeFont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="10sp"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
+            <TextView
+                android:id="@+id/PasswordLabel"
+                style="@style/CodeFont"
+                android:text="@string/prompt_password" />
 
-                <EditText
-                    android:id="@+id/password"
-                    style="@style/CodeFont"
-                    android:imeActionId="6"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/password"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:imeActionId="6"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                android:layout_width="263dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
@@ -105,7 +112,7 @@
 
             <Button
                 android:id="@+id/registro"
-                android:layout_width="263dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"

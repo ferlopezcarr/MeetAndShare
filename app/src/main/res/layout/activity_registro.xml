@@ -26,30 +26,42 @@
         android:typeface="normal" />
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-
-        >
+        android:layout_gravity="center">
 
         <LinearLayout
             android:id="@+id/registro_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/Registrotitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/RegistroTitle"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="1dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
 
             <!-- NOMBRE-->
-
-
             <TextView
                 android:id="@+id/NombreLabel"
                 style="@style/CodeFont"
                 android:layout_marginTop="10sp"
-                android:text="@string/nombre"
-                android:textSize="24sp" />
+                android:text="@string/nombre" />
 
 
             <AutoCompleteTextView
@@ -61,7 +73,8 @@
                 android:inputType="textAutoComplete"
 
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
 
             <!-- FECHA NACIMIENTO-->
@@ -70,8 +83,7 @@
                 style="@style/CodeFont"
 
                 android:layout_marginBottom="0dp"
-                android:text="@string/fechaNacimiento"
-                android:textSize="24sp" />
+                android:text="@string/fechaNacimiento" />
 
             <android.support.constraint.ConstraintLayout
 
@@ -79,11 +91,12 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/et_mostrar_fecha_picker"
+                    android:id="@+id/inputFecha"
                     style="@style/CodeFont"
                     android:ems="10"
                     android:hint="@string/formato_fecha"
                     android:inputType="date"
+                    android:textColorLink="@color/colorPrimary"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
 
@@ -94,7 +107,7 @@
                     android:layout_marginLeft="8dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:src="@drawable/ic_date_range_black_24dp"
-                    app:layout_constraintLeft_toRightOf="@+id/et_mostrar_fecha_picker"
+                    app:layout_constraintLeft_toRightOf="@+id/inputFecha"
                     tools:ignore="ContentDescription" />
 
 
@@ -111,7 +124,7 @@
                 android:layout_marginTop="10sp"
                 android:text="@string/prompt_email"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
 
             <AutoCompleteTextView
@@ -125,7 +138,8 @@
                 android:inputType="textEmailAddress"
 
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
 
             <!-- PASSWORD-->
@@ -134,8 +148,7 @@
                 android:id="@+id/textView3"
                 style="@style/CodeFont"
                 android:layout_weight="1"
-                android:text="@string/prompt_password"
-                android:textSize="24sp" />
+                android:text="@string/prompt_password" />
 
 
             <EditText
@@ -149,15 +162,15 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
 
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
 
             <!-- PASSWORD CONFIRMATION-->
             <TextView
                 android:id="@+id/labelPassConfirmation"
                 style="@style/CodeFont"
-                android:text="@string/prompt_password_confirmation"
-                android:textSize="24sp" />
+                android:text="@string/prompt_password_confirmation" />
 
 
             <EditText
@@ -170,15 +183,15 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColorLink="@color/colorPrimary" />
 
 
             <!-- INTERESES-->
             <TextView
                 android:id="@+id/labelInteres"
                 style="@style/CodeFont"
-                android:text="@string/intereses"
-                android:textSize="24sp" />
+                android:text="@string/intereses" />
 
 
             <Button
@@ -205,9 +218,8 @@
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
                 android:text="@string/action_register"
-                android:textStyle="bold"
 
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

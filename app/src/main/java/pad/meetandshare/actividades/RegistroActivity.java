@@ -79,7 +79,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_registro);
 
         //Widget EditText donde se mostrara la fecha obtenida
-        etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
+        etFecha = (EditText) findViewById(R.id.inputFecha);
         //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
         ibObtenerFecha = (ImageButton) findViewById(R.id.ib_obtener_fecha);
         //Evento setOnClickListener - clic
@@ -201,7 +201,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         //OBTENER ELEMENTOS DE LA VISTA
 
         String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
-        String fechaString =((EditText) findViewById(R.id.et_mostrar_fecha_picker)).getText().toString();
+        String fechaString =((EditText) findViewById(R.id.inputFecha)).getText().toString();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
