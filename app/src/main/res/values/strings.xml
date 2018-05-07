@@ -36,7 +36,7 @@
     <string name="apellidos">Apellidos</string>
     <string name="fechaNacimiento">Fecha de Nacimiento</string>
     <string name="intereses">Intereses</string>
-    <string name="selecciona">Actividades de interes</string>
+    <string name="selecciona">Selecciona categorías</string>
 
 
     <string name="formato_fecha">dd/mm/yyyy</string>
