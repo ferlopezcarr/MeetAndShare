@@ -17,7 +17,6 @@ public class Usuario {
 
     private String nombre;
 
-    private String apellidos;
 
     private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
 
@@ -47,7 +46,7 @@ public class Usuario {
      * @param fechaNacimiento
      * @param descripcion
      */
-    public Usuario(String email, String nombre, String apellidos,  String password, Date fechaNacimiento, String descripcion) {
+    public Usuario(String email, String nombre ,  String password, Date fechaNacimiento, String descripcion) {
         this.email = email;
         this.nombre = nombre;
         this.password = password;
@@ -59,7 +58,7 @@ public class Usuario {
         categorias = new ArrayList<Categoria>();
     }
 
-    public Usuario(String email, String nombre, String apellidos,Date fecha,String pass ){
+    public Usuario(String email, String nombre,Date fecha,String pass ){
         this.email = email;
         this.nombre = nombre;
         this.password = pass;

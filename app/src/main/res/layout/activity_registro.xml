@@ -60,25 +60,6 @@
                     />
 
 
-            <!-- APELLIDOS-->
-
-
-            <TextView
-                android:id="@+id/ApellidosLabel"
-                style="@style/CodeFont"
-                android:text="@string/apellidos"
-                android:textSize="24sp" />
-    <AutoCompleteTextView
-                    android:id="@+id/apellidosRegistro"
-                    style="@style/CodeFont"
-             android:hint="@string/apellidos"
-
-                     android:inputType="textAutoComplete"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-
-                    />
 
 
 

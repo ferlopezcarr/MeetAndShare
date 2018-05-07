@@ -184,7 +184,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         //OBTENER ELEMENTOS DE LA VISTA
 
             String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
-            String apellidos = ((EditText) findViewById(R.id.apellidosRegistro)).getText().toString();
             String fechaString =((EditText) findViewById(R.id.et_mostrar_fecha_picker)).getText().toString();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -199,7 +198,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         if(contrasenia.compareTo(contraseniaConfirm)==0) {
 
-                Usuario miUsuario = new Usuario(email,nombre,apellidos,fecha,contrasenia);
+                Usuario miUsuario = new Usuario(email,nombre,fecha,contrasenia);
+
+
 
         }else{
             Toast toast1 = Toast.makeText(getApplicationContext(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT);
