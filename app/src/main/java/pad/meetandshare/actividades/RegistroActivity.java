@@ -37,6 +37,9 @@ package pad.meetandshare.actividades;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+
         import android.util.Log;
 
 
@@ -222,6 +225,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+
+                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference ref = database.getReference("server/saving-data/fireblog");
+                                
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.

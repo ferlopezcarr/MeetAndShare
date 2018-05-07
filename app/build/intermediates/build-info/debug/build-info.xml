@@ -1,127 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="x86"
-    api-level="27"
+    abi="x86_64,x86"
+    api-level="23"
     build-mode="COLD"
     density="560dpi"
     format="10"
-    ir-eligibility="METHOD_ADDED"
     plugin-version="3.1.2"
-    timestamp="1525643110040"
-    token="-3418308454531735879"
+    timestamp="1525685620580"
+    token="7895048246120532823"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="214" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="23" />
+        duration="0" />
     <task
         name="verifier"
-        duration="6" />
-
-    <artifact
-        location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
+        duration="0" />
 
     <build
         build-mode="FULL"
-        timestamp="1525634847757"
+        timestamp="1525684887390"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+            location="/Users/Ashet/git/meetandshare/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1525636830448"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1525640449042"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="METHOD_ADDED"
-        timestamp="1525643110040"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Chema Lopez\Documents\GitHub\meetandshare\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-            type="SPLIT" />
-    </build>
+        timestamp="1525685620580"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

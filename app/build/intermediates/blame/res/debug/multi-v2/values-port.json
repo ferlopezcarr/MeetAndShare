@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Chema Lopez\\Documents\\GitHub\\meetandshare\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-port\\values-port.xml",
+            "outputFile": "/Users/Ashet/git/meetandshare/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Chema Lopez\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\f8d4fa222df9baa16129b2094f99a21d\\res\\values-port\\values-port.xml",
+                    "source": "/Users/Ashet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/e1b6cec2f03a9bdb079fc32a82b3dc31/res/values-port/values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
