@@ -2,9 +2,10 @@ package pad.meetandshare.actividades;
 
         import android.app.AlertDialog;
         import android.content.DialogInterface;
+        import android.support.annotation.NonNull;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
-        import android.app.DatePickerDialog;;
+        import android.app.DatePickerDialog;
 
         import android.view.Gravity;
         import android.view.View;
@@ -15,7 +16,11 @@ package pad.meetandshare.actividades;
         import android.widget.EditText;
         import android.widget.ImageButton;
         import android.widget.Toast;
+        import static android.support.constraint.Constraints.TAG;
 
+
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
 
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
@@ -27,6 +32,12 @@ package pad.meetandshare.actividades;
         import pad.meetandshare.R;
         import pad.meetandshare.negocio.modelo.Categoria;
         import pad.meetandshare.negocio.modelo.Usuario;
+
+
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.FirebaseUser;
+        import android.util.Log;
 
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,6 +63,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
 
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +212,28 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                 Usuario miUsuario = new Usuario(email,nombre,fecha,contrasenia);
 
+            mAuth=FirebaseAuth.getInstance();
 
+            mAuth.createUserWithEmailAndPassword(email, contrasenia)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(RegistroActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                            }
+
+                            // ...
+                        }
+                    });
 
         }else{
             Toast toast1 = Toast.makeText(getApplicationContext(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT);
@@ -214,4 +247,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     toast1.setGravity(Gravity.CENTER, 0, 0);
                     toast1.show();                }
 }
+
+
+
+
+public void updateUI(FirebaseUser user){
+
+
+
+}
+
+
+
 }
