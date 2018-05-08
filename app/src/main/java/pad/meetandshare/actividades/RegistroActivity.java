@@ -212,7 +212,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             String email = ((EditText) findViewById(R.id.emailRegistro)).getText().toString();
             String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
             String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
-
+            String descripcion = ((EditText) findViewById(R.id.DescripcionRegistro)).getText().toString();
 
             ArrayList<Categoria> intereses = new ArrayList<>();
 
@@ -223,7 +223,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
 
-            miUsuario = new Usuario(email,nombre,fecha, intereses);
+            miUsuario = new Usuario(email,nombre,fecha, intereses, descripcion);
 
 
             boolean cancel=false;

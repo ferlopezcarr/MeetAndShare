@@ -52,13 +52,13 @@ public class Usuario {
         categorias = lista;
     }
 
-    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista  ){
+    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista, String descripcion  ){
         this.email = email;
         this.nombre = nombre;
         this.fechaNacimiento = fecha;
         this.categorias = lista;
         this.activo = true;
-
+        this.descripcion = descripcion;
     }
 
     /**
