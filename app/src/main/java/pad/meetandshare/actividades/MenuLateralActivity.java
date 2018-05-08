@@ -4,10 +4,10 @@ package pad.meetandshare.actividades;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -121,7 +121,7 @@ public class MenuLateralActivity extends AppCompatActivity
         }
 
         if(cambia)
-            getSupportFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
+            getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
