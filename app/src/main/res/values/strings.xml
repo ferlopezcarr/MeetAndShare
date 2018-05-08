@@ -31,9 +31,15 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_menu_lateral">MenuLateralActivity</string>
+    <string name="descripcionMsg">Cuéntanos más sobre ti...</string>
+
+    Cuéntanos sobre ti...
 
     <!-- Strings related to Crear Actividad -->
+    <string name="CrearActividadTitle">Crear Actividad</string>
 
+    !-- Strings related to Ver Perfil -->
+    <string name="PerfilTitle">Ver Perfil</string>
 
     <!-- Usuario -->
     <string name="nombre">Nombre</string>
@@ -57,7 +63,6 @@
     <string name="num_participantes">Número de Participantes</string>
 
     <!-- Botones -->
-    <string name="CrearActividadTitle">Crear Actividad</string>
     <string name="crear_actividad">Crear Actividad</string>
     <string name="seleccionar_ubicacion">Seleccionar Ubicacion</string>
 

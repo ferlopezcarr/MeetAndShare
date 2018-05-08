@@ -36,6 +36,26 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:id="@+id/PerfilTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/PerfilTitle"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="1dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
+
+
             <!-- NOMBRE-->
 
 
@@ -43,8 +63,7 @@
                 android:id="@+id/NombreLabel"
                 style="@style/CodeFont"
                 android:layout_marginTop="10sp"
-                android:text="@string/nombre"
-                android:textSize="24sp" />
+                android:text="@string/nombre" />
 
 
             <!-- FECHA NACIMIENTO-->
@@ -54,15 +73,14 @@
                 android:layout_height="wrap_content"
                 android:text="Fernando López Carrión"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/FechaLabel"
                 style="@style/CodeFont"
 
                 android:layout_marginTop="10sp"
-                android:text="@string/fechaNacimiento"
-                android:textSize="24sp" />
+                android:text="@string/fechaNacimiento" />
 
 
             <!-- EMAIL-->
@@ -74,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="06/09/1996"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/EmailLabel"
@@ -82,8 +100,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
                 android:text="@string/prompt_email"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
 
             <!-- PASSWORD-->
@@ -94,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="ferlopezcarr@gmail.com"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
 
             <!-- PASSWORD CONFIRMATION-->
@@ -106,8 +125,7 @@
                 style="@style/CodeFont"
                 android:layout_marginBottom="3sp"
                 android:layout_marginTop="10sp"
-                android:text="@string/intereses"
-                android:textSize="24sp" />
+                android:text="@string/intereses" />
 
 
             <LinearLayout
@@ -153,21 +171,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5sp"
                 android:layout_marginTop="10sp"
-                android:text="@string/descripcion"
-                android:textSize="24sp" />
+                android:text="@string/descripcion" />
 
             <TextView
                 android:id="@+id/Descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/background_light"
+                android:maxLines="35"
+                android:minLines="3"
                 android:padding="5sp"
                 android:text="Hola esto es una descripción muuuuy muy muy larga ..."
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="18sp" />
-
-            <!-- BOTON REGISTRO-->
+                android:textSize="14sp" />
 
 
         </LinearLayout>
