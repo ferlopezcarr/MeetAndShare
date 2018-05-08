@@ -27,4 +27,15 @@ public class SAUsuarioImp implements SAUsuario {
         return null;
     }
 
+
+    @Override
+    public Usuario get(String ui) {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+
+        
+
+        return null;
+    }
 }

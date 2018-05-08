@@ -19,4 +19,8 @@ public interface SAUsuario {
      * @return usuario guardado
      */
     public Usuario save(Usuario usuario, String ui);
+
+
+
+    public Usuario get(String ui);
 }
