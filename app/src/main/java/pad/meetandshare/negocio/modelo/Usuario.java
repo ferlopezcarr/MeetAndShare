@@ -12,8 +12,7 @@ public class Usuario {
     private Integer id;
 
     private String email;
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$";
 
     private String nombre;
 
@@ -52,7 +51,7 @@ public class Usuario {
         categorias = lista;
     }
 
-    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista, String descripcion  ){
+    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista, String descripcion){
         this.email = email;
         this.nombre = nombre;
         this.fechaNacimiento = fecha;
@@ -87,8 +86,7 @@ public class Usuario {
      * @param email
      * @return
      */
-    private boolean isValidEmail(String email) {
-        //pattern de gps "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$"
+    public static boolean isValidEmail(String email) {
         if(email != null && email.length() > 5) { //"x@x.x".length() = 5
             Pattern pattern = Pattern.compile(EMAIL_PATTERN);
             Matcher matcher = pattern.matcher(email);
@@ -103,7 +101,7 @@ public class Usuario {
      * @param nombre
      * @return
      */
-    private boolean isValidNombre(String nombre) {
+    public static boolean isValidNombre(String nombre) {
         if(nombre != null && nombre.length() > 0) {
             Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
             Matcher matcher = pattern.matcher(nombre);
@@ -118,8 +116,8 @@ public class Usuario {
      * @param password
      * @return
      */
-    private boolean isValidPassword(String password) {
-        return (password != null && password.length() >=4);
+    public static boolean isValidPassword(String password) {
+        return (password != null && password.length() > 5);
     }
 
 
