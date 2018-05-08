@@ -168,16 +168,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 final Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
 
-                                SAUsuario saUsuario = new SAUsuarioImp();
-                                saUsuario.get(user.getUid(), new MyCallBack() {
-                                    @Override
-                                    public void onCallbackUser(Usuario value) {
-                                            usuario=value;
-                                        LoginActivity.this.startActivity(myIntent);
-                                        LoginActivity.this.onResume();
-                                    }
-                                });
-
+                                myIntent.putExtra("usuario", user.getUid());
+                                LoginActivity.this.startActivity(myIntent);
+                                LoginActivity.this.onResume();
 
 
                             } else {

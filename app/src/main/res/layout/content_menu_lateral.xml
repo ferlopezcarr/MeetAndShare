@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".actividades.MenuLateralActivity"
-    tools:showIn="@layout/app_bar_menu_lateral">
+    tools:showIn="@layout/app_bar_menu_lateral"
+    android:id="@+id/ContenedorMenuLateral"
+    >
 
 </android.support.constraint.ConstraintLayout>

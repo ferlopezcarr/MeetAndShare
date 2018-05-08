@@ -1,5 +1,7 @@
 package pad.meetandshare.actividades;
 
+import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,25 +16,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener {
+    private  Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_menu_lateral);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +42,28 @@ public class MenuLateralActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //DATOS EL USUARIO
+        String user = null;
+
+        if (getIntent().hasExtra("usuario")) {
+            user = getIntent().getStringExtra("usuario");
+        } else {
+            throw new IllegalArgumentException("Activity cannot find  extras usuario" );
+        }
+
+        SAUsuario saUsuario = new SAUsuarioImp();
+        saUsuario.get(user, new MyCallBack() {
+            @Override
+            public void onCallbackUser(Usuario value) {
+                usuario=value;
+
+
+            }
+        });
+
+
     }
 
     @Override
@@ -81,9 +103,11 @@ public class MenuLateralActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_Perfil) {
             // Handle the camera action
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral,new PerfilUsuarioFragment()).commit();
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -99,5 +123,10 @@ public class MenuLateralActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
