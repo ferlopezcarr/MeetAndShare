@@ -1,14 +1,13 @@
 package pad.meetandshare.actividades;
 
-import android.app.Fragment;
+
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -103,11 +102,12 @@ public class MenuLateralActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragmento=null;
+        boolean cambia =false;
         if (id == R.id.nav_Perfil) {
             // Handle the camera action
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral,new PerfilUsuarioFragment()).commit();
-
+            fragmento = new PerfilUsuarioFragment();
+            cambia=true;
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -119,6 +119,9 @@ public class MenuLateralActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
+        if(cambia)
+            getSupportFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
