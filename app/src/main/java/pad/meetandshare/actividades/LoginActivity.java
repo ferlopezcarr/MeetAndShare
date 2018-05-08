@@ -36,6 +36,7 @@ import java.util.List;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private FirebaseAuth mAuth;
+    private Usuario usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,10 +166,19 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 showProgress(false);
 
-                                Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
+                                final Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
 
-                                LoginActivity.this.startActivity(myIntent);
-                                LoginActivity.this.onResume();
+                                SAUsuario saUsuario = new SAUsuarioImp();
+                                saUsuario.get(user.getUid(), new MyCallBack() {
+                                    @Override
+                                    public void onCallbackUser(Usuario value) {
+                                            usuario=value;
+                                        LoginActivity.this.startActivity(myIntent);
+                                        LoginActivity.this.onResume();
+                                    }
+                                });
+
+
 
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -190,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 6;
+        return password.length() > 5;
     }
 
     /**
@@ -250,6 +262,21 @@ public class LoginActivity extends AppCompatActivity {
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser!=null){
+
+
+        }
+
+    }
+
 
 
 }
