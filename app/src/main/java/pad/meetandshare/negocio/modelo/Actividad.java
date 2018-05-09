@@ -1,10 +1,13 @@
 package pad.meetandshare.negocio.modelo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import pad.meetandshare.actividades.FechaUtil;
 
 public class Actividad {
 
@@ -53,7 +56,7 @@ public class Actividad {
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
-        this.ubicacion = ubicacion; // foto por defecto
+        this.ubicacion = ubicacion; // ubicacion por defecto
         this.activa = true;
         this.finalizada = false;
 
@@ -75,7 +78,7 @@ public class Actividad {
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
-        this.ubicacion = null; // foto por defecto
+        this.ubicacion = null; // ubicacion por defecto
         this.activa = true;
         this.finalizada = false;
 
@@ -91,10 +94,34 @@ public class Actividad {
      * @param nombre
      * @return
      */
-    private boolean isValidNombre(String nombre) {
+    private static boolean isValidNombre(String nombre) {
         Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
         Matcher matcher = pattern.matcher(nombre);
         return matcher.matches();
+    }
+
+    /**
+     * Valida la fecha de inicio de la actividad
+     * @param fechaIni
+     * @return
+     */
+    public static boolean isValidFechaIni(Date fechaIni) {
+        int resCompareDates = fechaIni.compareTo(new Date());
+
+        return (resCompareDates >= 0); //hoy o despues
+    }
+
+    /**
+     * Valida la fecha de fin de la actividad
+     * @param fechaIni
+     * @param fechaFin
+     * @return
+     */
+    public static boolean isValidFechaFin(Date fechaIni, Date fechaFin) {
+        int resCompareToday = fechaFin.compareTo(new Date());
+        int resCompareFechaIni = fechaFin.compareTo(fechaIni);
+
+        return (resCompareToday >= 0 && resCompareFechaIni >= 0); //hoy o despues
     }
 
     /**
@@ -102,7 +129,7 @@ public class Actividad {
      * @param maxParticipantes
      * @return
      */
-    private boolean isValidMaxParticipantes(int maxParticipantes) {
+    private static boolean isValidMaxParticipantes(int maxParticipantes) {
         return (maxParticipantes > 0);
     }
 

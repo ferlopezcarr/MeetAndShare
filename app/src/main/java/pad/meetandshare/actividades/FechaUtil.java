@@ -18,14 +18,14 @@ public class FechaUtil {
     private static final String BARRA = "/";
 
     //Calendario para obtener fecha & hora
-    public final Calendar c = Calendar.getInstance();
+    public static final Calendar c = Calendar.getInstance();
 
     //Variables para obtener la fecha
-    private final int mes = c.get(Calendar.MONTH);
-    private final int dia = c.get(Calendar.DAY_OF_MONTH);
-    private final int anio = c.get(Calendar.YEAR);
+    public static final int mes = c.get(Calendar.MONTH);
+    public static final int dia = c.get(Calendar.DAY_OF_MONTH);
+    public static final int anio = c.get(Calendar.YEAR);
 
-    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public FechaUtil () {}
 

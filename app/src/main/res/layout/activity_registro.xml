@@ -78,6 +78,7 @@
 
 
             <!-- FECHA NACIMIENTO-->
+
             <TextView
                 android:id="@+id/FechaLabel"
                 style="@style/CodeFont"
@@ -85,33 +86,44 @@
                 android:layout_marginBottom="0dp"
                 android:text="@string/fechaNacimiento" />
 
-            <android.support.constraint.ConstraintLayout
-
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/fechaNacimientoRegistro"
                     style="@style/CodeFont"
+                    android:layout_width="325dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/formato_fecha"
                     android:inputType="date"
                     android:textColorLink="@color/colorPrimary"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
+                <android.support.constraint.ConstraintLayout
 
-                <ImageButton
-                    android:id="@+id/ib_obtener_fecha"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:src="@drawable/ic_date_range_black_24dp"
-                    app:layout_constraintLeft_toRightOf="@+id/fechaNacimientoRegistro"
-                    tools:ignore="ContentDescription" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
 
-            </android.support.constraint.ConstraintLayout>
+                    <ImageButton
+                        android:id="@+id/ib_obtener_fecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="52dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:src="@drawable/ic_date_range_black_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/fechaNacimientoRegistro"
+                        tools:ignore="ContentDescription"
+                        tools:layout_editor_absoluteY="0dp" />
+
+
+                </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
 
             <!-- EMAIL-->

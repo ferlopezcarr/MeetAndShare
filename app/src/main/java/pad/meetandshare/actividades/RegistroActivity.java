@@ -129,15 +129,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         ArrayList<Categoria> intereses = new ArrayList<>();
 
-        for(int i = 0; i< checkedItems.length; ++i){
+        for(int i = 0; i < checkedItems.length; ++i){
             if(checkedItems[i]){
-                intereses.add(Categoria.valueOf(listItems[i]));
+                Categoria cat = Categoria.getCategoria(listItems[i]);
+                intereses.add(cat);
             }
         }
 
         if(checkInputRegistro(nombre, email, contrasenia, contraseniaConfirm, fechaString, descripcion)) {
 
-            miUsuario = new Usuario(email,nombre,fecha, intereses, descripcion);
+            miUsuario = new Usuario(email, nombre, fecha, descripcion, intereses);
 
             mAuth=FirebaseAuth.getInstance();
 
@@ -236,6 +237,14 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         boolean fechaNacOK = false;
         View focusView = null;
 
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        email = email.trim();
+        password = password.trim();
+        passwordConfirm = passwordConfirm.trim();
+        fechaNacString = fechaNacString.trim();
+        descripcion = descripcion.trim();
+
         final String campoObligatorio = "Por favor, rellene todos los campos";
 
         //NOMBRE
@@ -286,7 +295,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-
         //FECHA NACIMIENTO
         EditText etFechaNacim = (EditText) findViewById(R.id.fechaNacimientoRegistro);
         if (fechaNacString == null || fechaNacString.isEmpty()) {
@@ -295,7 +303,14 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         } else {
             try {
                 fecha = FechaUtil.getDateFormat().parse(fechaNacString);
-                fechaNacOK = true;
+
+                if(!Usuario.isValidFechaNacimiento(fecha)) {
+                    etFechaNacim.setError("Debes ser mayor de edad");
+                    focusView = etFechaNacim;
+                }
+                else{
+                    fechaNacOK = true;
+                }
             } catch (ParseException e) {
                 Toast toast1 = Toast.makeText(getApplicationContext(), "Formato de fecha incorrecto", Toast.LENGTH_SHORT);
                 toast1.setGravity(Gravity.CENTER, 0, 0);
@@ -322,7 +337,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             descripcion = "";
         }
 
-        return (nombreOk && emailOk && passwordOk && fechaNacOK);
+        return (nombreOk && emailOk && passwordOk && fechaNacOK && unlessOneInteres);
     }
 
 }

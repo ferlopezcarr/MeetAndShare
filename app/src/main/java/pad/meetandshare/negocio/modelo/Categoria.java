@@ -22,7 +22,22 @@ public enum Categoria {
         return displayName;
     }
 
+    public static Categoria getCategoria(String displayName) {
+        Categoria res = null;
+        Categoria categoriasEnumValues[] = Categoria.values();
 
+        int i = 0;
+        boolean found = false;
+        while(i < categoriasEnumValues.length && !found) {
+            found = (categoriasEnumValues[i].getDisplayName().equalsIgnoreCase(displayName));
+            i++;
+        }
+
+        if(found)
+            res = categoriasEnumValues[i-1];
+
+        return res;
+    }
 
     public static String[] getArray() {
         String[] array =new String[Categoria.values().length];

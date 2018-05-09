@@ -1,11 +1,14 @@
 package pad.meetandshare.negocio.modelo;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import pad.meetandshare.actividades.FechaUtil;
 
 public class Usuario {
 
@@ -15,7 +18,6 @@ public class Usuario {
     private static final String EMAIL_PATTERN = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$";
 
     private String nombre;
-
     private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
 
     private Date fechaNacimiento;
@@ -46,18 +48,9 @@ public class Usuario {
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.descripcion = descripcion;
-        this.foto = foto; // foto por defecto
-        this.activo = true;
+        this.foto = null; // foto por defecto
         categorias = lista;
-    }
-
-    public Usuario(String email, String nombre,Date fecha,ArrayList<Categoria> lista, String descripcion){
-        this.email = email;
-        this.nombre = nombre;
-        this.fechaNacimiento = fecha;
-        this.categorias = lista;
         this.activo = true;
-        this.descripcion = descripcion;
     }
 
     /**
@@ -118,6 +111,24 @@ public class Usuario {
      */
     public static boolean isValidPassword(String password) {
         return (password != null && password.length() > 5);
+    }
+
+    /**
+     * Valida la fecha de nacimiento
+     * @param fechaNacimiento
+     * @return
+     */
+    public static boolean isValidFechaNacimiento(Date fechaNacimiento) {
+        Calendar calendarMayorEdad = FechaUtil.c;
+
+        int anio = FechaUtil.anio - 18;
+        calendarMayorEdad.set(Calendar.YEAR, anio);
+
+        Date fechaMayorEdad = calendarMayorEdad.getTime();
+
+        int resCompareDates = fechaNacimiento.compareTo(fechaMayorEdad);
+
+        return (resCompareDates <= 0);
     }
 
 
