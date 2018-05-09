@@ -112,14 +112,59 @@
 
 
             <TextView
+                android:id="@+id/HoraInicioLabel"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/horaInicio"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/horaIniCrearActividad"
+                    style="@style/CodeFont"
+                    android:layout_width="333dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/formato_hora"
+                    android:inputType="date"
+                    android:textColorLink="@color/colorPrimary" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutHoraIni"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/ib_obtener_horaIni"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        app:layout_constraintLeft_toRightOf="@+id/horaIniCrearActividad"
+                        tools:ignore="ContentDescription"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="0dp" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/fechaFinLabel"
                 style="@style/CodeFont"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
+                android:layout_marginTop="10sp"
                 android:text="@string/fechaFin" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,6 +199,51 @@
                         app:layout_constraintLeft_toRightOf="@+id/fechaFinCrearActividad"
                         tools:ignore="ContentDescription"
                         tools:layout_editor_absoluteY="0dp" />
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/HoraFinLabel"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/horaFin"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/horaFinCrearActividad"
+                    style="@style/CodeFont"
+                    android:layout_width="333dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/formato_hora"
+                    android:inputType="date"
+                    android:textColorLink="@color/colorPrimary" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutHoraFin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/ib_obtener_horaFin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        app:layout_constraintLeft_toRightOf="@+id/horaFinCrearActividad"
+                        tools:ignore="ContentDescription"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="0dp" />
+
                 </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>

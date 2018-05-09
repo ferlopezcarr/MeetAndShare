@@ -50,6 +50,7 @@
     <string name="descripcion">Descripción</string>
 
     <string name="formato_fecha">dd/mm/yyyy</string>
+    <string name="formato_hora">hh:mm</string>
 
     <!-- Botones -->
     <string name="aceptar">Aceptar</string>
@@ -59,7 +60,9 @@
 
     <!-- Actividad -->
     <string name="fechaInicio">Fecha de Inicio</string>
+    <string name="horaInicio">Hora de Inicio</string>
     <string name="fechaFin">Fecha de Fin</string>
+    <string name="horaFin">Hora de Fin</string>
     <string name="ubicacion">Ubicación</string>
     <string name="num_participantes">Número de Participantes</string>
 

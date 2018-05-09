@@ -28,6 +28,7 @@ import java.util.Date;
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
@@ -54,7 +55,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
-    private FirebaseAuth mAuth;
     private Usuario miUsuario;
 
     /* ------------ MÉTODOS PÚBLICOS ------------ */
@@ -144,9 +144,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             miUsuario = new Usuario(email, nombre, fecha, descripcion, intereses);
 
-            mAuth=FirebaseAuth.getInstance();
-
-            mAuth.createUserWithEmailAndPassword(email, contrasenia)
+            AutorizacionFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, contrasenia)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
                 @Override
@@ -154,7 +152,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        FirebaseUser user = AutorizacionFirebase.getCurrentUser();
 
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference ref = database.getReference("server/saving-data/fireblog");
@@ -246,7 +244,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
      * @param passwordConfirm
      * @param fechaNacString
      * @param descripcion
-     * @return si son correctos o no todos lo datos
+     * @return si son correctos o no todos los datos
      */
     private boolean checkInputUsuario(String nombre, String email, String password, String passwordConfirm, String fechaNacString, String descripcion) {
 

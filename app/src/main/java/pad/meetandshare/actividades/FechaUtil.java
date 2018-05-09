@@ -1,9 +1,11 @@
 package pad.meetandshare.actividades;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,9 +15,11 @@ import pad.meetandshare.R;
 public class FechaUtil {
 
     EditText etFecha;
+    EditText etHora;
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
+    private static final String DOS_PUNTOS = ":";
 
     //Calendario para obtener fecha & hora
     public static final Calendar c = Calendar.getInstance();
@@ -24,6 +28,11 @@ public class FechaUtil {
     public static final int mes = c.get(Calendar.MONTH);
     public static final int dia = c.get(Calendar.DAY_OF_MONTH);
     public static final int anio = c.get(Calendar.YEAR);
+
+    //Variables para obtener la hora hora
+    final int hora = c.get(Calendar.HOUR_OF_DAY);
+    final int minuto = c.get(Calendar.MINUTE);
+
 
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -51,6 +60,35 @@ public class FechaUtil {
         //Muestro el widget
 
         recogerFecha.show();
+    }
+
+    private void obtenerHora(AppCompatActivity activity, int id){
+
+        etHora = (EditText) activity.findViewById(id);
+
+        TimePickerDialog recogerHora = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+                //Muestro la hora con el formato deseado
+                etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+            }
+            //Estos valores deben ir en ese orden
+            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+            //Pero el sistema devuelve la hora en formato 24 horas
+        }, hora, minuto, false);
+
+        recogerHora.show();
     }
 
     public static SimpleDateFormat getDateFormat() {

@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.app.Fragment;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.google.firebase.auth.FirebaseUser;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +24,13 @@ import pad.meetandshare.R;
  * create an instance of this fragment.
  */
 public class CrearActividadFragment extends Fragment {
+
+    //Widgets
+    private EditText etFecha;
+    private ImageButton ibObtenerFecha;
+    private EditText etHora;
+    private ImageButton ibObtenerHora;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,10 +67,16 @@ public class CrearActividadFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+        FirebaseUser currentUser = AutorizacionFirebase.getCurrentUser();
+
+        if(currentUser != null) {//Si el usuario esta logeado
+            if (getArguments() != null) {
+                mParam1 = getArguments().getString(ARG_PARAM1);
+                mParam2 = getArguments().getString(ARG_PARAM2);
+            }
         }
+
     }
 
     @Override
