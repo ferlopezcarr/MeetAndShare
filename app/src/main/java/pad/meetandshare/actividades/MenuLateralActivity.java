@@ -21,19 +21,19 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, CrearActividadFragment.OnFragmentInteractionListener {
     private  Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_menu_lateral);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+      DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -108,7 +108,9 @@ public class MenuLateralActivity extends AppCompatActivity
             // Handle the camera action
             fragmento = new PerfilUsuarioFragment();
             cambia=true;
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_CrearActividad) {
+            fragmento = new CrearActividadFragment();
+            cambia = true;
 
         } else if (id == R.id.nav_slideshow) {
 

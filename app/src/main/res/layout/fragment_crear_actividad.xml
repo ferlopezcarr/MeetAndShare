@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".actividades.CrearActividadFragment">
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/colorAccent">
+      >
 
         <LinearLayout
             android:id="@+id/registro_login_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            >
 
 
             <TextView
                 android:id="@+id/CrearActividadTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/CrearActividadTitle"
+                android:text="@string/crear_actividad"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -92,12 +95,12 @@
 
                     <ImageButton
                         android:id="@+id/ib_obtener_fechaIni"
-                        app:layout_constraintLeft_toRightOf="@+id/inputFechaIni"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorPrimary"
                         android:src="@drawable/ic_date_range_black_24dp"
+                        app:layout_constraintLeft_toRightOf="@+id/inputFechaIni"
                         tools:ignore="ContentDescription"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="0dp" />
@@ -188,7 +191,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
-                android:gravity="center"
                 android:paddingLeft="10sp"
                 android:paddingRight="10sp"
                 android:text="@string/selecciona" />
@@ -211,7 +213,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
-                android:gravity="center"
                 android:paddingLeft="10sp"
                 android:paddingRight="10sp"
                 android:text="@string/seleccionar_ubicacion" />
@@ -240,7 +241,6 @@
                 android:id="@+id/crearActividadPost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"

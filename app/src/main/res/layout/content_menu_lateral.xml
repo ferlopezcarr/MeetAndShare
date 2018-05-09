@@ -8,6 +8,7 @@
     tools:context=".actividades.MenuLateralActivity"
     tools:showIn="@layout/app_bar_menu_lateral"
     android:id="@+id/ContenedorMenuLateral"
+    android:background="@color/colorAccent"
     >
 
 </android.support.constraint.ConstraintLayout>

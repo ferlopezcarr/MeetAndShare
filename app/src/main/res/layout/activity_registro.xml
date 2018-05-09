@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
     tools:context=".actividades.RegistroActivity">
 
 
@@ -28,14 +27,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+       >
 
         <LinearLayout
             android:id="@+id/registro_login_form"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            >
 
             <TextView
                 android:id="@+id/Registrotitle"
@@ -200,7 +200,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
-                android:gravity="center"
                 android:paddingLeft="10sp"
                 android:paddingRight="10sp"
                 android:text="@string/selecciona" />
@@ -231,7 +230,6 @@
                 android:id="@+id/registroPost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
