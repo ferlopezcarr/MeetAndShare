@@ -117,6 +117,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     /* ------------ MÉTODOS PRIVADOS ------------ */
 
+    /**
+     * Método que coge los datos del usuario de la vista, comprueba si son validos,
+     * y crea un nuevo usuario en la base de datos
+     */
     private void registro(){
 
         //OBTENER ELEMENTOS DE LA VISTA
@@ -136,7 +140,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        if(checkInputRegistro(nombre, email, contrasenia, contraseniaConfirm, fechaString, descripcion)) {
+        if(checkInputUsuario(nombre, email, contrasenia, contraseniaConfirm, fechaString, descripcion)) {
 
             miUsuario = new Usuario(email, nombre, fecha, descripcion, intereses);
 
@@ -173,6 +177,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Método que configura el botón de seleccionar intereses
+     * @param intereses
+     */
     private void listenerButtonIntereses(Button intereses) {
 
         interesesBoton.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +237,18 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private boolean checkInputRegistro(String nombre, String email, String password, String passwordConfirm, String fechaNacString, String descripcion) {
+
+    /**
+     * Método que comprueba si son validos los datos del Usuario
+     * @param nombre
+     * @param email
+     * @param password
+     * @param passwordConfirm
+     * @param fechaNacString
+     * @param descripcion
+     * @return si son correctos o no todos lo datos
+     */
+    private boolean checkInputUsuario(String nombre, String email, String password, String passwordConfirm, String fechaNacString, String descripcion) {
 
         boolean nombreOk = false;
         boolean emailOk = false;
