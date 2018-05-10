@@ -186,11 +186,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.ib_obtener_horaIni:
-                fechaUtil.obtenerFecha(getActivity(), R.id.horaIniCrearActividad);
+                fechaUtil.obtenerHora(getActivity(), R.id.horaIniCrearActividad);
                 break;
 
             case R.id.ib_obtener_fechaFin:
-                fechaUtil.obtenerHora(getActivity(), R.id.fechaFinCrearActividad);
+                fechaUtil.obtenerFecha(getActivity(), R.id.fechaFinCrearActividad);
                 break;
 
             case R.id.ib_obtener_horaFin:
