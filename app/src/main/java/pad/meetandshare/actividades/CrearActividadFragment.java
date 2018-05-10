@@ -61,6 +61,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
     private long horaIni;
     private Date fechaFin;
     private long horaFin;
+    private int maxParticipantes;
     private String[] listItems;
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
@@ -194,7 +195,16 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         }
 
         if(checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxPuntuacionesString, descripcion)) {
+            //buscar el usuario logeado
 
+            //conseguir la ubicacion
+
+            //crear la actividad
+            //Actividad actividad = new Actividad(nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador);
+
+            //mirar que la actividad no existe en la bd
+
+            //guardar la actividad
         }
     }
 
@@ -288,12 +298,12 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
             String hora[] = horaIniString.split(":");
             horaIni = Long.parseLong(hora[0]);
             horaIni += Long.parseLong(hora[1]);
-            fechaIni.setTime(horaIni);
 
             if (!Actividad.isValidHora(hora[0], hora[1])) {
                 etHoraIni.setError("Formato de hora incorrecto");
                 focusView = etHoraIni;
             } else {
+                fechaIni.setTime(horaIni);
                 horaIniOK = true;
             }
         }
@@ -329,12 +339,12 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
                 String hora[] = horaIniString.split(":");
                 horaFin = Long.parseLong(hora[0]);
                 horaFin += Long.parseLong(hora[1]);
-                fechaFin.setTime(horaFin);
 
                 if (!Actividad.isValidHora(hora[0], hora[1])) {
                     etHoraFin.setError("Formato de hora incorrecto");
                     focusView = etHoraFin;
                 } else {
+                    fechaFin.setTime(horaFin);
                     horaFinOK = true;
                 }
             }
@@ -349,6 +359,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
             etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
             focusView = etMaxParticipantes;
         } else {
+            maxParticipantes = Integer.parseInt(maxParticipantesString);
             maxParticipantesOK = true;
         }
 
