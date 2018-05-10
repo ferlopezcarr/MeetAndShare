@@ -1,5 +1,6 @@
 package pad.meetandshare.actividades;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class FechaUtil {
 
     public FechaUtil () {}
 
-    public void obtenerFecha(AppCompatActivity activity, int id){
+    public void obtenerFecha(Activity activity, int id){
 
         etFecha = (EditText) activity.findViewById(id);
 

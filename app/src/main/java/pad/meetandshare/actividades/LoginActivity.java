@@ -47,7 +47,6 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity {
 
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;

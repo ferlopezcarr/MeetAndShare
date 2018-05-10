@@ -1,5 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
+import com.google.android.gms.location.places.Place;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +27,9 @@ public class Actividad {
 
     private String descripcion;
 
-    private String ubicacion;
+    private Place ubicacion;
+
+    private Usuario administrador;
 
     private List<Categoria> categorias;
 
@@ -50,35 +54,14 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, String ubicacion) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion; // ubicacion por defecto
-        this.activa = true;
-        this.finalizada = false;
-
-        this.categorias = new ArrayList<Categoria>();
-        this.usuariosInscritos = new ArrayList<Usuario>();
-    }
-
-    /*
-     * Constructora con argumentos de Actividad
-     * @param nombre
-     * @param fechaInicio
-     * @param fechaFin
-     * @param maxParticipantes
-     * @param descripcion
-     */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion) {
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.maxParticipantes = maxParticipantes;
-        this.descripcion = descripcion;
-        this.ubicacion = null; // ubicacion por defecto
+        this.administrador = null;
         this.activa = true;
         this.finalizada = false;
 
@@ -94,7 +77,7 @@ public class Actividad {
      * @param nombre
      * @return
      */
-    private static boolean isValidNombre(String nombre) {
+    public static boolean isValidNombre(String nombre) {
         Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
         Matcher matcher = pattern.matcher(nombre);
         return matcher.matches();
@@ -109,6 +92,11 @@ public class Actividad {
         int resCompareDates = fechaIni.compareTo(new Date());
 
         return (resCompareDates >= 0); //hoy o despues
+    }
+
+    public static boolean isValidHora(String horas, String minutos) {
+        return (Integer.getInteger(horas) < 24 && Integer.getInteger(horas) >= 0 ) &&
+                (Integer.getInteger(minutos) < 60 && Integer.getInteger(minutos) >= 0);
     }
 
     /**
@@ -126,11 +114,11 @@ public class Actividad {
 
     /**
      * Valida el numero de participantes
-     * @param maxParticipantes
+     * @param maxParticipantesString
      * @return
      */
-    private static boolean isValidMaxParticipantes(int maxParticipantes) {
-        return (maxParticipantes > 0);
+    public static boolean isValidMaxParticipantes(String maxParticipantesString) {
+        return (Integer.parseInt(maxParticipantesString) > 1);
     }
 
 
@@ -184,12 +172,20 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public String getUbicacion() {
+    public Place getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Place ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public Usuario getAdministrador() {
+        return this.administrador;
+    }
+
+    public void setAdministrador(Usuario administrador) {
+        this.administrador = administrador;
     }
 
     public boolean getActiva() {

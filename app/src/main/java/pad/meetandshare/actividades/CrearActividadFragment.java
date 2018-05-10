@@ -1,46 +1,70 @@
 package pad.meetandshare.actividades;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.app.Fragment;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Actividad;
+import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CrearActividadFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CrearActividadFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CrearActividadFragment extends Fragment {
+import static java.lang.Double.parseDouble;
+
+
+public class CrearActividadFragment extends FragmentActivity implements View.OnClickListener {
 
     //Widgets
-    private EditText etFecha;
-    private ImageButton ibObtenerFecha;
-    private EditText etHora;
-    private ImageButton ibObtenerHora;
+    //FECHA INI
+    private EditText etFechaIni;
+    private ImageButton ibObtenerFechaIni;
+    private EditText etHoraIni;
+    private ImageButton ibObtenerHoraIni;
+    //FECHA FIN
+    private EditText etFechaFin;
+    private ImageButton ibObtenerFechaFin;
+    private EditText etHoraFin;
+    private ImageButton ibObtenerHoraFin;
+    //INTERESES BUTTON
+    private Button interesesBoton;
+    //UBICACION BOTON
+    private Button ubicacionBoton;
+    //CREAR ACTIVIDAD
+    private Button crearActividadBoton;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private GoogleApiClient mGoogleApiClient;
+    private static final int PLACE_PICKER_REQUEST = 1;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Date fechaIni;
+    private long horaIni;
+    private Date fechaFin;
+    private long horaFin;
+    private String[] listItems;
+    private boolean[] checkedItems;
+    private ArrayList<Integer> mUserItems = new ArrayList<>();
 
-    private OnFragmentInteractionListener mListener;
 
     public CrearActividadFragment() {
         // Required empty public constructor
@@ -57,71 +81,357 @@ public class CrearActividadFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static CrearActividadFragment newInstance(String param1, String param2) {
         CrearActividadFragment fragment = new CrearActividadFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listItems = Categoria.getArray();
+        checkedItems = new boolean[listItems.length];
+        setContentView(R.layout.fragment_crear_actividad);
 
         FirebaseUser currentUser = AutorizacionFirebase.getCurrentUser();
 
         if(currentUser != null) {//Si el usuario esta logeado
-            if (getArguments() != null) {
-                mParam1 = getArguments().getString(ARG_PARAM1);
-                mParam2 = getArguments().getString(ARG_PARAM2);
-            }
+
+            //VISTAS----------------------
+            //FECHA INI
+            //Widget EditText donde se mostrara la fecha obtenida
+            etFechaIni = (EditText) findViewById(R.id.fechaIniCrearActividad);
+            //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
+            ibObtenerFechaIni = (ImageButton) findViewById(R.id.ib_obtener_fechaIni);
+            ibObtenerFechaIni.setOnClickListener(this);
+
+            //HORA INI
+
+            //FECHA FIN
+            //Widget EditText donde se mostrara la fecha obtenida
+            etFechaFin = (EditText) findViewById(R.id.fechaFinCrearActividad);
+            //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
+            ibObtenerFechaFin = (ImageButton) findViewById(R.id.ib_obtener_fechaFin);
+            ibObtenerFechaFin.setOnClickListener(this);
+
+            //HORA FIN
+
+            //UBICACION
+            ubicacionBoton = (Button) findViewById(R.id.botonSeleccionarUbicacion);
+            ubicacionBoton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+            //INTERESES
+            interesesBoton = (Button) findViewById(R.id.botonInteresRegistro);
+            listenerButtonIntereses(interesesBoton);
+
+            //APIS
+            /*
+            mGoogleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .enableAutoManage(this, this)
+                    .build();
+            */
+
+            place(this);
         }
 
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_crear_actividad, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Método que se ejecuta al hacer click en alguno de los botones capturados
+     * @param v
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onClick(View v) {
+        FechaUtil fechaUtil = new FechaUtil();
+
+        switch (v.getId()){
+            case R.id.ib_obtener_fechaIni:
+                fechaUtil.obtenerFecha(this, R.id.fechaIniCrearActividad);
+                break;
+
+            case R.id.ib_obtener_fechaFin:
+                fechaUtil.obtenerFecha(this, R.id.fechaFinCrearActividad);
+                break;
+
+            case R.id.crearActividadPost:
+                crearActividad();
+                break;
+        }
     }
+
+
+    /* ------------ MÉTODOS PRIVADOS ------------ */
+
+    private void crearActividad() {
+        //OBTENER ELEMENTOS DE LA VISTA
+        String nombre = ((EditText) findViewById(R.id.nombreCrearActividad)).getText().toString();
+        String fechaIniString =((EditText) findViewById(R.id.fechaIniCrearActividad)).getText().toString();
+        String horaIniString =((EditText) findViewById(R.id.horaIniCrearActividad)).getText().toString();
+        String fechaFinString =((EditText) findViewById(R.id.fechaFinCrearActividad)).getText().toString();
+        String horaFinString =((EditText) findViewById(R.id.horaFinCrearActividad)).getText().toString();
+        String maxPuntuacionesString = ((EditText) findViewById(R.id.maxParticipantesCrearActividad)).getText().toString();
+        String descripcion = ((EditText) findViewById(R.id.descripcionCrearActividad)).getText().toString();
+
+        ArrayList<Categoria> intereses = new ArrayList<>();
+
+        for(int i = 0; i < checkedItems.length; ++i){
+            if(checkedItems[i]){
+                Categoria cat = Categoria.getCategoria(listItems[i]);
+                intereses.add(cat);
+            }
+        }
+
+        if(checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxPuntuacionesString, descripcion)) {
+
+        }
+    }
+
+    private void place(Activity activity) {
+        try {
+            int PLACE_PICKER_REQUEST = 1;
+
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+            startActivityForResult(builder.build(activity), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e){
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private boolean checkInputActividad(String nombre, String fechaIniString, String horaIniString, String fechaFinString, String horaFinString, String maxParticipantesString, String descripcion) {
+
+        boolean nombreOk = false;
+        boolean fechaIniOK = false;
+        boolean horaIniOK = false;
+        boolean fechaFinOK = false;
+        boolean horaFinOK = false;
+        boolean maxParticipantesOK = false;
+        View focusView = null;
+
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        fechaIniString = fechaIniString.trim();
+        horaIniString = horaIniString.trim();
+        fechaFinString = fechaFinString.trim();
+        horaFinString = horaFinString.trim();
+        descripcion = descripcion.trim();
+
+        final String campoObligatorio = "Por favor, rellene todos los campos";
+
+        //NOMBRE
+        EditText etNombre = (EditText) findViewById(R.id.nombreCrearActividad);
+        if(nombre == null || nombre.isEmpty()){
+            etNombre.setError(campoObligatorio);
+            focusView = etNombre;
+        }
+        else if(!Usuario.isValidNombre(nombre)) {
+            etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
+            focusView = etNombre;
+        }
+        else {
+            nombreOk = true;
+        }
+
+        //FECHA INI
+        EditText etFechaIni = (EditText) findViewById(R.id.fechaIniCrearActividad);
+        if (fechaIniString == null || fechaIniString.isEmpty()) {
+            etFechaIni.setError(campoObligatorio);
+            focusView = etFechaIni;
+        } else {
+            try {
+                fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
+
+                if(!Actividad.isValidFechaIni(fechaIni)) {
+                    etFechaIni.setError("Debes ser mayor de edad");
+                    focusView = etFechaIni;
+                }
+                else{
+                    fechaIniOK = true;
+                }
+            } catch (ParseException e) {
+                etFechaIni.setError("Formato de fecha incorrecto");
+                focusView = etFechaIni;
+            }
+        }
+
+        //HORA INI
+        EditText etHoraIni = (EditText) findViewById(R.id.horaIniCrearActividad);
+        if (horaIniString == null || horaIniString.isEmpty()) {
+            etHoraIni.setError(campoObligatorio);
+            focusView = etHoraIni;
+        } else {
+            String hora[] = horaIniString.split(":");
+            horaIni = Long.parseLong(hora[0]);
+            horaIni += Long.parseLong(hora[1]);
+            fechaIni.setTime(horaIni);
+
+            if (!Actividad.isValidHora(hora[0], hora[1])) {
+                etHoraIni.setError("Formato de hora incorrecto");
+                focusView = etHoraIni;
+            } else {
+                horaIniOK = true;
+            }
+        }
+
+        if(fechaIniOK) {
+            //FECHA FIN
+            EditText etFechaFin = (EditText) findViewById(R.id.fechaFinCrearActividad);
+            if (fechaFinString == null || fechaFinString.isEmpty()) {
+                etFechaFin.setError(campoObligatorio);
+                focusView = etFechaFin;
+            } else {
+                try {
+                    fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
+
+                    if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
+                        etFechaFin.setError("Debes ser mayor de edad");
+                        focusView = etFechaFin;
+                    } else {
+                        fechaFinOK = true;
+                    }
+                } catch (ParseException e) {
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    focusView = etFechaFin;
+                }
+            }
+
+            //HORA FIN
+            EditText etHoraFin = (EditText) findViewById(R.id.horaFinCrearActividad);
+            if (horaFinString == null || horaFinString.isEmpty()) {
+                etHoraFin.setError(campoObligatorio);
+                focusView = etHoraFin;
+            } else {
+                String hora[] = horaIniString.split(":");
+                horaFin = Long.parseLong(hora[0]);
+                horaFin += Long.parseLong(hora[1]);
+                fechaFin.setTime(horaFin);
+
+                if (!Actividad.isValidHora(hora[0], hora[1])) {
+                    etHoraFin.setError("Formato de hora incorrecto");
+                    focusView = etHoraFin;
+                } else {
+                    horaFinOK = true;
+                }
+            }
+        }
+
+        //MAX PARTICIPANTES
+        EditText etMaxParticipantes = (EditText) findViewById(R.id.maxParticipantesCrearActividad);
+        if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
+            etMaxParticipantes.setError(campoObligatorio);
+            focusView = etMaxParticipantes;
+        } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
+            etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
+            focusView = etMaxParticipantes;
+        } else {
+            maxParticipantesOK = true;
+        }
+
+        //INTERESES
+        int i = 0;
+        boolean unlessOneInteres = false;
+        while(i < this.checkedItems.length && !unlessOneInteres) {
+            unlessOneInteres = checkedItems[i];
+            i++;
+        }
+
+        if(!unlessOneInteres) {
+            Toast toast2 = Toast.makeText(getApplicationContext(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
+            toast2.setGravity(Gravity.CENTER, 0, 0);
+            toast2.show();
+        }
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+
+        return (nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && unlessOneInteres);
+    }
+
+    /**
+     * Método que configura el botón de seleccionar intereses
+     * @param intereses
+     */
+    private void listenerButtonIntereses(Button intereses) {
+
+        interesesBoton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(CrearActividadFragment.this);
+                mBuilder.setTitle(R.string.intereses);
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked){
+                            mUserItems.add(position);
+                        }else{
+                            mUserItems.remove((Integer.valueOf(position)));
+                        }
+                    }
+                });
+
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        String item = "";
+                        for (int i = 0; i < mUserItems.size(); i++) {
+                            item = item + listItems[mUserItems.get(i)];
+                            if (i != mUserItems.size() - 1) {
+                                item = item + ", ";
+                            }
+                        }
+                    }
+                });
+
+                mBuilder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                mBuilder.setNeutralButton(R.string.clear_all, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            checkedItems[i] = false;
+                            mUserItems.clear();
+                        }
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+    }
+
 }
