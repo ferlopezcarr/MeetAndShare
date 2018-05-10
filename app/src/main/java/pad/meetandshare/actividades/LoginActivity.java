@@ -36,6 +36,7 @@ import java.util.List;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
@@ -163,13 +164,21 @@ public class LoginActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                showProgress(false);
 
                                 final Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
 
-                                myIntent.putExtra("usuario", user.getUid());
-                                LoginActivity.this.startActivity(myIntent);
-                                LoginActivity.this.onResume();
+                                SAUsuario saUsuario = new SAUsuarioImp();
+                                saUsuario.get(user.getUid(), new MyCallBack() {
+                                    @Override
+                                    public void onCallbackUser(Usuario value) {
+                                        AutorizacionFirebase.setUsuario(value);
+                                        LoginActivity.this.startActivity(myIntent);
+                                        LoginActivity.this.onResume();
+                                        showProgress(false);
+
+                                    }
+                                });
+
 
 
                             } else {

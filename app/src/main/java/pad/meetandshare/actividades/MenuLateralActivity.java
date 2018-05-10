@@ -21,8 +21,10 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener {
-    private  Usuario usuario;
+        implements NavigationView.OnNavigationItemSelectedListener{
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,24 +45,9 @@ public class MenuLateralActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //DATOS EL USUARIO
-        String user = null;
-
-        if (getIntent().hasExtra("usuario")) {
-            user = getIntent().getStringExtra("usuario");
-        } else {
-            throw new IllegalArgumentException("Activity cannot find  extras usuario" );
-        }
-
-        SAUsuario saUsuario = new SAUsuarioImp();
-        saUsuario.get(user, new MyCallBack() {
-            @Override
-            public void onCallbackUser(Usuario value) {
-                usuario=value;
 
 
-            }
-        });
+
 
 
     }
@@ -130,8 +117,4 @@ public class MenuLateralActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +29,11 @@ public class PerfilUsuarioFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private Usuario user;
     private OnFragmentInteractionListener mListener;
+    private View rootView;
+
+
 
     public PerfilUsuarioFragment() {
         // Required empty public constructor
@@ -58,14 +63,24 @@ public class PerfilUsuarioFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
+         rootView = inflater.inflate(R.layout.fragment_perfil_usuario,
+                container, false);
+
+        Usuario miUser = AutorizacionFirebase.getUser();
+
+
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

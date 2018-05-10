@@ -2,6 +2,7 @@ package pad.meetandshare.actividades;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
@@ -112,6 +114,19 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     public void updateUI(FirebaseUser user){
 
+        SAUsuario saUsuario = new SAUsuarioImp();
+        saUsuario.get(user.getUid(), new MyCallBack() {
+            @Override
+            public void onCallbackUser(Usuario value) {
+                AutorizacionFirebase.setUsuario(value);
+                Intent myIntent = new Intent(RegistroActivity.this, MenuLateralActivity.class);
+                RegistroActivity.this.startActivity(myIntent);
+                RegistroActivity.this.onResume();
+
+            }
+        });
+
+
     }
 
 
@@ -166,7 +181,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                         Toast.makeText(RegistroActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
-                        updateUI(null);
                     }
 
                     // ...
