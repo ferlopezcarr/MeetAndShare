@@ -15,7 +15,7 @@ public class AutorizacionFirebase {
     }
 
     public static FirebaseUser getCurrentUser() {
-        return mAuth.getCurrentUser();
+        return getFirebaseAuth().getCurrentUser();
     }
 
 }

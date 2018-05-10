@@ -114,6 +114,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             ibObtenerFechaIni.setOnClickListener(this);
 
             //HORA INI
+            //Widget EditText donde se mostrara la hora obtenida
+            etHoraIni = (EditText) rootView.findViewById(R.id.horaIniCrearActividad);
+            //Widget ImageButton del cual usaremos el evento clic para obtener la hora
+            ibObtenerHoraIni = (ImageButton) rootView.findViewById(R.id.ib_obtener_horaIni);
+            //Evento setOnClickListener - clic
+            ibObtenerHoraIni.setOnClickListener(this);
 
             //FECHA FIN
             //Widget EditText donde se mostrara la fecha obtenida
@@ -123,13 +129,19 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             ibObtenerFechaFin.setOnClickListener(this);
 
             //HORA FIN
+            //Widget EditText donde se mostrara la hora obtenida
+            etHoraFin = (EditText) rootView.findViewById(R.id.horaFinCrearActividad);
+            //Widget ImageButton del cual usaremos el evento clic para obtener la hora
+            ibObtenerHoraFin = (ImageButton) rootView.findViewById(R.id.ib_obtener_horaFin);
+            //Evento setOnClickListener - clic
+            ibObtenerHoraFin.setOnClickListener(this);
 
             //UBICACION
             ubicacionBoton = (Button) rootView.findViewById(R.id.botonSeleccionarUbicacion);
             ubicacionBoton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    place(getActivity());
                 }
             });
 
@@ -146,8 +158,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                     .enableAutoManage(this, this)
                     .build();
             */
-
-            place(getActivity());
         }
         return rootView;
 
@@ -175,8 +185,16 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 fechaUtil.obtenerFecha(getActivity(), R.id.fechaIniCrearActividad);
                 break;
 
+            case R.id.ib_obtener_horaIni:
+                fechaUtil.obtenerFecha(getActivity(), R.id.horaIniCrearActividad);
+                break;
+
             case R.id.ib_obtener_fechaFin:
-                fechaUtil.obtenerFecha(getActivity(), R.id.fechaFinCrearActividad);
+                fechaUtil.obtenerHora(getActivity(), R.id.fechaFinCrearActividad);
+                break;
+
+            case R.id.ib_obtener_horaFin:
+                fechaUtil.obtenerHora(getActivity(), R.id.horaFinCrearActividad);
                 break;
 
             case R.id.crearActividadPost:

@@ -329,9 +329,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     fechaNacOK = true;
                 }
             } catch (ParseException e) {
-                Toast toast1 = Toast.makeText(getApplicationContext(), "Formato de fecha incorrecto", Toast.LENGTH_SHORT);
-                toast1.setGravity(Gravity.CENTER, 0, 0);
-                toast1.show();
+                etFechaNacim.setError("Formato de fecha incorrecto");
+                focusView = etFechaNacim;
             }
         }
 
@@ -344,9 +343,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if(!unlessOneInteres) {
-            Toast toast2 = Toast.makeText(getApplicationContext(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
-            toast2.setGravity(Gravity.CENTER, 0, 0);
-            toast2.show();
+            Toast toast = Toast.makeText(getApplicationContext(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
 
         //DESCRIPCION

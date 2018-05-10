@@ -63,7 +63,7 @@ public class FechaUtil {
         recogerFecha.show();
     }
 
-    private void obtenerHora(AppCompatActivity activity, int id){
+    public void obtenerHora(Activity activity, int id){
 
         etHora = (EditText) activity.findViewById(id);
 
