@@ -2,12 +2,15 @@ package pad.meetandshare.actividades;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.text.Layout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +22,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
@@ -31,10 +35,11 @@ import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
+import static android.app.Activity.RESULT_OK;
 import static java.lang.Double.parseDouble;
 
 
-public class CrearActividadFragment extends FragmentActivity implements View.OnClickListener {
+public class CrearActividadFragment extends Fragment implements View.OnClickListener {
 
     //Widgets
     //FECHA INI
@@ -67,6 +72,8 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
 
+    private View rootView;
+
     public CrearActividadFragment() {
         // Required empty public constructor
     }
@@ -87,37 +94,38 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listItems = Categoria.getArray();
-        checkedItems = new boolean[listItems.length];
-        setContentView(R.layout.fragment_crear_actividad);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        View rootView = inflater.inflate(R.layout.fragment_crear_actividad,
+                container, false);
 
-        FirebaseUser currentUser = AutorizacionFirebase.getCurrentUser();
+        FirebaseUser currentUser = AutorizacionFirebase.getFirebaseAuth().getCurrentUser();
+
+
 
         if(currentUser != null) {//Si el usuario esta logeado
 
             //VISTAS----------------------
             //FECHA INI
             //Widget EditText donde se mostrara la fecha obtenida
-            etFechaIni = (EditText) findViewById(R.id.fechaIniCrearActividad);
+            etFechaIni = (EditText) rootView.findViewById(R.id.fechaIniCrearActividad);
             //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
-            ibObtenerFechaIni = (ImageButton) findViewById(R.id.ib_obtener_fechaIni);
+            ibObtenerFechaIni = (ImageButton) rootView.findViewById(R.id.ib_obtener_fechaIni);
             ibObtenerFechaIni.setOnClickListener(this);
 
             //HORA INI
 
             //FECHA FIN
             //Widget EditText donde se mostrara la fecha obtenida
-            etFechaFin = (EditText) findViewById(R.id.fechaFinCrearActividad);
+            etFechaFin = (EditText) rootView.findViewById(R.id.fechaFinCrearActividad);
             //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
-            ibObtenerFechaFin = (ImageButton) findViewById(R.id.ib_obtener_fechaFin);
+            ibObtenerFechaFin = (ImageButton) rootView.findViewById(R.id.ib_obtener_fechaFin);
             ibObtenerFechaFin.setOnClickListener(this);
 
             //HORA FIN
 
             //UBICACION
-            ubicacionBoton = (Button) findViewById(R.id.botonSeleccionarUbicacion);
+            ubicacionBoton = (Button) rootView.findViewById(R.id.botonSeleccionarUbicacion);
             ubicacionBoton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,7 +134,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
             });
 
             //INTERESES
-            interesesBoton = (Button) findViewById(R.id.botonInteresRegistro);
+            interesesBoton = (Button) rootView.findViewById(R.id.botonInteresRegistro);
             listenerButtonIntereses(interesesBoton);
 
             //APIS
@@ -139,14 +147,19 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
                     .build();
             */
 
-            place(this);
+            place(getActivity());
         }
+        return rootView;
+
+    }
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listItems = Categoria.getArray();
+        checkedItems = new boolean[listItems.length];
 
-
-        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     /**
@@ -159,11 +172,11 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
 
         switch (v.getId()){
             case R.id.ib_obtener_fechaIni:
-                fechaUtil.obtenerFecha(this, R.id.fechaIniCrearActividad);
+                fechaUtil.obtenerFecha(getActivity(), R.id.fechaIniCrearActividad);
                 break;
 
             case R.id.ib_obtener_fechaFin:
-                fechaUtil.obtenerFecha(this, R.id.fechaFinCrearActividad);
+                fechaUtil.obtenerFecha(getActivity(), R.id.fechaFinCrearActividad);
                 break;
 
             case R.id.crearActividadPost:
@@ -177,13 +190,13 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
 
     private void crearActividad() {
         //OBTENER ELEMENTOS DE LA VISTA
-        String nombre = ((EditText) findViewById(R.id.nombreCrearActividad)).getText().toString();
-        String fechaIniString =((EditText) findViewById(R.id.fechaIniCrearActividad)).getText().toString();
-        String horaIniString =((EditText) findViewById(R.id.horaIniCrearActividad)).getText().toString();
-        String fechaFinString =((EditText) findViewById(R.id.fechaFinCrearActividad)).getText().toString();
-        String horaFinString =((EditText) findViewById(R.id.horaFinCrearActividad)).getText().toString();
-        String maxPuntuacionesString = ((EditText) findViewById(R.id.maxParticipantesCrearActividad)).getText().toString();
-        String descripcion = ((EditText) findViewById(R.id.descripcionCrearActividad)).getText().toString();
+        String nombre = ((EditText) rootView.findViewById(R.id.nombreCrearActividad)).getText().toString();
+        String fechaIniString =((EditText) rootView.findViewById(R.id.fechaIniCrearActividad)).getText().toString();
+        String horaIniString =((EditText) rootView.findViewById(R.id.horaIniCrearActividad)).getText().toString();
+        String fechaFinString =((EditText) rootView.findViewById(R.id.fechaFinCrearActividad)).getText().toString();
+        String horaFinString =((EditText) rootView.findViewById(R.id.horaFinCrearActividad)).getText().toString();
+        String maxPuntuacionesString = ((EditText) rootView.findViewById(R.id.maxParticipantesCrearActividad)).getText().toString();
+        String descripcion = ((EditText) rootView.findViewById(R.id.descripcionCrearActividad)).getText().toString();
 
         ArrayList<Categoria> intereses = new ArrayList<>();
 
@@ -223,12 +236,12 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
+                Place place = PlacePicker.getPlace(data, getActivity());
                 String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -254,7 +267,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         final String campoObligatorio = "Por favor, rellene todos los campos";
 
         //NOMBRE
-        EditText etNombre = (EditText) findViewById(R.id.nombreCrearActividad);
+        EditText etNombre = (EditText) rootView.findViewById(R.id.nombreCrearActividad);
         if(nombre == null || nombre.isEmpty()){
             etNombre.setError(campoObligatorio);
             focusView = etNombre;
@@ -268,7 +281,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         }
 
         //FECHA INI
-        EditText etFechaIni = (EditText) findViewById(R.id.fechaIniCrearActividad);
+        EditText etFechaIni = (EditText) rootView.findViewById(R.id.fechaIniCrearActividad);
         if (fechaIniString == null || fechaIniString.isEmpty()) {
             etFechaIni.setError(campoObligatorio);
             focusView = etFechaIni;
@@ -290,7 +303,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         }
 
         //HORA INI
-        EditText etHoraIni = (EditText) findViewById(R.id.horaIniCrearActividad);
+        EditText etHoraIni = (EditText) rootView.findViewById(R.id.horaIniCrearActividad);
         if (horaIniString == null || horaIniString.isEmpty()) {
             etHoraIni.setError(campoObligatorio);
             focusView = etHoraIni;
@@ -310,7 +323,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
 
         if(fechaIniOK) {
             //FECHA FIN
-            EditText etFechaFin = (EditText) findViewById(R.id.fechaFinCrearActividad);
+            EditText etFechaFin = (EditText) rootView.findViewById(R.id.fechaFinCrearActividad);
             if (fechaFinString == null || fechaFinString.isEmpty()) {
                 etFechaFin.setError(campoObligatorio);
                 focusView = etFechaFin;
@@ -331,7 +344,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
             }
 
             //HORA FIN
-            EditText etHoraFin = (EditText) findViewById(R.id.horaFinCrearActividad);
+            EditText etHoraFin = (EditText) rootView.findViewById(R.id.horaFinCrearActividad);
             if (horaFinString == null || horaFinString.isEmpty()) {
                 etHoraFin.setError(campoObligatorio);
                 focusView = etHoraFin;
@@ -351,7 +364,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         }
 
         //MAX PARTICIPANTES
-        EditText etMaxParticipantes = (EditText) findViewById(R.id.maxParticipantesCrearActividad);
+        EditText etMaxParticipantes = (EditText) rootView.findViewById(R.id.maxParticipantesCrearActividad);
         if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
             etMaxParticipantes.setError(campoObligatorio);
             focusView = etMaxParticipantes;
@@ -372,7 +385,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
         }
 
         if(!unlessOneInteres) {
-            Toast toast2 = Toast.makeText(getApplicationContext(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
+            Toast toast2 = Toast.makeText(getActivity(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
             toast2.setGravity(Gravity.CENTER, 0, 0);
             toast2.show();
         }
@@ -395,7 +408,7 @@ public class CrearActividadFragment extends FragmentActivity implements View.OnC
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(CrearActividadFragment.this);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle(R.string.intereses);
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override

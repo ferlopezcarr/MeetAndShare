@@ -21,7 +21,7 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, CrearActividadFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener {
     private  Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
