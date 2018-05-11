@@ -10,10 +10,4 @@
         android:textAppearance="@style/AppTheme"
         android:textSize="42sp"
         android:textStyle="bold|italic"
-        android:typeface="normal" >
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-</menu>
+        android:typeface="normal" ></menu>
