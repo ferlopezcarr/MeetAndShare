@@ -21,4 +21,14 @@
         <item name="android:typeface">monospace</item>
     </style>
 
+
+    <style name="interesStyle" parent="@android:style/TextAppearance.Medium">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorPrimaryLight</item>
+        <item name="android:padding"> 5sp</item>
+
+    </style>
+
 </resources>

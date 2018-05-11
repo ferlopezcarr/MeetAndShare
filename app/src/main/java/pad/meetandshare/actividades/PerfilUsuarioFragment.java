@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
@@ -79,6 +84,24 @@ public class PerfilUsuarioFragment extends Fragment {
         Usuario miUser = AutorizacionFirebase.getUser();
 
 
+      ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getNombre());
+      ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
+      ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
+
+      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+      for(Categoria interes: miUser.getCategorias()){
+
+          TextView interesVista = new TextView(getActivity());
+          interesVista.setText(interes.getDisplayName());
+          interesVista.setTextAppearance(getActivity(),R.style.interesStyle);
+          ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
+
+      }
+
+      ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(format.format(miUser.getFechaNacimiento()));
+
+
 
         return rootView;
     }
@@ -117,8 +140,12 @@ public class PerfilUsuarioFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

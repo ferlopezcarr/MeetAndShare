@@ -28,11 +28,14 @@
         android:background="@color/colorAccent">
 
         <LinearLayout
+
             android:id="@+id/registro_login_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="50px"
+            >
 
 
             <TextView
@@ -67,10 +70,9 @@
 
             <!-- FECHA NACIMIENTO-->
             <TextView
-                android:id="@+id/Nombre"
+                android:id="@+id/nombrePerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fernando López Carrión"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
@@ -86,10 +88,9 @@
 
 
             <TextView
-                android:id="@+id/FechaNacimiento"
+                android:id="@+id/fechaNacimientoPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="06/09/1996"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
@@ -107,10 +108,9 @@
             <!-- PASSWORD-->
 
             <TextView
-                android:id="@+id/Email"
+                android:id="@+id/emailPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ferlopezcarr@gmail.com"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
@@ -128,7 +128,7 @@
 
 
             <LinearLayout
-                android:id="@+id/containerIntereses"
+                android:id="@+id/containerInteresesPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -138,7 +138,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2sp"
-                    android:layout_weight="1"
                     android:background="@color/colorPrimaryLight"
                     android:padding="5sp"
                     android:text="Aventura"
@@ -173,14 +172,13 @@
                 android:text="@string/descripcion" />
 
             <TextView
-                android:id="@+id/Descripcion"
+                android:id="@+id/descripcionPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/background_light"
                 android:maxLines="35"
                 android:minLines="3"
                 android:padding="5sp"
-                android:text="Hola esto es una descripción muuuuy muy muy larga ..."
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="14sp" />
