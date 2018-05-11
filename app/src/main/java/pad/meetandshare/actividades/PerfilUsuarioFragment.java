@@ -90,11 +90,16 @@ public class PerfilUsuarioFragment extends Fragment {
 
       SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
+
       for(Categoria interes: miUser.getCategorias()){
 
-          TextView interesVista = new TextView(getActivity());
+
+          TextView interesVista =  (TextView) inflater.inflate(R.layout.layout_interes, null);
           interesVista.setText(interes.getDisplayName());
-          interesVista.setTextAppearance(getActivity(),R.style.interesStyle);
+          LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+          llp.setMargins(0, 20, 0, 0); // llp.setMargins(left, top, right, bottom);
+          interesVista.setLayoutParams(llp);
           ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
 
       }
