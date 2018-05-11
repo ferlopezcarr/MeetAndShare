@@ -30,6 +30,8 @@ import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
+import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
+import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
 import static java.lang.Double.parseDouble;
@@ -66,7 +68,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private String[] listItems;
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
-
+    private Place place;
 
     private View rootView;
 
@@ -92,7 +94,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_crear_actividad,
+         rootView = inflater.inflate(R.layout.fragment_crear_actividad,
                 container, false);
 
         FirebaseUser currentUser = AutorizacionFirebase.getFirebaseAuth().getCurrentUser();
@@ -144,6 +146,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             //INTERESES
             interesesBoton = (Button) rootView.findViewById(R.id.botonInteresRegistro);
             listenerButtonIntereses(interesesBoton);
+
+            crearActividadBoton = (Button) rootView.findViewById(R.id.crearActividadPost);
+            crearActividadBoton.setOnClickListener(this);
 
             //APIS
             /*
@@ -227,10 +232,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             //conseguir la ubicacion
 
             //crear la actividad
-            //Actividad actividad = new Actividad(nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador);
+            Actividad actividad = new Actividad(nombre, fechaIni,fechaFin,  maxParticipantes,  descripcion, place, AutorizacionFirebase.getUser());
 
             //mirar que la actividad no existe en la bd
+            SAActividad saActividad = new SAActividadImp();
 
+            saActividad.save(actividad, AutorizacionFirebase.getCurrentUser().getUid());
             //guardar la actividad
         }
     }
@@ -254,7 +261,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(getActivity(),data);
+                 place = PlacePicker.getPlace(getActivity(),data);
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
             }
