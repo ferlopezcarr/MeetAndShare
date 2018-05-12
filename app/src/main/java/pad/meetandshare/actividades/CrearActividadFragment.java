@@ -1,28 +1,39 @@
 package pad.meetandshare.actividades;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import pad.meetandshare.R;
@@ -31,7 +42,6 @@ import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
-import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
 import static java.lang.Double.parseDouble;
@@ -40,6 +50,8 @@ import static java.lang.Double.parseDouble;
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
 
     //Widgets
+    //NOMBRE
+    private EditText etNombre;
     //FECHA INI
     private EditText etFechaIni;
     private ImageButton ibObtenerFechaIni;
@@ -50,15 +62,20 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private ImageButton ibObtenerFechaFin;
     private EditText etHoraFin;
     private ImageButton ibObtenerHoraFin;
+    //MAX PARTICIPANTES
+    private EditText etMaxParticipantes;
     //INTERESES BUTTON
     private Button interesesBoton;
     //UBICACION BOTON
     private Button ubicacionBoton;
+    //DESCRIPCION
+    private EditText etDescripcion;
     //CREAR ACTIVIDAD
     private Button crearActividadBoton;
 
     private GoogleApiClient mGoogleApiClient;
-    private static final int PLACE_PICKER_REQUEST = 1;
+    private int PLACE_PICKER_REQUEST = 1;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION= 1 ;
 
     private Date fechaIni;
     private long horaIni;
@@ -68,7 +85,10 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private String[] listItems;
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
-    private Place place;
+
+    private Place ubicacionSeleccionada;
+
+    private Actividad actividad;
 
     private View rootView;
 
@@ -94,7 +114,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-         rootView = inflater.inflate(R.layout.fragment_crear_actividad,
+        rootView = inflater.inflate(R.layout.fragment_crear_actividad,
                 container, false);
 
         FirebaseUser currentUser = AutorizacionFirebase.getFirebaseAuth().getCurrentUser();
@@ -104,6 +124,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if(currentUser != null) {//Si el usuario esta logeado
 
             //VISTAS----------------------
+            //NOMBRE
+            etNombre = ((EditText) rootView.findViewById(R.id.nombreCrearActividad));
+
             //FECHA INI
             //Widget EditText donde se mostrara la fecha obtenida
             etFechaIni = (EditText) rootView.findViewById(R.id.fechaIniCrearActividad);
@@ -134,34 +157,48 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             //Evento setOnClickListener - clic
             ibObtenerHoraFin.setOnClickListener(this);
 
-            //UBICACION
-            ubicacionBoton = (Button) rootView.findViewById(R.id.botonSeleccionarUbicacion);
-            ubicacionBoton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    place();
-                }
-            });
+            //MAX PARTICIPANTES
+            etMaxParticipantes = rootView.findViewById(R.id.maxParticipantesCrearActividad);
 
             //INTERESES
             interesesBoton = (Button) rootView.findViewById(R.id.botonInteresRegistro);
             listenerButtonIntereses(interesesBoton);
 
+            //UBICACION
+            ubicacionBoton = (Button) rootView.findViewById(R.id.botonSeleccionarUbicacion);
+            ubicacionBoton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (ContextCompat.checkSelfPermission(
+                            getActivity(),
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        //si no tiene permisos
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                                Manifest.permission.ACCESS_FINE_LOCATION)) {//si debe pedirlos
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                        } else {//si no debe pedirlos
+                            renderPlacePicker(getActivity());
+                        }
+                    }
+                    else {//si tiene permisos
+                        renderPlacePicker(getActivity());
+                    }
+                }
+            });
+
+            //DESCRIPCION
+            etDescripcion = rootView.findViewById(R.id.descripcionCrearActividad);
+
+            //CREAR ACTIVIDAD
             crearActividadBoton = (Button) rootView.findViewById(R.id.crearActividadPost);
             crearActividadBoton.setOnClickListener(this);
 
-            //APIS
-            /*
-            mGoogleApiClient = new GoogleApiClient
-                    .Builder(this)
-                    .addApi(Places.GEO_DATA_API)
-                    .addApi(Places.PLACE_DETECTION_API)
-                    .enableAutoManage(this, this)
-                    .build();
-            */
         }
         return rootView;
-
     }
 
 
@@ -170,7 +207,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         listItems = Categoria.getArray();
         checkedItems = new boolean[listItems.length];
-
     }
 
     /**
@@ -197,7 +233,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             case R.id.ib_obtener_horaFin:
                 fechaUtil.obtenerHora(getActivity(), R.id.horaFinCrearActividad);
                 break;
-
             case R.id.crearActividadPost:
                 crearActividad();
                 break;
@@ -209,13 +244,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private void crearActividad() {
         //OBTENER ELEMENTOS DE LA VISTA
-        String nombre = ((EditText) rootView.findViewById(R.id.nombreCrearActividad)).getText().toString();
-        String fechaIniString =((EditText) rootView.findViewById(R.id.fechaIniCrearActividad)).getText().toString();
-        String horaIniString =((EditText) rootView.findViewById(R.id.horaIniCrearActividad)).getText().toString();
-        String fechaFinString =((EditText) rootView.findViewById(R.id.fechaFinCrearActividad)).getText().toString();
-        String horaFinString =((EditText) rootView.findViewById(R.id.horaFinCrearActividad)).getText().toString();
-        String maxPuntuacionesString = ((EditText) rootView.findViewById(R.id.maxParticipantesCrearActividad)).getText().toString();
-        String descripcion = ((EditText) rootView.findViewById(R.id.descripcionCrearActividad)).getText().toString();
+        String nombre = etNombre.getText().toString();
+        String fechaIniString = etFechaIni.getText().toString();
+        String horaIniString = etHoraIni.getText().toString();
+        String fechaFinString = etFechaFin.getText().toString();
+        String horaFinString = etHoraFin.getText().toString();
+        String maxParticipantesString = etMaxParticipantes.getText().toString();
+        String descripcion = etDescripcion.getText().toString();
 
         ArrayList<Categoria> intereses = new ArrayList<>();
 
@@ -226,50 +261,98 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             }
         }
 
-        if(checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxPuntuacionesString, descripcion)) {
+        if(checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxParticipantesString, descripcion)) {
             //buscar el usuario logeado
+            Usuario usuarioLogeado = AutorizacionFirebase.getUser();
 
-            //conseguir la ubicacion
+            if(usuarioLogeado != null) {
+                //crear la actividad
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado);
 
-            //crear la actividad
-            Actividad actividad = new Actividad(nombre, fechaIni,fechaFin,  maxParticipantes,  descripcion, place, AutorizacionFirebase.getUser());
+                //Actividad actividad = new Actividad(nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador);
 
-            //mirar que la actividad no existe en la bd
-            SAActividad saActividad = new SAActividadImp();
+                //mirar que la actividad no existe en la bd
 
-            saActividad.save(actividad, AutorizacionFirebase.getCurrentUser().getUid());
-            //guardar la actividad
+                //guardar la actividad
+            }
+            else {
+                String toastMsg = String.format("Error usuario logeado no encontrado");
+                Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-    private void place() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //si se conceden los permisos
+                    renderPlacePicker(this.getActivity());
+                } else {
+                    String toastMsg = String.format("Para seleccionar la ubicación debes aceptar los permisos");
+                    Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
 
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
+    private void renderPlacePicker(Activity activity) {
+        /*
         try {
+            int PLACE_PICKER_REQUEST = 1;
 
-            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+            CrearActividadFragment.this.startActivity(builder.build(activity));
+
+            startActivityForResult(builder.build(activity), PLACE_PICKER_REQUEST);
+
+            CrearActividadFragment.this.onResume();
+
         } catch (GooglePlayServicesRepairableException e){
             e.printStackTrace();
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
+        */
+        try {
 
+            int PLACE_PICKER_REQUEST = 1;
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException e){
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(getActivity(), "Google Play Services no esta disponible en este momento",
+                    Toast.LENGTH_LONG)
+                    .show();e.printStackTrace();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                 place = PlacePicker.getPlace(getActivity(),data);
-                String toastMsg = String.format("Place: %s", place.getName());
+                ubicacionSeleccionada = PlacePicker.getPlace(data, this.getActivity());
+
+                String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
+                //String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+
+                /*
+                Intent myIntent = new Intent(CrearActividadFragment.this.getActivity(), CrearActividadFragment.class);
+
+                CrearActividadFragment.this.startActivity(myIntent);
+                CrearActividadFragment.this.onResume();
+                */
             }
         }
     }
-
-
-
 
     private boolean checkInputActividad(String nombre, String fechaIniString, String horaIniString, String fechaFinString, String horaFinString, String maxParticipantesString, String descripcion) {
 
@@ -292,7 +375,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         final String campoObligatorio = "Por favor, rellene todos los campos";
 
         //NOMBRE
-        EditText etNombre = (EditText) rootView.findViewById(R.id.nombreCrearActividad);
         if(nombre == null || nombre.isEmpty()){
             etNombre.setError(campoObligatorio);
             focusView = etNombre;
@@ -306,7 +388,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         }
 
         //FECHA INI
-        EditText etFechaIni = (EditText) rootView.findViewById(R.id.fechaIniCrearActividad);
         if (fechaIniString == null || fechaIniString.isEmpty()) {
             etFechaIni.setError(campoObligatorio);
             focusView = etFechaIni;
@@ -315,7 +396,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
 
                 if(!Actividad.isValidFechaIni(fechaIni)) {
-                    etFechaIni.setError("Debes ser mayor de edad");
+                    etFechaIni.setError("La fecha no puede ser anterior a hoy");
                     focusView = etFechaIni;
                 }
                 else{
@@ -328,40 +409,37 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         }
 
         //HORA INI
-        EditText etHoraIni = (EditText) rootView.findViewById(R.id.horaIniCrearActividad);
         if (horaIniString == null || horaIniString.isEmpty()) {
             etHoraIni.setError(campoObligatorio);
             focusView = etHoraIni;
         } else {
-            String hora[] = horaIniString.split(":");
-            horaIni = Long.parseLong(hora[0]);
-            horaIni += Long.parseLong(hora[1]);
+            horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
 
-            if (!Actividad.isValidHora(hora[0], hora[1])) {
+            if (!Actividad.isValidHora(horaIniString)) {
                 etHoraIni.setError("Formato de hora incorrecto");
                 focusView = etHoraIni;
-            } else {
-                fechaIni.setTime(horaIni);
-                horaIniOK = true;
+            }
+            else {
+                if(fechaIniOK) {
+                    fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
+                    horaIniOK = true;
+                }
+                else {
+                    etHoraIni.setError("Introduce una fecha de inicio correcta");
+                    focusView = etHoraIni;
+                }
             }
         }
 
-        if(fechaIniOK) {
+        if(fechaIniOK && horaIniOK) {
             //FECHA FIN
-            EditText etFechaFin = (EditText) rootView.findViewById(R.id.fechaFinCrearActividad);
             if (fechaFinString == null || fechaFinString.isEmpty()) {
                 etFechaFin.setError(campoObligatorio);
                 focusView = etFechaFin;
             } else {
                 try {
                     fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
-
-                    if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
-                        etFechaFin.setError("Debes ser mayor de edad");
-                        focusView = etFechaFin;
-                    } else {
-                        fechaFinOK = true;
-                    }
+                    fechaFinOK = true;
                 } catch (ParseException e) {
                     etFechaFin.setError("Formato de fecha incorrecto");
                     focusView = etFechaFin;
@@ -369,27 +447,41 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             }
 
             //HORA FIN
-            EditText etHoraFin = (EditText) rootView.findViewById(R.id.horaFinCrearActividad);
             if (horaFinString == null || horaFinString.isEmpty()) {
                 etHoraFin.setError(campoObligatorio);
                 focusView = etHoraFin;
             } else {
-                String hora[] = horaIniString.split(":");
-                horaFin = Long.parseLong(hora[0]);
-                horaFin += Long.parseLong(hora[1]);
+                horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
 
-                if (!Actividad.isValidHora(hora[0], hora[1])) {
+                if (!Actividad.isValidHora(horaFinString)) {
                     etHoraFin.setError("Formato de hora incorrecto");
                     focusView = etHoraFin;
-                } else {
-                    fechaFin.setTime(horaFin);
-                    horaFinOK = true;
+                }
+                else {
+                    if(fechaFinOK) {
+                        fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
+
+                        if(fechaIni.compareTo(fechaFin) < 0) {//inicio antes que fin
+                            horaFinOK = true;
+                        }
+                        else {
+                            etHoraFin.setError("La hora de fin debe ser posterior a la de inicio");
+                            focusView = etHoraFin;
+                        }
+                    }
+                    else {
+                        etHoraFin.setError("Introduce una fecha de fin correcta");
+                        focusView = etHoraFin;
+                    }
                 }
             }
         }
+        else {
+            etFechaFin.setError("Introduce una fecha y hora de inicio correctas");
+            focusView = etFechaFin;
+        }
 
         //MAX PARTICIPANTES
-        EditText etMaxParticipantes = (EditText) rootView.findViewById(R.id.maxParticipantesCrearActividad);
         if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
             etMaxParticipantes.setError(campoObligatorio);
             focusView = etMaxParticipantes;
@@ -413,6 +505,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             Toast toast2 = Toast.makeText(getActivity(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
             toast2.setGravity(Gravity.CENTER, 0, 0);
             toast2.show();
+        }
+
+        //UBICACION
+        if(ubicacionSeleccionada == null) {
+            Toast toast3 = Toast.makeText(getActivity(), "Selecciona una ubicación", Toast.LENGTH_SHORT);
+            toast3.setGravity(Gravity.CENTER, 0, 0);
+            toast3.show();
         }
 
         //DESCRIPCION
@@ -482,8 +581,5 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             }
         });
     }
-
-
-
 
 }

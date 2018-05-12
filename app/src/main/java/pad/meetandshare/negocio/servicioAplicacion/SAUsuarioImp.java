@@ -14,6 +14,7 @@ import static android.content.ContentValues.TAG;
 
 public class SAUsuarioImp implements SAUsuario {
 
+    private static final String UsersDataBaseName = "users";
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -21,7 +22,7 @@ public class SAUsuarioImp implements SAUsuario {
     public SAUsuarioImp(){
 
          database = FirebaseDatabase.getInstance();
-         myRef = database.getReference("users");
+         myRef = database.getReference(UsersDataBaseName);
     }
 
 
@@ -36,7 +37,7 @@ public class SAUsuarioImp implements SAUsuario {
     public Usuario save(Usuario usuario, String ui){
 
 
-         myRef = database.getReference("users");
+         myRef = database.getReference(UsersDataBaseName);
 
         myRef.child(ui).setValue(usuario);
         return null;
@@ -46,27 +47,26 @@ public class SAUsuarioImp implements SAUsuario {
     @Override
     public void get(String ui, final MyCallBack myCallBack) {
 
-        myRef = database.getReference("users");
-        myRef=myRef.child(ui);
+        myRef = database.getReference(UsersDataBaseName);
+        myRef = myRef.child(ui);
 
         ValueEventListener listener= new ValueEventListener(){
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            // This method is called once with the initial value and again
-            // whenever data at this location is updated.
-            Usuario user = dataSnapshot.getValue(Usuario.class);
-            Log.d(TAG, "Value is: " + user);
-            myCallBack.onCallbackUser(user);
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Usuario user = dataSnapshot.getValue(Usuario.class);
+                Log.d(TAG, "Value is: " + user);
+                myCallBack.onCallbackUser(user);
+            }
 
-        }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
 
-        @Override
-        public void onCancelled(DatabaseError error) {
-            // Failed to read value
-
-            Log.w(TAG, "Failed to read value.", error.toException());
-        }
-    };
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        };
 
         myRef.addListenerForSingleValueEvent(listener);
 

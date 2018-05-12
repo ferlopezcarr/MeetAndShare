@@ -89,14 +89,21 @@ public class Actividad {
      * @return
      */
     public static boolean isValidFechaIni(Date fechaIni) {
-        int resCompareDates = fechaIni.compareTo(new Date());
+        FechaUtil fechaUtil = new FechaUtil();
+        Date today = new Date();
+        today.setTime(0);
+        int resCompareDates = fechaIni.compareTo(today);
 
         return (resCompareDates >= 0); //hoy o despues
     }
 
-    public static boolean isValidHora(String horas, String minutos) {
-        return (Integer.getInteger(horas) < 24 && Integer.getInteger(horas) >= 0 ) &&
-                (Integer.getInteger(minutos) < 60 && Integer.getInteger(minutos) >= 0);
+    public static boolean isValidHora(String horaIniString) {
+        String hora[] = horaIniString.split(":");
+        String horas = hora[0];
+        String minutos = hora[1];
+
+        return (Integer.parseInt(horas) < 24 && Integer.parseInt(horas) >= 0 ) &&
+                (Integer.parseInt(minutos) < 60 && Integer.parseInt(minutos) >= 0);
     }
 
     /**

@@ -10,6 +10,7 @@ import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import pad.meetandshare.R;
 
@@ -94,6 +95,20 @@ public class FechaUtil {
 
     public static SimpleDateFormat getDateFormat() {
         return dateFormat;
+    }
+
+    public static String horaCorrectFormat(String horaIniString) {
+        horaIniString = horaIniString.substring(0,5);//eliminar am / pm
+        horaIniString += ":00";//añadir segs
+        return horaIniString;
+    }
+
+    public static Date dateCorrectFormat(String fechaIniString, String horaIniString) {
+        String days = fechaIniString.substring(0, 2);
+        String months = fechaIniString.substring(3, 5);
+        String years = fechaIniString.substring(6, 10);
+
+        return new Date(years + "/" + months + "/" + days + " " + horaIniString);
     }
 
 }

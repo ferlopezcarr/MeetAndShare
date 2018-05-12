@@ -78,35 +78,25 @@ public class PerfilUsuarioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         rootView = inflater.inflate(R.layout.fragment_perfil_usuario,
-                container, false);
+        rootView = inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
 
         Usuario miUser = AutorizacionFirebase.getUser();
 
+        ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getNombre());
+        ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
+        ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
 
-      ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getNombre());
-      ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
-      ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
+        for(Categoria interes: miUser.getCategorias()){
+            TextView interesVista =  (TextView) inflater.inflate(R.layout.layout_interes, null);
+            interesVista.setText(interes.getDisplayName());
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            llp.setMargins(0, 20, 0, 0); // llp.setMargins(left, top, right, bottom);
+            interesVista.setLayoutParams(llp);
+            ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
+        }
 
-
-      for(Categoria interes: miUser.getCategorias()){
-
-
-          TextView interesVista =  (TextView) inflater.inflate(R.layout.layout_interes, null);
-          interesVista.setText(interes.getDisplayName());
-          LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-          llp.setMargins(0, 20, 0, 0); // llp.setMargins(left, top, right, bottom);
-          interesVista.setLayoutParams(llp);
-          ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
-
-      }
-
-      ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(format.format(miUser.getFechaNacimiento()));
-
-
+        ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(FechaUtil.getDateFormat().format(miUser.getFechaNacimiento()));
 
         return rootView;
     }
