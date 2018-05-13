@@ -44,6 +44,7 @@ import java.util.Date;
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
@@ -95,7 +96,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
-    private Place ubicacionSeleccionada;
+    private Ubicacion ubicacionSeleccionada;
 
     private Actividad actividad;
 
@@ -225,43 +226,48 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         saActividad = new SAActividadImp();
 
-        eventeListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Actividad actividadCreada = dataSnapshot.getValue(Actividad.class);
+        if (eventeListener == null) {
+            eventeListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                    Actividad actividadCreada = dataSnapshot.getValue(Actividad.class);
 
-                //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
-                if (actividad != null && actividadCreada != null &&
-                        !actividadCreada.getUid().equalsIgnoreCase(actividad.getUid())) {
-                    boolean sameName = actividadCreada.getNombre().equalsIgnoreCase(actividad.getNombre());
-                    boolean sameAdmin = actividadCreada.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
+                    //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
+                    if (actividad != null && actividadCreada != null &&
+                            !actividadCreada.getUid().equalsIgnoreCase(actividad.getUid())) {
+                        boolean sameName = actividadCreada.getNombre().equalsIgnoreCase(actividad.getNombre());
+                        boolean sameAdmin = actividadCreada.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
 
-                    if(sameName && sameAdmin) {
-                        actividad = null;
-                        databaseRef.setValue(actividad);
-                        String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
-                        Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                        if (sameName && sameAdmin) {
+                            actividad = null;
+                            databaseRef.setValue(actividad);
+                            String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
+                            Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                Actividad actvidadModificada = dataSnapshot.getValue(Actividad.class);
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                    Actividad actvidadModificada = dataSnapshot.getValue(Actividad.class);
 
-            }
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
 
-        databaseRef.addChildEventListener(eventeListener);
+            databaseRef.addChildEventListener(eventeListener);
+        }
     }
 
     @Override
@@ -335,34 +341,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 pushRef.setValue(actividad);
 
                 actividad.setUid(pushRef.getKey());
-
-                //ref.removeEventListener(listener);
-
-                /*
-                saActividad.get(actividad.getUid(), new MyCallBack() {
-                    @Override
-                    public void onCallbackUsuario(Usuario usuario) { }
-
-                    @Override
-                    public void onCallbackActividad(Actividad value) {
-
-                        boolean sameName = value.getNombre().equalsIgnoreCase(actividad.getNombre());
-                        boolean sameAdmin = value.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
-
-                        //si se encuentra la actividad
-                        if(value != null && sameName && sameAdmin) {
-                            //es igual si la actividad de la base de datos tiene el mismo administrador
-                            String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
-                            Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
-                        }
-                        else {//si no se encuentra la actividad se guarda
-                            String key = .child("posts").push().getKey();
-                            saActividad.save(actividad, actividad.getUid());
-                        }
-                    }
-                });
-                */
-
             }
             else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
@@ -427,7 +405,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ubicacionSeleccionada = PlacePicker.getPlace(data, this.getActivity());
+                ubicacionSeleccionada = new Ubicacion(PlacePicker.getPlace(data, this.getActivity()));
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
                 //String toastMsg = String.format("Place: %s", place.getName());

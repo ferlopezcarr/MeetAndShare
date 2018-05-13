@@ -56,13 +56,13 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, String idAdministrador) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, String idAdministrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
-        this.ubicacion = new Ubicacion(ubicacion);
+        this.ubicacion = ubicacion;
         this.idAdministrador = idAdministrador;
         this.activa = true;
         this.finalizada = false;
