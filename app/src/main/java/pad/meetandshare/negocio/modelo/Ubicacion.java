@@ -1,16 +1,17 @@
 package pad.meetandshare.negocio.modelo;
 
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.internal.PlaceEntity;
 
-public class Ubicacion {
+public class  Ubicacion {
 
-    private Place place;
+    private PlaceEntity place;
 
     public Ubicacion() {
         place = null;
     }
 
-    public Ubicacion(Place place) {
+    public Ubicacion(PlaceEntity place) {
         this.place = place;
     }
 
@@ -18,8 +19,10 @@ public class Ubicacion {
         return this.place;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(PlaceEntity place) {
         this.place = place;
     }
+
+
 
 }

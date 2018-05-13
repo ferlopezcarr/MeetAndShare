@@ -10,25 +10,21 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import pad.meetandshare.R;
@@ -226,6 +221,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         saActividad = new SAActividadImp();
 
+
         if (eventeListener == null) {
             eventeListener = new ChildEventListener() {
                 @Override
@@ -268,6 +264,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             databaseRef.addChildEventListener(eventeListener);
         }
+
     }
 
     @Override
@@ -405,7 +402,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ubicacionSeleccionada = new Ubicacion(PlacePicker.getPlace(data, this.getActivity()));
+
+                PlaceEntity place = (PlaceEntity) PlacePicker.getPlace(data, this.getActivity());
+                ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
                 //String toastMsg = String.format("Place: %s", place.getName());
