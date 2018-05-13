@@ -14,15 +14,12 @@ import static android.content.ContentValues.TAG;
 
 public class SAUsuarioImp implements SAUsuario {
 
-    private static final String UsersDataBaseName = "users";
-
     FirebaseDatabase database;
     DatabaseReference myRef;
 
     public SAUsuarioImp(){
-
          database = FirebaseDatabase.getInstance();
-         myRef = database.getReference(UsersDataBaseName);
+         myRef = database.getReference(Usuario.UsersDataBaseName);
     }
 
 
@@ -34,20 +31,17 @@ public class SAUsuarioImp implements SAUsuario {
     }
 
 
-    public Usuario save(Usuario usuario, String ui){
+    public void save(Usuario usuario, String ui){
 
-
-         myRef = database.getReference(UsersDataBaseName);
-
+        myRef = database.getReference(Usuario.UsersDataBaseName);
         myRef.child(ui).setValue(usuario);
-        return null;
     }
 
 
     @Override
     public void get(String ui, final MyCallBack myCallBack) {
 
-        myRef = database.getReference(UsersDataBaseName);
+        myRef = database.getReference(Usuario.UsersDataBaseName);
         myRef = myRef.child(ui);
 
         ValueEventListener listener= new ValueEventListener(){
@@ -57,7 +51,7 @@ public class SAUsuarioImp implements SAUsuario {
                 // whenever data at this location is updated.
                 Usuario user = dataSnapshot.getValue(Usuario.class);
                 Log.d(TAG, "Value is: " + user);
-                myCallBack.onCallbackUser(user);
+                myCallBack.onCallbackUsuario(user);
             }
 
             @Override
@@ -69,7 +63,6 @@ public class SAUsuarioImp implements SAUsuario {
         };
 
         myRef.addListenerForSingleValueEvent(listener);
-
     }
 
 }

@@ -30,6 +30,11 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -41,7 +46,11 @@ import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
+import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 import static android.app.Activity.RESULT_OK;
 import static java.lang.Double.parseDouble;
@@ -89,6 +98,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private Place ubicacionSeleccionada;
 
     private Actividad actividad;
+
+    private SAActividad saActividad;
+
+    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(Actividad.ActivitiesDatabaseName);
+
+    private ChildEventListener eventeListener;
 
     private View rootView;
 
@@ -207,6 +222,52 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         listItems = Categoria.getArray();
         checkedItems = new boolean[listItems.length];
+
+        saActividad = new SAActividadImp();
+
+        eventeListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Actividad actividadCreada = dataSnapshot.getValue(Actividad.class);
+
+                //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
+                if (actividad != null && actividadCreada != null &&
+                        !actividadCreada.getUid().equalsIgnoreCase(actividad.getUid())) {
+                    boolean sameName = actividadCreada.getNombre().equalsIgnoreCase(actividad.getNombre());
+                    boolean sameAdmin = actividadCreada.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
+
+                    if(sameName && sameAdmin) {
+                        actividad = null;
+                        databaseRef.setValue(actividad);
+                        String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
+                        Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                Actividad actvidadModificada = dataSnapshot.getValue(Actividad.class);
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+        databaseRef.addChildEventListener(eventeListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        databaseRef.removeEventListener(this.eventeListener);
     }
 
     /**
@@ -267,13 +328,41 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             if(usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado);
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado.getUid());
 
-                //Actividad actividad = new Actividad(nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador);
+                DatabaseReference pushRef = databaseRef.push();
 
-                //mirar que la actividad no existe en la bd
+                pushRef.setValue(actividad);
 
-                //guardar la actividad
+                actividad.setUid(pushRef.getKey());
+
+                //ref.removeEventListener(listener);
+
+                /*
+                saActividad.get(actividad.getUid(), new MyCallBack() {
+                    @Override
+                    public void onCallbackUsuario(Usuario usuario) { }
+
+                    @Override
+                    public void onCallbackActividad(Actividad value) {
+
+                        boolean sameName = value.getNombre().equalsIgnoreCase(actividad.getNombre());
+                        boolean sameAdmin = value.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
+
+                        //si se encuentra la actividad
+                        if(value != null && sameName && sameAdmin) {
+                            //es igual si la actividad de la base de datos tiene el mismo administrador
+                            String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
+                            Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                        }
+                        else {//si no se encuentra la actividad se guarda
+                            String key = .child("posts").push().getKey();
+                            saActividad.save(actividad, actividad.getUid());
+                        }
+                    }
+                });
+                */
+
             }
             else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");

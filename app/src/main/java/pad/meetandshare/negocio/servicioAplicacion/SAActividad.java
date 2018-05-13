@@ -10,7 +10,7 @@ public interface SAActividad {
      * @param ui
      * @return si ha sido borrada o no
      */
-    public boolean delete(Actividad actividad, String ui);
+    boolean delete(Actividad actividad, String ui);
 
     /**
      * Método que recibe una Actividad y la persiste en la base de datos,
@@ -20,7 +20,7 @@ public interface SAActividad {
      * @param ui
      * @return actividad guardada
      */
-    public Actividad save(Actividad actividad, String ui);
+    void save(Actividad actividad, String ui);
 
     /**
      * Método para obtener una actividad de las base de datos,
@@ -28,5 +28,5 @@ public interface SAActividad {
      * @param ui
      * @return actividad de la base de datos
      */
-    public Actividad get(String ui);
+    void get(String ui, final MyCallBack myCallBack);
 }

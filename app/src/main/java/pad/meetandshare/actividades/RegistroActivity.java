@@ -27,6 +27,7 @@ import java.util.Date;
 
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
@@ -117,16 +118,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         SAUsuario saUsuario = new SAUsuarioImp();
         saUsuario.get(user.getUid(), new MyCallBack() {
             @Override
-            public void onCallbackUser(Usuario value) {
+            public void onCallbackUsuario(Usuario value) {
                 AutorizacionFirebase.setUsuario(value);
                 Intent myIntent = new Intent(RegistroActivity.this, MenuLateralActivity.class);
                 RegistroActivity.this.startActivity(myIntent);
                 RegistroActivity.this.onResume();
-
             }
+
+            @Override
+            public void onCallbackActividad(Actividad actividad) {}
         });
-
-
     }
 
 
@@ -173,7 +174,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         DatabaseReference ref = database.getReference("server/saving-data/fireblog");
                         SAUsuario miSaUsuario = new SAUsuarioImp();
 
-                        miSaUsuario.save(miUsuario, user.getUid());
+                        String uid = user.getUid();
+
+                        miUsuario.setUid(uid);
+
+                        miSaUsuario.save(miUsuario, uid);
                         updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.

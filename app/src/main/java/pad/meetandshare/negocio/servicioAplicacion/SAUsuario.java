@@ -18,7 +18,7 @@ public interface SAUsuario {
      * @param usuario
      * @return usuario guardado
      */
-     Usuario save(Usuario usuario, String ui);
+     void save(Usuario usuario, String ui);
 
 
 

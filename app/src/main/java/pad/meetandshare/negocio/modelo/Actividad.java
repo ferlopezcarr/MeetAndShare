@@ -13,7 +13,9 @@ import pad.meetandshare.actividades.FechaUtil;
 
 public class Actividad {
 
-    private Integer id;
+    public final static String ActivitiesDatabaseName = "activities";
+
+    private String uid;
 
     private String nombre;
     private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
@@ -29,11 +31,11 @@ public class Actividad {
 
     private Place ubicacion;
 
-    private Usuario administrador;
+    private String idAdministrador;
 
     private List<Categoria> categorias;
 
-    private List<Usuario> usuariosInscritos;
+    private List<String> idUsuariosInscritos;
 
     private boolean activa;
 
@@ -54,19 +56,22 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, Usuario administrador) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Place ubicacion, String idAdministrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
-        this.ubicacion = ubicacion; // ubicacion por defecto
-        this.administrador = null;
+        this.ubicacion = ubicacion;
+        this.idAdministrador = idAdministrador;
         this.activa = true;
         this.finalizada = false;
 
         this.categorias = new ArrayList<Categoria>();
-        this.usuariosInscritos = new ArrayList<Usuario>();
+        this.idUsuariosInscritos = new ArrayList<String>();
+        if(!this.idUsuariosInscritos.contains(idAdministrador)) {
+            this.idUsuariosInscritos.add(idAdministrador);
+        }
     }
 
 
@@ -131,12 +136,12 @@ public class Actividad {
 
     /* GETTERS Y SETTERS */
 
-    public Integer getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getNombre() {
@@ -187,12 +192,12 @@ public class Actividad {
         this.ubicacion = ubicacion;
     }
 
-    public Usuario getAdministrador() {
-        return this.administrador;
+    public String getIdAdministrador() {
+        return this.idAdministrador;
     }
 
-    public void setAdministrador(Usuario administrador) {
-        this.administrador = administrador;
+    public void setIdAdministrador(String idAdministrador) {
+        this.idAdministrador = idAdministrador;
     }
 
     public boolean getActiva() {
@@ -256,35 +261,35 @@ public class Actividad {
 
     /* --- Usuarios inscritos --- */
 
-    public List<Usuario> getUsuariosInscritos() {
-        return this.usuariosInscritos;
+    public List<String> getIdUsuariosInscritos() {
+        return this.idUsuariosInscritos;
     }
 
-    public void setUsuariosInscritos(List<Usuario> usuariosInscritos) {
-        this.usuariosInscritos = usuariosInscritos;
+    public void setUsuariosInscritos(List<String> idUsuariosInscritos) {
+        this.idUsuariosInscritos = idUsuariosInscritos;
     }
 
-    public boolean addUsuario(Usuario usuario) {
-        if (usuariosInscritos == null) {
-            usuariosInscritos = new ArrayList<Usuario>();
+    public boolean addUsuario(String idUsuario) {
+        if (idUsuariosInscritos == null) {
+            idUsuariosInscritos = new ArrayList<String>();
         }
 
-        if (usuariosInscritos.contains(usuario)) {
+        if (idUsuariosInscritos.contains(idUsuario)) {
             return false;
         }
         else {
-            usuariosInscritos.add(usuario);
+            idUsuariosInscritos.add(idUsuario);
             return true;
         }
     }
 
-    public boolean deleteCategoria(Usuario usuario) {
-        if (usuariosInscritos == null || usuariosInscritos.isEmpty()) {
+    public boolean deleteUsuario(String idUsuario) {
+        if (idUsuariosInscritos == null || idUsuariosInscritos.isEmpty()) {
             return false;
         }
 
-        if (usuariosInscritos.contains(usuario)) {
-            usuariosInscritos.remove(usuario);
+        if (idUsuariosInscritos.contains(idUsuario)) {
+            idUsuariosInscritos.remove(idUsuario);
             return true;
         }
         else {

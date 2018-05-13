@@ -6,10 +6,22 @@ public enum Categoria {
 
     //Mantenerlo ordenado para facilitar la busqueda
     Aventura("Aventura"),
+    Baile("Baile"),
+    Belleza("Belleza"),
     CienciaFiccion("Ciencia Ficción"),
     Cine("Cine"),
+    Cocina("Cocina"),
     Deportes("Deportes"),
-    Mascotas("Mascotas");
+    Fotografia("Fotografía"),
+    Libros("Libros"),
+    Mascotas("Mascotas"),
+    Miedo("Miedo"),
+    Moda("Moda"),
+    Musica("Música"),
+    Naturaleza("Naturaleza"),
+    Series("Series"),
+    Television("Televisión"),
+    Viajes("Viajes");
     //hay que ir rellenando
 
     private final String displayName;

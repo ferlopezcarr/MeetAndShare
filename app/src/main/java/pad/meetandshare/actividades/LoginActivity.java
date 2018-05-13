@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
@@ -170,16 +171,16 @@ public class LoginActivity extends AppCompatActivity {
                                 SAUsuario saUsuario = new SAUsuarioImp();
                                 saUsuario.get(user.getUid(), new MyCallBack() {
                                     @Override
-                                    public void onCallbackUser(Usuario value) {
+                                    public void onCallbackUsuario(Usuario value) {
                                         AutorizacionFirebase.setUsuario(value);
                                         LoginActivity.this.startActivity(myIntent);
                                         LoginActivity.this.onResume();
                                         showProgress(false);
-
                                     }
+
+                                    @Override
+                                    public void onCallbackActividad(Actividad actividad) {}
                                 });
-
-
 
                             } else {
                                 // If sign in fails, display a message to the user.

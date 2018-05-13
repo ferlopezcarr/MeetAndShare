@@ -12,7 +12,9 @@ import pad.meetandshare.actividades.FechaUtil;
 
 public class Usuario {
 
-    private Integer id;
+    public static final String UsersDataBaseName = "users";
+
+    private String uid;
 
     private String email;
     private static final String EMAIL_PATTERN = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$";
@@ -134,12 +136,12 @@ public class Usuario {
 
     /* GETTERS Y SETTERS */
 
-    public Integer getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {

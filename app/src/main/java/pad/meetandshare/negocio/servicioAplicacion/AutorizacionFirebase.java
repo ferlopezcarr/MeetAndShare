@@ -11,8 +11,6 @@ public class AutorizacionFirebase {
 
     private static Usuario user;
 
-
-
     public static FirebaseAuth getFirebaseAuth() {
         if(mAuth == null) {
             mAuth = FirebaseAuth.getInstance();
@@ -25,13 +23,12 @@ public class AutorizacionFirebase {
     }
 
 
-
     public static Usuario getUser(){
         return user;
     }
 
-    public static void setUsuario(Usuario usuario){
-
-        user=usuario;
+    public static void setUsuario(Usuario usuario) {
+        user = usuario;
     }
+
 }
