@@ -30,7 +30,7 @@ public class Actividad {
 
     private String descripcion;
 
-    private PlaceEntity ubicacion;
+    private Ubicacion ubicacion;
 
     private String idAdministrador;
 
@@ -61,7 +61,7 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, PlaceEntity ubicacion, ArrayList<Categoria> lista, String idAdministrador) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, ArrayList<Categoria> lista, String idAdministrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -71,7 +71,6 @@ public class Actividad {
         this.idAdministrador = idAdministrador;
         this.activa = true;
         this.finalizada = false;
-
         this.categorias = lista;
         this.idUsuariosInscritos = new ArrayList<String>();
         if(!this.idUsuariosInscritos.contains(idAdministrador)) {
@@ -189,11 +188,11 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public PlaceEntity getUbicacion() {
+    public Ubicacion getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(PlaceEntity ubicacion) {
+    public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 

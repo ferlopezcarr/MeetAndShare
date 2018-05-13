@@ -327,8 +327,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             if(usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado.getUid());
-
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada,null, usuarioLogeado.getUid());
                 DatabaseReference pushRef = databaseRef.push();
 
                 pushRef.setValue(actividad);
