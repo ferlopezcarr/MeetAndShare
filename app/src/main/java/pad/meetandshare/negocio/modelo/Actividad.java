@@ -1,10 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.internal.PlaceEntity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
