@@ -23,7 +23,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,14 +41,11 @@ import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
-import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
+
 
 import static android.app.Activity.RESULT_OK;
-import static java.lang.Double.parseDouble;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
@@ -403,7 +399,8 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                PlaceEntity place = (PlaceEntity) PlacePicker.getPlace(data, this.getActivity());
+                Place place =  PlacePicker.getPlace(data, this.getActivity());
+
                 ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
