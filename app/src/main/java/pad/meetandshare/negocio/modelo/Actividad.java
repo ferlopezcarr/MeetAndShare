@@ -1,9 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
-import com.google.android.gms.location.places.Place;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -41,6 +39,10 @@ public class Actividad {
 
     private boolean finalizada;
 
+    public static String rootDataBase(String userUid) {
+        return Usuario.UsersDataBaseName + "/" + userUid + "/" + ActivitiesDatabaseName;
+    }
+
 
     /**
      * Constructoria por defecto de Actividad
@@ -56,7 +58,7 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, String idAdministrador) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, ArrayList<Categoria> lista, String idAdministrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -66,8 +68,7 @@ public class Actividad {
         this.idAdministrador = idAdministrador;
         this.activa = true;
         this.finalizada = false;
-
-        this.categorias = new ArrayList<Categoria>();
+        this.categorias = lista;
         this.idUsuariosInscritos = new ArrayList<String>();
         if(!this.idUsuariosInscritos.contains(idAdministrador)) {
             this.idUsuariosInscritos.add(idAdministrador);

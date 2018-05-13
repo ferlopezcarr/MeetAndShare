@@ -23,7 +23,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,14 +41,11 @@ import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
-import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
+
 
 import static android.app.Activity.RESULT_OK;
-import static java.lang.Double.parseDouble;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
@@ -222,55 +218,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         saActividad = new SAActividadImp();
 
 
-        if (eventeListener == null) {
-            eventeListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                    Actividad actividadCreada = dataSnapshot.getValue(Actividad.class);
-
-                    //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
-                    if (actividad != null && actividadCreada != null &&
-                            !actividadCreada.getUid().equalsIgnoreCase(actividad.getUid())) {
-                        boolean sameName = actividadCreada.getNombre().equalsIgnoreCase(actividad.getNombre());
-                        boolean sameAdmin = actividadCreada.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
-
-                        if (sameName && sameAdmin) {
-                            actividad = null;
-                            databaseRef.setValue(actividad);
-                            String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
-                            Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                    Actividad actvidadModificada = dataSnapshot.getValue(Actividad.class);
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
-
-            databaseRef.addChildEventListener(eventeListener);
-        }
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        databaseRef.removeEventListener(this.eventeListener);
     }
 
     /**
@@ -331,13 +283,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             if(usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado.getUid());
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada,null, usuarioLogeado.getUid());
 
-                DatabaseReference pushRef = databaseRef.push();
-
-                pushRef.setValue(actividad);
-
-                actividad.setUid(pushRef.getKey());
+                saActividad.save(actividad, AutorizacionFirebase.getCurrentUser().getUid());
             }
             else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
@@ -365,24 +313,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     }
 
     private void renderPlacePicker(Activity activity) {
-        /*
-        try {
-            int PLACE_PICKER_REQUEST = 1;
 
-            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-            CrearActividadFragment.this.startActivity(builder.build(activity));
-
-            startActivityForResult(builder.build(activity), PLACE_PICKER_REQUEST);
-
-            CrearActividadFragment.this.onResume();
-
-        } catch (GooglePlayServicesRepairableException e){
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        }
-        */
         try {
 
             int PLACE_PICKER_REQUEST = 1;
@@ -403,19 +334,15 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                PlaceEntity place = (PlaceEntity) PlacePicker.getPlace(data, this.getActivity());
+                Place place =  PlacePicker.getPlace(data, this.getActivity());
+
                 ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
-                //String toastMsg = String.format("Place: %s", place.getName());
+
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
 
-                /*
-                Intent myIntent = new Intent(CrearActividadFragment.this.getActivity(), CrearActividadFragment.class);
 
-                CrearActividadFragment.this.startActivity(myIntent);
-                CrearActividadFragment.this.onResume();
-                */
             }
         }
     }
