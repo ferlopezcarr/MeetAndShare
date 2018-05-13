@@ -1,6 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.internal.PlaceEntity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,7 +30,7 @@ public class Actividad {
 
     private String descripcion;
 
-    private Ubicacion ubicacion;
+    private PlaceEntity ubicacion;
 
     private String idAdministrador;
 
@@ -40,6 +41,10 @@ public class Actividad {
     private boolean activa;
 
     private boolean finalizada;
+
+    public static String rootDataBase(String userUid) {
+        return Usuario.UsersDataBaseName + "/" + userUid + "/" + ActivitiesDatabaseName;
+    }
 
 
     /**
@@ -56,7 +61,7 @@ public class Actividad {
      * @param descripcion
      * @param ubicacion
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, String idAdministrador) {
+    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, PlaceEntity ubicacion, ArrayList<Categoria> lista, String idAdministrador) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -67,7 +72,7 @@ public class Actividad {
         this.activa = true;
         this.finalizada = false;
 
-        this.categorias = new ArrayList<Categoria>();
+        this.categorias = lista;
         this.idUsuariosInscritos = new ArrayList<String>();
         if(!this.idUsuariosInscritos.contains(idAdministrador)) {
             this.idUsuariosInscritos.add(idAdministrador);
@@ -184,11 +189,11 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public Ubicacion getUbicacion() {
+    public PlaceEntity getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(Ubicacion ubicacion) {
+    public void setUbicacion(PlaceEntity ubicacion) {
         this.ubicacion = ubicacion;
     }
 
