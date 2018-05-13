@@ -35,8 +35,8 @@ public class FechaUtil {
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
 
+
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private final static SimpleDateFormat dateWithHourFormat = new SimpleDateFormat("dd/MM/yyyy  hh:mm");
 
     public FechaUtil () {}
 
@@ -96,8 +96,6 @@ public class FechaUtil {
     public static SimpleDateFormat getDateFormat() {
         return dateFormat;
     }
-
-    public static SimpleDateFormat getDateWithHourFormat() { return dateWithHourFormat; }
 
     public static String horaCorrectFormat(String horaIniString) {
         horaIniString = horaIniString.substring(0,5);//eliminar am / pm

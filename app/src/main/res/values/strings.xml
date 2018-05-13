@@ -65,15 +65,10 @@
     <string name="horaFin">Hora de Fin</string>
     <string name="ubicacion">Ubicación</string>
     <string name="num_participantes">Número de Participantes</string>
-    <string name="administrador">Administrador</string>
-    <string name="estado">Estado</string>
-    <string name="usuarios_inscritos">Usuarios Inscritos</string>
 
     <!-- Botones -->
     <string name="crear_actividad">Crear Actividad</string>
     <string name="seleccionar_ubicacion">Seleccionar Ubicacion</string>
-    <string name="ver_ubicacion">Ver Ubicacion</string>
-    <string name="ver_usuarios_inscritos">Ver Usuarios Inscritos</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>

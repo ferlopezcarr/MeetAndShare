@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,12 +39,17 @@ import java.util.Date;
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 import static android.app.Activity.RESULT_OK;
+import static java.lang.Double.parseDouble;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
@@ -85,13 +91,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
-    private PlaceEntity ubicacionSeleccionada;
+    private Ubicacion ubicacionSeleccionada;
 
     private Actividad actividad;
 
     private SAActividad saActividad;
 
-    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(Actividad.rootDataBase(AutorizacionFirebase.getCurrentUser().getUid()));
+    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(Actividad.ActivitiesDatabaseName);
 
     private ChildEventListener eventeListener;
 
@@ -325,7 +331,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             if(usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, usuarioLogeado.getUid());
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, usuarioLogeado.getUid());
 
                 DatabaseReference pushRef = databaseRef.push();
 
@@ -397,8 +403,8 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                PlaceEntity place = (PlaceEntity) PlacePicker.getPlace(this.getActivity(), data);
-                ubicacionSeleccionada = place;
+                PlaceEntity place = (PlaceEntity) PlacePicker.getPlace(data, this.getActivity());
+                ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
                 //String toastMsg = String.format("Place: %s", place.getName());
