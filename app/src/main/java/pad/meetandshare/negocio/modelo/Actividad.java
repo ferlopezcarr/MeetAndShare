@@ -29,7 +29,7 @@ public class Actividad {
 
     private String descripcion;
 
-    private Place ubicacion;
+    private Ubicacion ubicacion;
 
     private String idAdministrador;
 
@@ -62,7 +62,7 @@ public class Actividad {
         this.fechaFin = fechaFin;
         this.maxParticipantes = maxParticipantes;
         this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
+        this.ubicacion = new Ubicacion(ubicacion);
         this.idAdministrador = idAdministrador;
         this.activa = true;
         this.finalizada = false;
@@ -184,11 +184,11 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public Place getUbicacion() {
+    public Ubicacion getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(Place ubicacion) {
+    public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 

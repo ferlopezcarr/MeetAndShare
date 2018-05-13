@@ -176,8 +176,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                         String uid = user.getUid();
 
-                        miUsuario.setUid(uid);
-
                         miSaUsuario.save(miUsuario, uid);
                         updateUI(user);
                     } else {
