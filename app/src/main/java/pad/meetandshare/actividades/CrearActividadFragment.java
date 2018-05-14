@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,6 +99,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private ValueEventListener eventListener;
 
     private View rootView;
+
+    private boolean btnCrearActividadPressed = false;
+    private boolean actividadCreada = false;
 
     public CrearActividadFragment() {
         // Required empty public constructor
@@ -244,8 +249,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                             }
                         }
                     }
+                }//for
+
+                if(btnCrearActividadPressed && actividadCreada) {
+                    changeToVerActividad();
                 }
-            }
+
+            }//onDataChange
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -288,12 +298,38 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
             case R.id.crearActividadPost:
                 crearActividad();
+                this.btnCrearActividadPressed = true;
                 break;
         }
     }
 
 
     /* ------------ MÉTODOS PRIVADOS ------------ */
+
+    private void changeToVerActividad() {
+
+        Fragment fragmento = VerActividadFragment.newInstance(actividad.getUid());
+
+        /*
+        Bundle b = new Bundle();
+        b.putString("uidActividad", actividad.getUid()); //Your id
+        fragmento.setArguments(b);
+        */
+
+        FragmentManager fm = this.getChildFragmentManager();
+
+        fm.beginTransaction().hide(this).commit();
+
+        if(fm.findFragmentById(R.id.nav_VerActividad) != null) {
+            //if the fragment exists, show it.
+            fm.beginTransaction().show(fm.findFragmentById(R.id.nav_VerActividad)).commit();
+        } else {
+            //if the fragment does not exist, add it to fragment manager.
+            fragmento.getFragmentManager().beginTransaction().add(R.id.nav_VerActividad, fragmento).commit();
+        }
+
+        CrearActividadFragment.this.onResume();
+    }
 
     private void crearActividad() {
         //OBTENER ELEMENTOS DE LA VISTA
@@ -323,6 +359,8 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada,null, usuarioLogeado.getUid());
 
                 saActividad.create(actividad);
+
+                actividadCreada = true;
             }
             else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");

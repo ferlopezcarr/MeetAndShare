@@ -31,15 +31,15 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Modificar perfil</string>
     <string name="title_activity_menu_lateral">MenuLateralActivity</string>
-    <string name="descripcionMsg">Cuéntanos más sobre ti...</string>
-
-    Cuéntanos sobre ti...
+    <string name="descripcionUsuarioMsg">Cuéntanos más sobre ti...</string>
 
     <!-- Strings related to Crear Actividad -->
 
+    <!-- Strings related to Ver Actividad -->
+    <string name="VerActividadTitle">Ver Actividad</string>
+    <string name="descripcionActividadMsg">¿De qué va la actividad?</string>
 
-
-    !-- Strings related to Ver Perfil -->
+    <!-- Strings related to Ver Perfil -->
     <string name="PerfilTitle">Ver Perfil</string>
 
     <!-- Usuario -->
@@ -65,10 +65,15 @@
     <string name="horaFin">Hora de Fin</string>
     <string name="ubicacion">Ubicación</string>
     <string name="num_participantes">Número de Participantes</string>
+    <string name="administrador">Administrador</string>
+    <string name="estado">Estado</string>
+    <string name="usuarios_inscritos">Usuarios Inscritos</string>
 
     <!-- Botones -->
     <string name="crear_actividad">Crear Actividad</string>
     <string name="seleccionar_ubicacion">Seleccionar Ubicacion</string>
+    <string name="ver_ubicacion">Ver Ubicacion</string>
+    <string name="ver_usuarios_inscritos">Ver Usuarios Inscritos</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>

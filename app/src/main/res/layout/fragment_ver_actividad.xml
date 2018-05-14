@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_VerActividad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".actividades.VerActividadFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/colorAccent">
+
+        <LinearLayout
+
+            android:id="@+id/ver_actividad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50px"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/VerActividadTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/VerActividadTitle"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="1dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
+
+
+            <!-- NOMBRE-->
+
+            <TextView
+                android:id="@+id/NombreLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/nombre" />
+
+            <TextView
+                android:id="@+id/nombreVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- FECHA INI-->
+
+            <TextView
+                android:id="@+id/FechaIniLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/fechaInicio" />
+
+            <TextView
+                android:id="@+id/fechaIniVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+            <!-- HORA FIN-->
+
+            <TextView
+                android:id="@+id/HoraIniLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/horaInicio" />
+
+            <TextView
+                android:id="@+id/horaIniVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- FECHA FIN-->
+
+            <TextView
+                android:id="@+id/FechaFinLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/fechaFin" />
+
+            <TextView
+                android:id="@+id/fechaFinVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+            <!-- HORA FIN-->
+
+            <TextView
+                android:id="@+id/HoraFinLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/horaFin" />
+
+            <TextView
+                android:id="@+id/horaFinVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- MAX PARTICIPANTES -->
+
+            <TextView
+                android:id="@+id/MaxParticipantesLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/num_participantes" />
+
+            <TextView
+                android:id="@+id/maxParticipantesVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- ADMINISTRADOR -->
+
+            <TextView
+                android:id="@+id/administradorLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/administrador" />
+
+            <TextView
+                android:id="@+id/administradorVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- ESTADO -->
+
+            <TextView
+                android:id="@+id/EstadoLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/estado" />
+
+            <TextView
+                android:id="@+id/finalizadaVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
+
+
+            <!-- UBICACION -->
+
+            <TextView
+                android:id="@+id/UbicacionLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/ubicacion" />
+
+            <!-- BOTON UBICACION-->
+            <Button
+                android:id="@+id/ver_ubicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:ems="10"
+                android:text="@string/ver_ubicacion"
+
+                android:textStyle="bold" />
+
+
+            <!-- INTERESES-->
+            <TextView
+                android:id="@+id/labelIntereses"
+                style="@style/CodeFont"
+                android:layout_marginBottom="3sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/intereses" />
+
+
+            <LinearLayout
+                android:id="@+id/containerInteresesPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+
+            <!-- USUARIOS INSCRITOS -->
+
+            <TextView
+                android:id="@+id/UsuariosInscritosLabel"
+                style="@style/CodeFont"
+                android:layout_marginTop="10sp"
+                android:text="@string/usuarios_inscritos" />
+
+            <!-- BOTON USUARIOS INSCRITOS -->
+            <Button
+                android:id="@+id/ver_usuarios_inscritos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:ems="10"
+                android:text="@string/ver_usuarios_inscritos"
+
+                android:textStyle="bold" />
+
+
+            <!-- DESCRIPCION -->
+
+            <TextView
+                android:id="@+id/labelDescripcion"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/descripcion" />
+
+            <TextView
+                android:id="@+id/descripcionVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100px"
+                android:background="@android:color/background_light"
+                android:maxLines="35"
+                android:minLines="3"
+                android:padding="5sp"
+                android:textAlignment="textStart"
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -30,20 +30,17 @@ public class MenuLateralActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_menu_lateral);
-       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-      DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -74,9 +71,8 @@ public class MenuLateralActivity extends AppCompatActivity
         Fragment fragmento=null;
         boolean cambia =false;
         if (id == R.id.nav_Perfil) {
-            // Handle the camera action
             fragmento = new PerfilUsuarioFragment();
-            cambia=true;
+            cambia = true;
         } else if (id == R.id.nav_CrearActividad) {
             fragmento = new CrearActividadFragment();
             cambia = true;
