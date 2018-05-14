@@ -26,15 +26,13 @@ public class SAActividadImp implements SAActividad {
     public void create(Actividad actividad) {
 
         DatabaseReference pushRef = myRef.push();
-
-        pushRef.setValue(actividad);
-
+        //pushRef.setValue(actividad);
 
         String uid = pushRef.getKey();
 
         actividad.setUid(uid);
 
-        save(actividad, uid);
+        save(actividad, actividad.getIdAdministrador());
     }
 
     @Override
@@ -48,8 +46,7 @@ public class SAActividadImp implements SAActividad {
     @Override
     public void save(Actividad actividad, String ui){
 
-        myRef = database.getReference(Actividad.ActivitiesDatabaseName);
-        myRef.child(ui).setValue(actividad);
+        myRef.child(ui).child(actividad.getUid()).setValue(actividad);
 
     }
 

@@ -223,8 +223,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.getChildren();
-
+                Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
                 for(DataSnapshot ds : dataSnapshotChid) {
                     Actividad act = ds.getValue(Actividad.class);
 
@@ -234,8 +233,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                         if(act.getNombre() != null) {
                              if(!act.getUid().equalsIgnoreCase(actividad.getUid())) {
 
-                                boolean sameName = act.getNombre().equals
-                                 IgnoreCase(actividad.getNombre());
+                                boolean sameName = act.getNombre().equalsIgnoreCase(actividad.getNombre());
                                 boolean sameAdmin = act.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
 
                                 if (sameName && sameAdmin) {
