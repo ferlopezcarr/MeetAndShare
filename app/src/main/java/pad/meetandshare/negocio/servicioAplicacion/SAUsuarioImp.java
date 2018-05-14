@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Usuario;
 
 import static android.content.ContentValues.TAG;
@@ -22,6 +23,19 @@ public class SAUsuarioImp implements SAUsuario {
          myRef = database.getReference(Usuario.UsersDataBaseName);
     }
 
+    @Override
+    public void create(Usuario usuario) {
+
+        DatabaseReference pushRef = myRef.push();
+
+        pushRef.setValue(usuario);
+
+        String uid = pushRef.getKey();
+
+        usuario.setUid(uid);
+
+        save(usuario, uid);
+    }
 
     public boolean delete(Usuario usuario, String ui){
 

@@ -4,6 +4,8 @@ import pad.meetandshare.negocio.modelo.Usuario;
 
 public interface SAUsuario {
 
+    void create(Usuario usuario);
+
     /**
      * Método que recibe un Usuario y lo guarda en la base de datos desactivado
      * @param usuario

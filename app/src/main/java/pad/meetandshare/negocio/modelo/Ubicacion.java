@@ -10,23 +10,12 @@ import java.util.Locale;
 
 public class  Ubicacion  {
 
-
-    private String id;
-    private List<Integer> placeTypes;
-    private String address;
-    private String latLng;
-    private String name;
-    private String viewPort1;
-    private String viewPort2;
-    private Uri websiteUri;
-    private String phoneNumber;
-    private float rating;
-    private int priceLevel;
-    private String attributions;
-    private Locale locale;
+    private double latitude;
+    private double longitude;
 
     public Ubicacion(){}
 
+    /*
     public Ubicacion(String id, List<Integer> placeTypes, String address, String latLng, String  name, String viewPort, Uri websiteUri, String phoneNumber, float rating, int priceLevel, String attributions, Locale locale) {
         this.id = id;
         this.placeTypes = placeTypes;
@@ -42,21 +31,31 @@ public class  Ubicacion  {
         this.priceLevel = priceLevel;
         this.attributions = attributions;
     }
-
+    */
 
     public Ubicacion(Place place) {
+        this.latitude = place.getLatLng().latitude;
+        this.longitude = place.getLatLng().longitude;
+    }
 
+    public double getLatitude() {
+        return this.latitude;
+    }
 
-        this.address = place.getAddress().toString();
-        this.latLng = place.getLatLng().toString();
-        this.name = place.getName().toString();
-        this.viewPort1 = place.getViewport().northeast.toString();
-        this.viewPort2 = place.getViewport().southwest.toString();
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
+    public double getLongitude() {
+        return this.longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
 
-
+    /*
     public Ubicacion(String id) {
         this.id = id;
     }
@@ -118,5 +117,6 @@ public class  Ubicacion  {
     public Locale getLocale(){
        return locale;
     }
+    */
 
 }

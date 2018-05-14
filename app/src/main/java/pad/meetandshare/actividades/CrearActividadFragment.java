@@ -30,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -93,9 +94,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private SAActividad saActividad;
 
-    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(Actividad.ActivitiesDatabaseName);
-
-    private ChildEventListener eventeListener;
+    private ValueEventListener eventListener;
 
     private View rootView;
 
@@ -208,7 +207,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,13 +214,53 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         checkedItems = new boolean[listItems.length];
 
         saActividad = new SAActividadImp();
-
-
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStart() {
+        super.onStart();
+
+        eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.getChildren();
+
+                for(DataSnapshot ds : dataSnapshotChid) {
+                    Actividad act = ds.getValue(Actividad.class);
+
+                    //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
+                    if (actividad != null && act != null) {
+
+                        if(act.getNombre() != null) {
+                             if(!act.getUid().equalsIgnoreCase(actividad.getUid())) {
+
+                                boolean sameName = act.getNombre().equals
+                                 IgnoreCase(actividad.getNombre());
+                                boolean sameAdmin = act.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
+
+                                if (sameName && sameAdmin) {
+                                    ds.getRef().removeValue();
+                                    String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
+                                    Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        saActividad.getDatabaseReference().addValueEventListener(eventListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(eventListener != null)
+            saActividad.getDatabaseReference().removeEventListener(eventListener);
     }
 
     /**
@@ -249,6 +287,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             case R.id.ib_obtener_horaFin:
                 fechaUtil.obtenerHora(getActivity(), R.id.horaFinCrearActividad);
                 break;
+
             case R.id.crearActividadPost:
                 crearActividad();
                 break;
@@ -285,7 +324,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 //crear la actividad
                 actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada,null, usuarioLogeado.getUid());
 
-                saActividad.save(actividad, AutorizacionFirebase.getCurrentUser().getUid());
+                saActividad.create(actividad);
             }
             else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
@@ -500,11 +539,15 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             toast2.show();
         }
 
+        boolean ubicacionOk = false;
         //UBICACION
         if(ubicacionSeleccionada == null) {
             Toast toast3 = Toast.makeText(getActivity(), "Selecciona una ubicación", Toast.LENGTH_SHORT);
             toast3.setGravity(Gravity.CENTER, 0, 0);
             toast3.show();
+        }
+        else {
+            ubicacionOk = true;
         }
 
         //DESCRIPCION
@@ -512,7 +555,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             descripcion = "";
         }
 
-        return (nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && unlessOneInteres);
+        return (nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres);
     }
 
     /**

@@ -23,6 +23,21 @@ public class SAActividadImp implements SAActividad {
     }
 
     @Override
+    public void create(Actividad actividad) {
+
+        DatabaseReference pushRef = myRef.push();
+
+        pushRef.setValue(actividad);
+
+
+        String uid = pushRef.getKey();
+
+        actividad.setUid(uid);
+
+        save(actividad, uid);
+    }
+
+    @Override
     public boolean delete(Actividad actividad, String ui){
 
 
@@ -35,7 +50,6 @@ public class SAActividadImp implements SAActividad {
 
         myRef = database.getReference(Actividad.ActivitiesDatabaseName);
         myRef.child(ui).setValue(actividad);
-
 
     }
 
@@ -67,4 +81,8 @@ public class SAActividadImp implements SAActividad {
         myRef.addListenerForSingleValueEvent(listener);
     }
 
+    @Override
+    public DatabaseReference getDatabaseReference() {
+        return myRef;
+    }
 }

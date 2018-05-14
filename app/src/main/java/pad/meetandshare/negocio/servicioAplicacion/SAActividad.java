@@ -1,8 +1,12 @@
 package pad.meetandshare.negocio.servicioAplicacion;
 
+import com.google.firebase.database.DatabaseReference;
+
 import pad.meetandshare.negocio.modelo.Actividad;
 
 public interface SAActividad {
+
+    public void create(Actividad actividad);
 
     /**
      * Método que recibe una Actividad y la guarda en la base de datos desactivada
@@ -29,4 +33,6 @@ public interface SAActividad {
      * @return actividad de la base de datos
      */
     void get(String ui, final MyCallBack myCallBack);
+
+    public DatabaseReference getDatabaseReference();
 }
