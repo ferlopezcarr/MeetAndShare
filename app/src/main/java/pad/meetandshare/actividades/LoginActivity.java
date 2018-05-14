@@ -81,15 +81,12 @@ public class LoginActivity extends AppCompatActivity {
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         Button registro  = (Button) findViewById(R.id.registro);
 
-
-
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
 
         registro.setOnClickListener(new OnClickListener() {
             @Override
@@ -101,6 +98,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        Button informacion  = (Button) findViewById(R.id.infoAplication);
+
+        informacion.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(LoginActivity.this, InfoApplication.class);
+
+                LoginActivity.this.startActivity(myIntent);
+                LoginActivity.this.onResume();
+            }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
