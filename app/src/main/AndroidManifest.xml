@@ -53,14 +53,13 @@
             android:name=".actividades.MenuLateralActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".actividades.RegistroActivity"
             android:label="@string/app_name" />
-
         <activity
-            android:name=".actividades"
-            android:label="@string/app_name" />
+            android:name=".actividades.InfoApplication"
+            android:label="@string/title_activity_info_application"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
