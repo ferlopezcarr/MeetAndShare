@@ -103,7 +103,23 @@
 }
 
 .font-view {
+    font-size: 18px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.parrafoInfo {
     font-size: 20px;
+}
+
+.infoApp {
+    max-width: 80%;
+}
+
+.ol-parrafo {
+    padding: 0px;
 }
 
 .img {
