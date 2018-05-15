@@ -240,7 +240,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                             }
                         }
                     }
-                }//for
+                }
 
                 if (btnCrearActividadPressed && actividadCreada) {
                     changeToVerActividad();

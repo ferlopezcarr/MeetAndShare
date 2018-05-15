@@ -1,12 +1,15 @@
 package pad.meetandshare.negocio.servicioAplicacion;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import pad.meetandshare.negocio.modelo.Actividad;
 
@@ -77,6 +80,48 @@ public class SAActividadImp implements SAActividad {
 
         myRef.addListenerForSingleValueEvent(listener);
     }
+
+
+    @Override
+    public void getAll( final MyCallBack myCallBack) {
+
+        myRef = database.getReference(Actividad.ActivitiesDatabaseName);
+
+
+
+        ValueEventListener listener= new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Actividad> lista = new ArrayList<>();
+
+
+                Iterable<DataSnapshot> dataSnapshotRoot = dataSnapshot.getChildren();
+
+                for(DataSnapshot child : dataSnapshotRoot){
+
+                Iterable<DataSnapshot> dataSnapshotChild = child.getChildren();
+
+                for (DataSnapshot ds : dataSnapshotChild) {
+                    Actividad act = ds.getValue(Actividad.class);
+                    lista.add(act);
+
+                }
+                }
+
+
+                myCallBack.onCallbackActividadAll(lista);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+
+        };
+    myRef.addValueEventListener(listener);
+            }
 
     @Override
     public DatabaseReference getDatabaseReference() {

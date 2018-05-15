@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
@@ -70,6 +72,9 @@ public class VerActividadFragment extends Fragment {
             }
 
             @Override
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+            }
+            @Override
             public void onCallbackActividad(Actividad value) {
 
                 actividad = value;
@@ -84,6 +89,10 @@ public class VerActividadFragment extends Fragment {
 
                     @Override
                     public void onCallbackActividad(Actividad actividad) {
+                    }
+
+                    @Override
+                    public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
                     }
                 });
 

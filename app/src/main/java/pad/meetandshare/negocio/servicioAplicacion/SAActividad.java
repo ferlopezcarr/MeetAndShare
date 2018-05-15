@@ -34,5 +34,17 @@ public interface SAActividad {
      */
     void get(String ui, final MyCallBack myCallBack);
 
+
+
+    /**
+     * Método para obtener una actividad de las base de datos,
+     * si no existe devuelve null
+     * @param myCallBack para hacer el return de todas las actividades de la base de datos
+     * @return actividad de la base de datos
+     */
+    void getAll(final MyCallBack myCallBack);
+
+
+
     public DatabaseReference getDatabaseReference();
 }

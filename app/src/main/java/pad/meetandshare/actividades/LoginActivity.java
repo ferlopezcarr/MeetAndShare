@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pad.meetandshare.R;
@@ -184,6 +185,11 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onCallbackActividad(Actividad actividad) {
                                     }
+
+                                    @Override
+                                    public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+                                    }
+
                                 });
 
                             } else {
