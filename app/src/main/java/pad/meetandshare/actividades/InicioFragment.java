@@ -1,5 +1,6 @@
 package pad.meetandshare.actividades;
 
+import android.app.Activity;
 import android.content.Context;
 
 import android.location.Criteria;
@@ -23,9 +24,17 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+
+import java.util.ArrayList;
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.modelo.Actividad;
+import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
+import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
+import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -194,9 +203,30 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-
+        SAActividad saActividad = new SAActividadImp();
         // Add a marker in Sydney and move the camera
 
+        saActividad.getAll(new MyCallBack() {
+            @Override
+            public void onCallbackUsuario(Usuario usuario) {
+
+            }
+
+            @Override
+            public void onCallbackActividad(Actividad actividad) {
+
+            }
+
+            @Override
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+
+                for(Actividad actual : actividad) {
+                    MarkerOptions marcador=new MarkerOptions().position(new LatLng(actual.getUbicacion().getLatitude(), actual.getUbicacion().getLongitude())).title(actual.getNombre());
+                    
+                    mMap.addMarker(marcador);
+                }
+            }
+        });
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera();
     }

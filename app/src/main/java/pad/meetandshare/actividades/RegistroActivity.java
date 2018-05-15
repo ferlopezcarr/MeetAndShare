@@ -124,6 +124,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onCallbackActividad(Actividad actividad) {
             }
+
+            @Override
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+            }
+
         });
     }
 
