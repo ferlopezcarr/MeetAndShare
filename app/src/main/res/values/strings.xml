@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeetAndShare</string>
+    <string name="app_name">Meet&amp;Share</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Map</string>
     <string name="title_activity_login">Accede</string>
