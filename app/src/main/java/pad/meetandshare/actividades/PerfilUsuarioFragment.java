@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
@@ -37,7 +35,6 @@ public class PerfilUsuarioFragment extends Fragment {
     private Usuario user;
     private OnFragmentInteractionListener mListener;
     private View rootView;
-
 
 
     public PerfilUsuarioFragment() {
@@ -84,8 +81,8 @@ public class PerfilUsuarioFragment extends Fragment {
         ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
         ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
 
-        for(Categoria interes: miUser.getCategorias()){
-            TextView interesVista =  (TextView) inflater.inflate(R.layout.layout_interes, null);
+        for (Categoria interes : miUser.getCategorias()) {
+            TextView interesVista = (TextView) inflater.inflate(R.layout.layout_interes, null);
             interesVista.setText(interes.getDisplayName());
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 

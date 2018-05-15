@@ -3,28 +3,28 @@ package pad.meetandshare.actividades;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import static android.support.constraint.Constraints.TAG;
 
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
@@ -35,14 +35,7 @@ import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import android.util.Log;
+import static android.support.constraint.Constraints.TAG;
 
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
@@ -63,8 +56,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     /* ------------ MÉTODOS PÚBLICOS ------------ */
 
     /* --------- ACTIVIDAD --------- */
+
     /**
      * Método que se ejecuta al crear la actividad
+     *
      * @param savedInstanceState
      */
     @Override
@@ -97,11 +92,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Método que se ejecuta al hacer click en alguno de los botones capturados
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ib_obtener_fecha:
                 FechaUtil fechaUtil = new FechaUtil();
                 fechaUtil.obtenerFecha(this, R.id.fechaNacimientoRegistro);
@@ -113,7 +109,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void updateUI(FirebaseUser user){
+    public void updateUI(FirebaseUser user) {
 
         SAUsuario saUsuario = new SAUsuarioImp();
         saUsuario.get(user.getUid(), new MyCallBack() {
@@ -126,7 +122,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
 
             @Override
-            public void onCallbackActividad(Actividad actividad) {}
+            public void onCallbackActividad(Actividad actividad) {
+            }
         });
     }
 
@@ -137,65 +134,66 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
      * Método que coge los datos del usuario de la vista, comprueba si son validos,
      * y crea un nuevo usuario en la base de datos
      */
-    private void registro(){
+    private void registro() {
 
         //OBTENER ELEMENTOS DE LA VISTA
         String nombre = ((EditText) findViewById(R.id.nombreRegistro)).getText().toString();
         String email = ((EditText) findViewById(R.id.emailRegistro)).getText().toString();
         String contrasenia = ((EditText) findViewById(R.id.passwordRegistro)).getText().toString();
         String contraseniaConfirm = ((EditText) findViewById(R.id.passwordConfirmationRegistro)).getText().toString();
-        String fechaString =((EditText) findViewById(R.id.fechaNacimientoRegistro)).getText().toString();
+        String fechaString = ((EditText) findViewById(R.id.fechaNacimientoRegistro)).getText().toString();
         String descripcion = ((EditText) findViewById(R.id.descripcionRegistro)).getText().toString();
 
         ArrayList<Categoria> intereses = new ArrayList<>();
 
-        for(int i = 0; i < checkedItems.length; ++i){
-            if(checkedItems[i]){
+        for (int i = 0; i < checkedItems.length; ++i) {
+            if (checkedItems[i]) {
                 Categoria cat = Categoria.getCategoria(listItems[i]);
                 intereses.add(cat);
             }
         }
 
-        if(checkInputUsuario(nombre, email, contrasenia, contraseniaConfirm, fechaString, descripcion)) {
+        if (checkInputUsuario(nombre, email, contrasenia, contraseniaConfirm, fechaString, descripcion)) {
 
             miUsuario = new Usuario(email, nombre, fecha, descripcion, intereses);
 
             AutorizacionFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, contrasenia)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = AutorizacionFirebase.getCurrentUser();
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = AutorizacionFirebase.getCurrentUser();
 
-                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference ref = database.getReference("server/saving-data/fireblog");
-                        SAUsuario miSaUsuario = new SAUsuarioImp();
+                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference ref = database.getReference("server/saving-data/fireblog");
+                                SAUsuario miSaUsuario = new SAUsuarioImp();
 
-                        String uid = user.getUid();
+                                String uid = user.getUid();
 
-                        miUsuario.setUid(uid);
+                                miUsuario.setUid(uid);
 
-                        miSaUsuario.save(miUsuario, uid);
-                        updateUI(user);
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                miSaUsuario.save(miUsuario, uid);
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-                        Toast.makeText(RegistroActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                                Toast.makeText(RegistroActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-                    // ...
-                }
-            });
+                            // ...
+                        }
+                    });
         }
     }
 
     /**
      * Método que configura el botón de seleccionar intereses
+     *
      * @param intereses
      */
     private void listenerButtonIntereses(Button intereses) {
@@ -209,9 +207,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        if(isChecked){
+                        if (isChecked) {
                             mUserItems.add(position);
-                        }else{
+                        } else {
                             mUserItems.remove((Integer.valueOf(position)));
                         }
                     }
@@ -257,6 +255,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Método que comprueba si son validos los datos del Usuario
+     *
      * @param nombre
      * @param email
      * @param password
@@ -285,15 +284,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         //NOMBRE
         EditText etNombre = (EditText) findViewById(R.id.nombreRegistro);
-        if(nombre == null || nombre.isEmpty()){
+        if (nombre == null || nombre.isEmpty()) {
             etNombre.setError(campoObligatorio);
             focusView = etNombre;
-        }
-        else if(!Usuario.isValidNombre(nombre)) {
+        } else if (!Usuario.isValidNombre(nombre)) {
             etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
             focusView = etNombre;
-        }
-        else {
+        } else {
             nombreOk = true;
         }
 
@@ -340,11 +337,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             try {
                 fecha = FechaUtil.getDateFormat().parse(fechaNacString);
 
-                if(!Usuario.isValidFechaNacimiento(fecha)) {
+                if (!Usuario.isValidFechaNacimiento(fecha)) {
                     etFechaNacim.setError("Debes ser mayor de edad");
                     focusView = etFechaNacim;
-                }
-                else{
+                } else {
                     fechaNacOK = true;
                 }
             } catch (ParseException e) {
@@ -356,12 +352,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         //INTERESES
         int i = 0;
         boolean unlessOneInteres = false;
-        while(i < this.checkedItems.length && !unlessOneInteres) {
+        while (i < this.checkedItems.length && !unlessOneInteres) {
             unlessOneInteres = checkedItems[i];
             i++;
         }
 
-        if(!unlessOneInteres) {
+        if (!unlessOneInteres) {
             Toast toast = Toast.makeText(getApplicationContext(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

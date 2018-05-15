@@ -54,7 +54,6 @@
                 android:id="@+id/nombreVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -70,7 +69,6 @@
                 android:id="@+id/fechaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
             <!-- HORA FIN-->
@@ -85,7 +83,6 @@
                 android:id="@+id/horaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -101,7 +98,6 @@
                 android:id="@+id/fechaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
             <!-- HORA FIN-->
@@ -116,7 +112,6 @@
                 android:id="@+id/horaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -132,7 +127,6 @@
                 android:id="@+id/maxParticipantesVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -148,7 +142,6 @@
                 android:id="@+id/administradorVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -164,7 +157,6 @@
                 android:id="@+id/finalizadaVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="18sp" />
 
 
@@ -252,7 +244,6 @@
                 android:minLines="3"
                 android:padding="5sp"
                 android:textAlignment="textStart"
-                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="14sp" />
 
 

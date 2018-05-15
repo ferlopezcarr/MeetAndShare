@@ -4,14 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import static android.support.constraint.Constraints.TAG;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,7 +39,7 @@ import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * A login screen that offers login via email/password.
@@ -79,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        Button registro  = (Button) findViewById(R.id.registro);
+        Button registro = (Button) findViewById(R.id.registro);
 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -98,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button informacion  = (Button) findViewById(R.id.infoAplication);
+        Button informacion = (Button) findViewById(R.id.infoAplication);
 
         informacion.setOnClickListener(new OnClickListener() {
             @Override
@@ -117,14 +114,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-
 
 
         // Reset errors.
@@ -187,7 +182,8 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onCallbackActividad(Actividad actividad) {}
+                                    public void onCallbackActividad(Actividad actividad) {
+                                    }
                                 });
 
                             } else {
@@ -242,7 +238,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -250,6 +245,19 @@ public class LoginActivity extends AppCompatActivity {
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+
+
+        }
+
     }
 
 
@@ -262,21 +270,6 @@ public class LoginActivity extends AppCompatActivity {
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if(currentUser!=null){
-
-
-        }
-
-    }
-
 
 
 }

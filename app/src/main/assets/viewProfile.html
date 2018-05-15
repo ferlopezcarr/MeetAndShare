@@ -7,9 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Title -->
@@ -18,81 +21,88 @@
 
 <body>
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="row navbar d-flex flex-row justify-content-start pb-0">
-            <a class="">
-                <i class="material-icons i-menu white-color mr-3">menu</i>
-            </a>
-            <h1 class="navbar-title">Meet&Share</h1>
-        </div>
+    <div class="row navbar d-flex flex-row justify-content-start pb-0">
+        <a class="">
+            <i class="material-icons i-menu white-color mr-3">menu</i>
+        </a>
+        <h1 class="navbar-title">Meet&Share</h1>
+    </div>
 
-        <div class="row mt-2">
-            <div class="col-auto mx-auto">
-                <div class="px-3 py-2 border-ratius lightgrey-bkcolor">
-                    <h4>Ver Perfil</h4>
-                    <hr>
+    <div class="row mt-2">
+        <div class="col-auto mx-auto">
+            <div class="px-3 py-2 border-ratius lightgrey-bkcolor">
+                <h4>Ver Perfil</h4>
+                <hr>
 
-                    <img class="img mx-auto d-block" src="img/perfil.jpg" height="150 rem" width="auto"/>
-                    <hr>
-                    
-                    <div class="d-fex flex-column justify-content-between px-3 mt-3">
+                <img class="img mx-auto d-block" src="img/perfil.jpg" height="150 rem"
+                     width="auto"/>
+                <hr>
 
-                        <div class="form-group d-flex flex-column">
-                            <label for="email">Email</label>
-                            <span id="email">ferlopezcarr@gmail.com</span>
-                        </div>
+                <div class="d-fex flex-column justify-content-between px-3 mt-3">
 
-                        <div class="form-group d-flex flex-column">
-                            <label for="nombre">Nombre</label>
-                            <span id="nombre">Fernando López</span>
-                        </div>
-
-                        <div class="form-group d-flex flex-column">
-                            <label for="fechaNacimiento">Fecha de nacimiento</label>
-                            <span id="fechaNacimiento">10/12/1998</span>
-                        </div>
-
-                        <div class="form-group d-flex flex-column">
-                            <label for="aficiones">Categorías preferidas</label>
-                            <div id="aficiones">
-                                <span class="aficion">Deportes</span>
-                                <span class="aficion">Música</span>
-                                <span class="aficion">Cine</span>
-                                <span class="aficion">Series</span>
-                                <span class="aficion">Netfilx</span>
-                                <span class="aficion">Rock</span>
-                                <span class="aficion">Youtube</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group d-flex flex-column">
-                            <label for="descripcion">Descripcion</label>
-                            <textarea class="form-control" id="descripcion" rows="2" readonly></textarea>
-                        </div>
-                        
-                        <!--
-                        <div class="form-group d-flex flex-column">
-                            <button type="submit" class="btn btn-light">Modificar contraseña</button>
-                        </div>
-                        -->
-
-                        <button type="submit" class="btn btn-light btn-block">Modificar perfil</button>
-
+                    <div class="form-group d-flex flex-column">
+                        <label for="email">Email</label>
+                        <span id="email">ferlopezcarr@gmail.com</span>
                     </div>
+
+                    <div class="form-group d-flex flex-column">
+                        <label for="nombre">Nombre</label>
+                        <span id="nombre">Fernando López</span>
+                    </div>
+
+                    <div class="form-group d-flex flex-column">
+                        <label for="fechaNacimiento">Fecha de nacimiento</label>
+                        <span id="fechaNacimiento">10/12/1998</span>
+                    </div>
+
+                    <div class="form-group d-flex flex-column">
+                        <label for="aficiones">Categorías preferidas</label>
+                        <div id="aficiones">
+                            <span class="aficion">Deportes</span>
+                            <span class="aficion">Música</span>
+                            <span class="aficion">Cine</span>
+                            <span class="aficion">Series</span>
+                            <span class="aficion">Netfilx</span>
+                            <span class="aficion">Rock</span>
+                            <span class="aficion">Youtube</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex flex-column">
+                        <label for="descripcion">Descripcion</label>
+                        <textarea class="form-control" id="descripcion" rows="2"
+                                  readonly></textarea>
+                    </div>
+
+                    <!--
+                    <div class="form-group d-flex flex-column">
+                        <button type="submit" class="btn btn-light">Modificar contraseña</button>
+                    </div>
+                    -->
+
+                    <button type="submit" class="btn btn-light btn-block">Modificar perfil</button>
+
                 </div>
             </div>
         </div>
-        
     </div>
 
-    
+</div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
- </body>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+</body>
 
 </html>

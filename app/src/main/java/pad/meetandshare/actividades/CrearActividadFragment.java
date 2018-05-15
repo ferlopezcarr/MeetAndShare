@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,11 +26,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
@@ -47,12 +43,12 @@ import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
-
 import static android.app.Activity.RESULT_OK;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     //Widgets
     //NOMBRE
     private EditText etNombre;
@@ -76,11 +72,8 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private EditText etDescripcion;
     //CREAR ACTIVIDAD
     private Button crearActividadBoton;
-
     private GoogleApiClient mGoogleApiClient;
     private int PLACE_PICKER_REQUEST = 1;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION= 1 ;
-
     private Date fechaIni;
     private long horaIni;
     private Date fechaFin;
@@ -124,15 +117,14 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
+                             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_crear_actividad,
                 container, false);
 
         FirebaseUser currentUser = AutorizacionFirebase.getFirebaseAuth().getCurrentUser();
 
 
-
-        if(currentUser != null) {//Si el usuario esta logeado
+        if (currentUser != null) {//Si el usuario esta logeado
 
             //VISTAS----------------------
             //NOMBRE
@@ -194,8 +186,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                         } else {//si no debe pedirlos
                             renderPlacePicker(getActivity());
                         }
-                    }
-                    else {//si tiene permisos
+                    } else {//si tiene permisos
                         renderPlacePicker(getActivity());
                     }
                 }
@@ -229,14 +220,14 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
-                for(DataSnapshot ds : dataSnapshotChid) {
+                for (DataSnapshot ds : dataSnapshotChid) {
                     Actividad act = ds.getValue(Actividad.class);
 
                     //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
                     if (actividad != null && act != null) {
 
-                        if(act.getNombre() != null) {
-                             if(!act.getUid().equalsIgnoreCase(actividad.getUid())) {
+                        if (act.getNombre() != null) {
+                            if (!act.getUid().equalsIgnoreCase(actividad.getUid())) {
 
                                 boolean sameName = act.getNombre().equalsIgnoreCase(actividad.getNombre());
                                 boolean sameAdmin = act.getIdAdministrador().equalsIgnoreCase(actividad.getIdAdministrador());
@@ -251,7 +242,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                     }
                 }//for
 
-                if(btnCrearActividadPressed && actividadCreada) {
+                if (btnCrearActividadPressed && actividadCreada) {
                     changeToVerActividad();
                 }
 
@@ -267,19 +258,20 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     @Override
     public void onStop() {
         super.onStop();
-        if(eventListener != null)
+        if (eventListener != null)
             saActividad.getDatabaseReference().removeEventListener(eventListener);
     }
 
     /**
      * Método que se ejecuta al hacer click en alguno de los botones capturados
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
         FechaUtil fechaUtil = new FechaUtil();
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ib_obtener_fechaIni:
                 fechaUtil.obtenerFecha(getActivity(), R.id.fechaIniCrearActividad);
                 break;
@@ -320,7 +312,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         fm.beginTransaction().hide(this).commit();
 
-        if(fm.findFragmentById(R.id.nav_VerActividad) != null) {
+        if (fm.findFragmentById(R.id.nav_VerActividad) != null) {
             //if the fragment exists, show it.
             fm.beginTransaction().show(fm.findFragmentById(R.id.nav_VerActividad)).commit();
         } else {
@@ -343,26 +335,25 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         ArrayList<Categoria> intereses = new ArrayList<>();
 
-        for(int i = 0; i < checkedItems.length; ++i){
-            if(checkedItems[i]){
+        for (int i = 0; i < checkedItems.length; ++i) {
+            if (checkedItems[i]) {
                 Categoria cat = Categoria.getCategoria(listItems[i]);
                 intereses.add(cat);
             }
         }
 
-        if(checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxParticipantesString, descripcion)) {
+        if (checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxParticipantesString, descripcion)) {
             //buscar el usuario logeado
             Usuario usuarioLogeado = AutorizacionFirebase.getUser();
 
-            if(usuarioLogeado != null) {
+            if (usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada,null, usuarioLogeado.getUid());
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, null, usuarioLogeado.getUid());
 
                 saActividad.create(actividad);
 
                 actividadCreada = true;
-            }
-            else {
+            } else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
             }
@@ -370,7 +361,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -395,12 +386,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
             startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
 
-        } catch (GooglePlayServicesRepairableException e){
+        } catch (GooglePlayServicesRepairableException e) {
             e.printStackTrace();
         } catch (GooglePlayServicesNotAvailableException e) {
             Toast.makeText(getActivity(), "Google Play Services no esta disponible en este momento",
                     Toast.LENGTH_LONG)
-                    .show();e.printStackTrace();
+                    .show();
+            e.printStackTrace();
         }
     }
 
@@ -409,7 +401,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                Place place =  PlacePicker.getPlace(data, this.getActivity());
+                Place place = PlacePicker.getPlace(data, this.getActivity());
 
                 ubicacionSeleccionada = new Ubicacion(place);
 
@@ -443,15 +435,13 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         final String campoObligatorio = "Por favor, rellene todos los campos";
 
         //NOMBRE
-        if(nombre == null || nombre.isEmpty()){
+        if (nombre == null || nombre.isEmpty()) {
             etNombre.setError(campoObligatorio);
             focusView = etNombre;
-        }
-        else if(!Usuario.isValidNombre(nombre)) {
+        } else if (!Usuario.isValidNombre(nombre)) {
             etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
             focusView = etNombre;
-        }
-        else {
+        } else {
             nombreOk = true;
         }
 
@@ -463,11 +453,10 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             try {
                 fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
 
-                if(!Actividad.isValidFechaIni(fechaIni)) {
+                if (!Actividad.isValidFechaIni(fechaIni)) {
                     etFechaIni.setError("La fecha no puede ser anterior a hoy");
                     focusView = etFechaIni;
-                }
-                else{
+                } else {
                     fechaIniOK = true;
                 }
             } catch (ParseException e) {
@@ -486,20 +475,18 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             if (!Actividad.isValidHora(horaIniString)) {
                 etHoraIni.setError("Formato de hora incorrecto");
                 focusView = etHoraIni;
-            }
-            else {
-                if(fechaIniOK) {
+            } else {
+                if (fechaIniOK) {
                     fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
                     horaIniOK = true;
-                }
-                else {
+                } else {
                     etHoraIni.setError("Introduce una fecha de inicio correcta");
                     focusView = etHoraIni;
                 }
             }
         }
 
-        if(fechaIniOK && horaIniOK) {
+        if (fechaIniOK && horaIniOK) {
             //FECHA FIN
             if (fechaFinString == null || fechaFinString.isEmpty()) {
                 etFechaFin.setError(campoObligatorio);
@@ -524,27 +511,23 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 if (!Actividad.isValidHora(horaFinString)) {
                     etHoraFin.setError("Formato de hora incorrecto");
                     focusView = etHoraFin;
-                }
-                else {
-                    if(fechaFinOK) {
+                } else {
+                    if (fechaFinOK) {
                         fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
 
-                        if(fechaIni.compareTo(fechaFin) < 0) {//inicio antes que fin
+                        if (fechaIni.compareTo(fechaFin) < 0) {//inicio antes que fin
                             horaFinOK = true;
-                        }
-                        else {
+                        } else {
                             etHoraFin.setError("La hora de fin debe ser posterior a la de inicio");
                             focusView = etHoraFin;
                         }
-                    }
-                    else {
+                    } else {
                         etHoraFin.setError("Introduce una fecha de fin correcta");
                         focusView = etHoraFin;
                     }
                 }
             }
-        }
-        else {
+        } else {
             etFechaFin.setError("Introduce una fecha y hora de inicio correctas");
             focusView = etFechaFin;
         }
@@ -564,12 +547,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         //INTERESES
         int i = 0;
         boolean unlessOneInteres = false;
-        while(i < this.checkedItems.length && !unlessOneInteres) {
+        while (i < this.checkedItems.length && !unlessOneInteres) {
             unlessOneInteres = checkedItems[i];
             i++;
         }
 
-        if(!unlessOneInteres) {
+        if (!unlessOneInteres) {
             Toast toast2 = Toast.makeText(getActivity(), "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
             toast2.setGravity(Gravity.CENTER, 0, 0);
             toast2.show();
@@ -577,12 +560,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         boolean ubicacionOk = false;
         //UBICACION
-        if(ubicacionSeleccionada == null) {
+        if (ubicacionSeleccionada == null) {
             Toast toast3 = Toast.makeText(getActivity(), "Selecciona una ubicación", Toast.LENGTH_SHORT);
             toast3.setGravity(Gravity.CENTER, 0, 0);
             toast3.show();
-        }
-        else {
+        } else {
             ubicacionOk = true;
         }
 
@@ -596,6 +578,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     /**
      * Método que configura el botón de seleccionar intereses
+     *
      * @param intereses
      */
     private void listenerButtonIntereses(Button intereses) {
@@ -609,9 +592,9 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        if(isChecked){
+                        if (isChecked) {
                             mUserItems.add(position);
-                        }else{
+                        } else {
                             mUserItems.remove((Integer.valueOf(position)));
                         }
                     }

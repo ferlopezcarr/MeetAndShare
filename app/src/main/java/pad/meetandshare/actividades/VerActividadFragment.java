@@ -51,7 +51,7 @@ public class VerActividadFragment extends Fragment {
 
         Bundle b = this.getArguments();
 
-        if(b != null)
+        if (b != null)
             uidActividad = b.getString("UID_ACTIVIDAD");
     }
 
@@ -83,7 +83,8 @@ public class VerActividadFragment extends Fragment {
                     }
 
                     @Override
-                    public void onCallbackActividad(Actividad actividad) {}
+                    public void onCallbackActividad(Actividad actividad) {
+                    }
                 });
 
                 String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getFechaInicio());
@@ -103,8 +104,8 @@ public class VerActividadFragment extends Fragment {
                 ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setText(actividad.getDescripcion());
                 //ubicacion
 
-                for(Categoria interes: actividad.getCategorias()){
-                    TextView interesVista =  (TextView) miInflater.inflate(R.layout.layout_interes, null);
+                for (Categoria interes : actividad.getCategorias()) {
+                    TextView interesVista = (TextView) miInflater.inflate(R.layout.layout_interes, null);
                     interesVista.setText(interes.getDisplayName());
                     LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -116,10 +117,9 @@ public class VerActividadFragment extends Fragment {
                 //lista de usuarios se muestra cuando pulsas el boton de ver usuarios
 
                 String estado = "";
-                if(actividad.getFinalizada()) {
+                if (actividad.getFinalizada()) {
                     estado = "Finalizada";
-                }
-                else {//no finalizada
+                } else {//no finalizada
                     estado = "Activa";
                 }
                 ((TextView) rootView.findViewById(R.id.finalizadaVerActividad)).setText(estado);

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividades.PerfilUsuarioFragment"
-    >
+    tools:context=".actividades.PerfilUsuarioFragment">
     <!--
     <TextView
         android:id="@+id/titulo"
@@ -33,9 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
             android:layout_marginTop="50px"
-            >
+            android:orientation="vertical">
 
 
             <TextView
@@ -131,8 +129,7 @@
                 android:id="@+id/containerInteresesPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
 
             </LinearLayout>
@@ -150,15 +147,14 @@
                 android:id="@+id/descripcionPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="100px"
                 android:background="@android:color/background_light"
                 android:maxLines="35"
                 android:minLines="3"
                 android:padding="5sp"
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="14sp"
-                android:layout_marginBottom="100px"
-                />
+                android:textSize="14sp" />
 
 
         </LinearLayout>
