@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -86,6 +87,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     private Ubicacion ubicacionSeleccionada;
 
     private Actividad actividad;
+    private Usuario usuarioLogeado;
 
     private SAActividad saActividad;
 
@@ -300,7 +302,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private void changeToVerActividad() {
 
-        Fragment fragmento = VerActividadFragment.newInstance(actividad.getUid());
+        Fragment fragmento = VerActividadFragment.newInstance(actividad, usuarioLogeado.getNombre());
 
         /*
         Bundle b = new Bundle();
@@ -308,8 +310,15 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         fragmento.setArguments(b);
         */
 
-        FragmentManager fm = this.getChildFragmentManager();
+        FragmentManager fm = this.getFragmentManager();
 
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ContenedorMenuLateral, fragmento);
+        ft.addToBackStack(null);
+
+        ft.commit();
+
+        /*
         fm.beginTransaction().hide(this).commit();
 
         if (fm.findFragmentById(R.id.nav_VerActividad) != null) {
@@ -319,8 +328,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             //if the fragment does not exist, add it to fragment manager.
             fragmento.getFragmentManager().beginTransaction().add(R.id.nav_VerActividad, fragmento).commit();
         }
-
-        CrearActividadFragment.this.onResume();
+        */
     }
 
     private void crearActividad() {
@@ -344,11 +352,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         if (checkInputActividad(nombre, fechaIniString, horaIniString, fechaFinString, horaFinString, maxParticipantesString, descripcion)) {
             //buscar el usuario logeado
-            Usuario usuarioLogeado = AutorizacionFirebase.getUser();
+            usuarioLogeado = AutorizacionFirebase.getUser();
 
             if (usuarioLogeado != null) {
                 //crear la actividad
-                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, null, usuarioLogeado.getUid());
+                actividad = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, usuarioLogeado.getUid());
 
                 saActividad.create(actividad);
 

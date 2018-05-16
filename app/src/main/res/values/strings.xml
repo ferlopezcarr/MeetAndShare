@@ -65,10 +65,11 @@
     <string name="fechaFin">Fecha de Fin</string>
     <string name="horaFin">Hora de Fin</string>
     <string name="ubicacion">Ubicación</string>
-    <string name="num_participantes">Número de Participantes</string>
+    <string name="max_num_participantes">Número máximo de Participantes</string>
     <string name="administrador">Administrador</string>
     <string name="estado">Estado</string>
     <string name="usuarios_inscritos">Usuarios Inscritos</string>
+    <string name="plazas_libres">Plazas libres</string>
 
     <!-- Botones -->
     <string name="crear_actividad">Crear Actividad</string>

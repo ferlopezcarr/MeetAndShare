@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CrearActividadFragment"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
@@ -19,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50px"
             android:orientation="vertical">
 
 
@@ -251,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
-                android:text="@string/num_participantes" />
+                android:text="@string/max_num_participantes" />
 
             <EditText
                 android:id="@+id/maxParticipantesCrearActividad"
@@ -259,7 +261,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/num_participantes"
+                android:hint="@string/max_num_participantes"
                 android:inputType="number"
                 android:textColor="@color/black"
                 android:textColorLink="@color/colorPrimary" />

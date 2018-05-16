@@ -1,6 +1,7 @@
 package pad.meetandshare.negocio.modelo;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
 
 import pad.meetandshare.actividades.FechaUtil;
 
-public class Actividad {
+public class Actividad implements Serializable {
 
     public final static String ActivitiesDatabaseName = "activities";
 

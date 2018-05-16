@@ -22,14 +22,14 @@ import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
-public class VerActividadFragment extends Fragment {
+public class VerActividadFragment extends Fragment implements View.OnClickListener {
 
-    public static final String UID_ACTIVIDAD = "uidActividad";
+    public static final String ACTIVIDAD = "Actividad";
+    public static final String NOMBRE_USUARIO = "nombreUsuario";
 
     private String uidActividad;
     private Actividad actividad;
-    private Usuario admin;
-    private VerActividadFragment.OnFragmentInteractionListener mListener;
+    private String nombreUsuario;
     private View rootView;
     private LayoutInflater miInflater;
 
@@ -39,11 +39,12 @@ public class VerActividadFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static PerfilUsuarioFragment newInstance(String uidAdministrador) {
-        PerfilUsuarioFragment fragment = new PerfilUsuarioFragment();
-        Bundle args = new Bundle();
-        args.putString(UID_ACTIVIDAD, uidAdministrador);
-        fragment.setArguments(args);
+    public static VerActividadFragment newInstance(Actividad actividad, String nombreUsuario) {
+        VerActividadFragment fragment = new VerActividadFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ACTIVIDAD, actividad);
+        bundle.putString(NOMBRE_USUARIO, nombreUsuario);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -51,10 +52,13 @@ public class VerActividadFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle b = this.getArguments();
+        Bundle bundle = this.getArguments();
 
-        if (b != null)
-            uidActividad = b.getString("UID_ACTIVIDAD");
+        if (bundle != null) {
+            actividad = (Actividad) bundle.getSerializable(ACTIVIDAD);
+            nombreUsuario = bundle.getString(NOMBRE_USUARIO);
+        }
+
     }
 
     @Override
@@ -64,117 +68,81 @@ public class VerActividadFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_ver_actividad, container, false);
         miInflater = inflater;
 
-        SAActividad saActividad = new SAActividadImp();
-
-        saActividad.get(this.uidActividad, new MyCallBack() {
-            @Override
-            public void onCallbackUsuario(Usuario value) {
-            }
-
-            @Override
-            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
-            }
-            @Override
-            public void onCallbackActividad(Actividad value) {
-
-                actividad = value;
-
-                SAUsuario saUsuario = new SAUsuarioImp();
-                saUsuario.get(actividad.getIdAdministrador(), new MyCallBack() {
-                    @Override
-                    public void onCallbackUsuario(Usuario value) {
-                        admin = value;
-                        ((TextView) rootView.findViewById(R.id.administradorVerActividad)).setText(admin.getNombre());
-                    }
-
-                    @Override
-                    public void onCallbackActividad(Actividad actividad) {
-                    }
-
-                    @Override
-                    public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
-                    }
-                });
-
-                String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getFechaInicio());
-                String arrayFechaIni[] = fechaIni.split(" ");
-
-                String fechaFin = FechaUtil.getDateWithHourFormat().format(actividad.getFechaFin());
-                String arrayFechaFin[] = fechaFin.split(" ");
-
-                ((TextView) rootView.findViewById(R.id.nombreVerActividad)).setText(actividad.getNombre());
-
-                ((TextView) rootView.findViewById(R.id.fechaIniVerActividad)).setText(arrayFechaIni[0]);
-                ((TextView) rootView.findViewById(R.id.horaIniVerActividad)).setText(arrayFechaIni[1]);
-                ((TextView) rootView.findViewById(R.id.fechaFinVerActividad)).setText(arrayFechaIni[0]);
-                ((TextView) rootView.findViewById(R.id.horaFinVerActividad)).setText(arrayFechaIni[1]);
-
-                ((TextView) rootView.findViewById(R.id.maxParticipantesVerActividad)).setText(actividad.getMaxParticipantes());
-                ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setText(actividad.getDescripcion());
-                //ubicacion
-
-                for (Categoria interes : actividad.getCategorias()) {
-                    TextView interesVista = (TextView) miInflater.inflate(R.layout.layout_interes, null);
-                    interesVista.setText(interes.getDisplayName());
-                    LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    llp.setMargins(0, 20, 0, 0); // llp.setMargins(left, top, right, bottom);
-                    interesVista.setLayoutParams(llp);
-                    ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
-                }
-
-                //lista de usuarios se muestra cuando pulsas el boton de ver usuarios
-
-                String estado = "";
-                if (actividad.getFinalizada()) {
-                    estado = "Finalizada";
-                } else {//no finalizada
-                    estado = "Activa";
-                }
-                ((TextView) rootView.findViewById(R.id.finalizadaVerActividad)).setText(estado);
-            }
-        });
-
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getFechaInicio());
+        String arrayFechaIni[] = fechaIni.split(" ");
+
+        String fechaFin = FechaUtil.getDateWithHourFormat().format(actividad.getFechaFin());
+        String arrayFechaFin[] = fechaFin.split(" ");
+
+        Integer maxParticipantes = actividad.getMaxParticipantes();
+
+        //Nombre actividad
+        ((TextView) rootView.findViewById(R.id.nombreVerActividad)).setText(actividad.getNombre());
+
+        //FechaIni
+        ((TextView) rootView.findViewById(R.id.fechaIniVerActividad)).setText(arrayFechaIni[0]);
+        //HoraIni
+        ((TextView) rootView.findViewById(R.id.horaIniVerActividad)).setText(arrayFechaIni[2]);
+
+        //FechaFin
+        ((TextView) rootView.findViewById(R.id.fechaFinVerActividad)).setText(arrayFechaFin[0]);
+        //HoraFin
+        ((TextView) rootView.findViewById(R.id.horaFinVerActividad)).setText(arrayFechaFin[2]);
+
+        //Max Participantes
+        ((TextView) rootView.findViewById(R.id.maxParticipantesVerActividad)).setText(maxParticipantes.toString());
+
+        //Plazas libres
+        Integer plazasLibres = maxParticipantes - actividad.getIdUsuariosInscritos().size();
+        if(plazasLibres <= 0) {
+            ((TextView) rootView.findViewById(R.id.plazasLibresVerActividad)).setText("-");
         }
+        else {//si hay plazas libres
+            ((TextView) rootView.findViewById(R.id.plazasLibresVerActividad)).setText(plazasLibres.toString());
+        }
+
+        //NombreAdmin
+        ((TextView) rootView.findViewById(R.id.administradorVerActividad)).setText(nombreUsuario);
+
+        //Estado
+        String estado = "";
+        if (actividad.getFinalizada()) {
+            estado = "Finalizada";
+        } else {//no finalizada
+            estado = "Activa";
+        }
+        ((TextView) rootView.findViewById(R.id.finalizadaVerActividad)).setText(estado);
+
+        //Categorias
+        if(actividad.getCategorias() != null) {
+            for (Categoria interes : actividad.getCategorias()) {
+                TextView interesVista = (TextView) miInflater.inflate(R.layout.layout_interes, null);
+                interesVista.setText(interes.getDisplayName());
+                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                llp.setMargins(0, 20, 0, 0); // llp.setMargins(left, top, right, bottom);
+                interesVista.setLayoutParams(llp);
+                ((LinearLayout) rootView.findViewById(R.id.containerInteresesActividad)).addView(interesVista);
+            }
+        }
+
+        //Descripción
+        if(actividad.getDescripcion() != null)
+            ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setText(actividad.getDescripcion());
+
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof VerActividadFragment.OnFragmentInteractionListener) {
-            mListener = (VerActividadFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+    public void onClick(View v) {
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
 }

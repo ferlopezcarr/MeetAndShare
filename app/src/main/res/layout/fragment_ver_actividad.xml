@@ -54,7 +54,8 @@
                 android:id="@+id/nombreVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- FECHA INI-->
@@ -69,7 +70,8 @@
                 android:id="@+id/fechaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
             <!-- HORA FIN-->
 
@@ -83,7 +85,8 @@
                 android:id="@+id/horaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- FECHA FIN-->
@@ -98,7 +101,8 @@
                 android:id="@+id/fechaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
             <!-- HORA FIN-->
 
@@ -112,7 +116,8 @@
                 android:id="@+id/horaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- MAX PARTICIPANTES -->
@@ -121,13 +126,32 @@
                 android:id="@+id/MaxParticipantesLabel"
                 style="@style/CodeFont"
                 android:layout_marginTop="10sp"
-                android:text="@string/num_participantes" />
+                android:text="@string/max_num_participantes" />
 
             <TextView
                 android:id="@+id/maxParticipantesVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
+
+
+            <!-- PLAZAS LIBRES -->
+
+            <TextView
+                android:id="@+id/PlazasLibresLabel"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:text="@string/plazas_libres" />
+
+            <TextView
+                android:id="@+id/plazasLibresVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- ADMINISTRADOR -->
@@ -142,7 +166,8 @@
                 android:id="@+id/administradorVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- ESTADO -->
@@ -157,7 +182,8 @@
                 android:id="@+id/finalizadaVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="?attr/colorBackgroundFloating"/>
 
 
             <!-- UBICACION -->
@@ -173,12 +199,12 @@
                 android:id="@+id/ver_ubicacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="6dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
-                android:text="@string/ver_ubicacion"
 
+                android:text="@string/ver_ubicacion"
                 android:textStyle="bold" />
 
 
@@ -192,35 +218,12 @@
 
 
             <LinearLayout
-                android:id="@+id/containerInteresesPerfil"
+                android:id="@+id/containerInteresesActividad"
+                style="@style/CodeFont"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
             </LinearLayout>
-
-
-            <!-- USUARIOS INSCRITOS -->
-
-            <TextView
-                android:id="@+id/UsuariosInscritosLabel"
-                style="@style/CodeFont"
-                android:layout_marginTop="10sp"
-                android:text="@string/usuarios_inscritos" />
-
-            <!-- BOTON USUARIOS INSCRITOS -->
-            <Button
-                android:id="@+id/ver_usuarios_inscritos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:ems="10"
-                android:text="@string/ver_usuarios_inscritos"
-
-                android:textStyle="bold" />
 
 
             <!-- DESCRIPCION -->
@@ -244,6 +247,7 @@
                 android:minLines="3"
                 android:padding="5sp"
                 android:textAlignment="textStart"
+                android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="14sp" />
 
 
