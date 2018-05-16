@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import pad.meetandshare.actividades.FechaUtil;
-
 public class Usuario {
 
     public static final String UsersDataBaseName = "users";

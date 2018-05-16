@@ -72,7 +72,7 @@
             android:name=".actividades.RegistroActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".actividades.InfoApplication"
+            android:name=".actividades.InfoApplicationWebViewActivity"
             android:label="@string/title_activity_info_application"
             android:theme="@style/AppTheme"></activity>
     </application>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 

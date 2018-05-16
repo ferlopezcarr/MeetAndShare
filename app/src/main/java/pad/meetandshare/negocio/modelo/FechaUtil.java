@@ -1,4 +1,4 @@
-package pad.meetandshare.actividades;
+package pad.meetandshare.negocio.modelo;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

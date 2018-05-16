@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         informacion.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(LoginActivity.this, InfoApplication.class);
+                Intent myIntent = new Intent(LoginActivity.this, InfoApplicationWebViewActivity.class);
 
                 LoginActivity.this.startActivity(myIntent);
                 LoginActivity.this.onResume();

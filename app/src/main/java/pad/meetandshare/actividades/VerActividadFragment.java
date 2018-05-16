@@ -1,8 +1,6 @@
 package pad.meetandshare.actividades;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
-import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
-import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class VerActividadFragment extends Fragment implements View.OnClickListener {
 

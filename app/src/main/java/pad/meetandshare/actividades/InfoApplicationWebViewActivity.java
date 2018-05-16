@@ -7,7 +7,7 @@ import android.webkit.WebView;
 
 import pad.meetandshare.R;
 
-public class InfoApplication extends AppCompatActivity {
+public class InfoApplicationWebViewActivity extends AppCompatActivity {
 
     WebView myWebView;
 

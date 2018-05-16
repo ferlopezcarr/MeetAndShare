@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pad.meetandshare.actividades.FechaUtil;
-
 public class Actividad implements Serializable {
 
     public final static String ActivitiesDatabaseName = "activities";

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
+import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
@@ -184,9 +185,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         // Updates the location and zoom of the MapView
-
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
 
         try {
             mMap.setMyLocationEnabled(true);
@@ -221,8 +220,13 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
             public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
 
                 for(Actividad actual : actividad) {
-                    MarkerOptions marcador=new MarkerOptions().position(new LatLng(actual.getUbicacion().getLatitude(), actual.getUbicacion().getLongitude())).title(actual.getNombre());
-                    
+
+                    MarkerOptions marcador = new MarkerOptions().position(
+                            new LatLng(actual.getUbicacion().getLatitude(), actual.getUbicacion().getLongitude())
+                        );
+
+                    construirMarcador(marcador, actual);
+
                     mMap.addMarker(marcador);
                 }
             }
@@ -231,5 +235,34 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
         //mMap.moveCamera();
     }
 
+    private void construirMarcador(MarkerOptions markerOptions, Actividad act) {
+        String snippet = "";
+
+        markerOptions.title(act.getNombre());
+
+        /*
+        if(act.getCategorias() != null) {
+            snippet = snippet + "Categorías:" + '\n';
+            for (Categoria cat : act.getCategorias()) {
+                snippet = snippet + '\t' + cat.getDisplayName() + '\n';
+            }
+            snippet += '\n';
+        }
+
+
+        if(act.getDescripcion() != null) {
+            snippet = snippet + "Descripción:" + '\n';
+
+            if(act.getDescripcion().length() > 20) {
+                snippet = snippet + act.getDescripcion().substring(0, 20) + " ..." + '\n';
+            }
+            else {
+                snippet = snippet + act.getDescripcion() + '\n';
+            }
+        }
+        */
+
+        markerOptions.snippet(snippet);
+    }
 
 }
