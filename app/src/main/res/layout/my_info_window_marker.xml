@@ -35,7 +35,7 @@
             android:text="@string/textInfoMarker"
             android:textAlignment="center"
             android:textColor="@color/line_input"
-            android:textSize="10sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

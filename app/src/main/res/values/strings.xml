@@ -90,7 +90,7 @@
 
 
 
-    <string name="radio">Seleccione el radio en Km de para filtrar actividades</string>
+    <string name="radio">Radio de búsqueda (Km)</string>
 
     <!-- Marker -->
     <string name="textInfoMarker">Click para ver categorías, click y mantén pulsado para más detalles</string>
