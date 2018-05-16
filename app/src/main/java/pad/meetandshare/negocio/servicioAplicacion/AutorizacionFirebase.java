@@ -12,9 +12,11 @@ public class AutorizacionFirebase {
     private static Usuario user;
 
     public static FirebaseAuth getFirebaseAuth() {
-        if(mAuth == null) {
+
+        if (mAuth == null) {
             mAuth = FirebaseAuth.getInstance();
         }
+
         return mAuth;
     }
 
@@ -29,6 +31,15 @@ public class AutorizacionFirebase {
 
     public static void setUsuario(Usuario usuario) {
         user = usuario;
+    }
+
+    public static void setSingOut(boolean salir) {
+        mAuth = null;
+        user = null;
+    }
+
+    public static boolean amIAuthentificated() {
+        return (mAuth != null && user != null);
     }
 
 }

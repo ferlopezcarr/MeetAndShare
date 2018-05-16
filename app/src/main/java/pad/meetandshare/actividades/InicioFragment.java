@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,6 +41,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
@@ -99,6 +102,14 @@ public class InicioFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!AutorizacionFirebase.amIAuthentificated()) {
+            AutorizacionFirebase.setSingOut(true);
+            AutorizacionFirebase.getFirebaseAuth().signOut();
+            Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
+
+            this.startActivity(myIntent);
+            this.onResume();
+        }
     }
 
     @Override
@@ -315,7 +326,13 @@ public class InicioFragment
     private MarkerOptions construirMarcador(Actividad act) {
         MarkerOptions marcador = new MarkerOptions().position(new LatLng(act.getUbicacion().getLatitude(), act.getUbicacion().getLongitude()));
         marcador.title(act.getNombre());
-
+        Float x = (float) 0.7;
+        Float y = (float) 0.7;
+        marcador.infoWindowAnchor(x,y);
+        //http://paletton.com/#uid=15z0u0kkQm7agxYf-rppWh2vlbA
+        marcador.icon(BitmapDescriptorFactory.defaultMarker(354));
+        Float opacity = (float) 0.8;
+        marcador.alpha(opacity);
         /*
         if(act.getDescripcion() != null) {
             snippet = snippet + "Descripción:" + '\n';

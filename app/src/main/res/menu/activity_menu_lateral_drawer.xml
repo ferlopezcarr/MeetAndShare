@@ -14,10 +14,16 @@
             android:id="@+id/nav_Perfil"
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/perfil" />
+
         <item
             android:id="@+id/nav_CrearActividad"
             android:icon="@drawable/ic_add_black_24dp"
             android:title="@string/crear_actividad" />
+
+        <item
+            android:id="@+id/nav_CerrarSesion"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="@string/cerrar_sesion" />
 
     </group>
 

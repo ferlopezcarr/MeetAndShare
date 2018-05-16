@@ -55,12 +55,13 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Usuario usuario;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = AutorizacionFirebase.getFirebaseAuth();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -266,6 +267,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            if(event.getRepeatCount() == 0) {
+                Toast.makeText(getApplicationContext(), "Mantén pulsado para salir",
+                        Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+            else {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     private interface ProfileQuery {
         String[] PROJECTION = {

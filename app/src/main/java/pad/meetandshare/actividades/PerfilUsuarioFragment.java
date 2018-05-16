@@ -2,6 +2,7 @@ package pad.meetandshare.actividades;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,6 +69,16 @@ public class PerfilUsuarioFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
+
+        if(!AutorizacionFirebase.amIAuthentificated()) {
+            AutorizacionFirebase.setSingOut(true);
+            AutorizacionFirebase.getFirebaseAuth().signOut();
+            Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
+
+            this.startActivity(myIntent);
+            this.onResume();
+        }
+
     }
 
     @Override

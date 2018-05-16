@@ -34,14 +34,18 @@
     <string name="title_activity_menu_lateral">MenuLateralActivity</string>
     <string name="descripcionUsuarioMsg">Cuéntanos más sobre ti...</string>
 
+    <!-- Strings related to Ver Perfil -->
+    <string name="PerfilTitle">Ver Perfil</string>
+
     <!-- Strings related to Crear Actividad -->
 
     <!-- Strings related to Ver Actividad -->
     <string name="VerActividadTitle">Ver Actividad</string>
     <string name="descripcionActividadMsg">¿De qué va la actividad?</string>
 
-    <!-- Strings related to Ver Perfil -->
-    <string name="PerfilTitle">Ver Perfil</string>
+
+    <!--String related to Cerrar Sesión -->
+    <string name="cerrar_sesion">Cerrar Sesión</string>
 
     <!-- Usuario -->
     <string name="nombre">Nombre</string>

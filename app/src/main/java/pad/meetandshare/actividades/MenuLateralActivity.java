@@ -1,5 +1,6 @@
 package pad.meetandshare.actividades;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 
 
 import pad.meetandshare.R;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener {
@@ -69,28 +71,38 @@ public class MenuLateralActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragmento=null;
-        boolean cambia =false;
-        if (id == R.id.nav_Perfil) {
+        boolean cambia = false;
+        boolean salir = false;
+
+        if (id == R.id.nav_Inicio) {
+            cambia = true;
+            fragmento = new InicioFragment();
+        } else if (id == R.id.nav_Perfil) {
             fragmento = new PerfilUsuarioFragment();
             cambia = true;
         } else if (id == R.id.nav_CrearActividad) {
             fragmento = new CrearActividadFragment();
             cambia = true;
 
-        } else if (id == R.id.nav_Inicio) {
-            cambia= true;
-            fragmento = new InicioFragment();
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_CerrarSesion) {
+            salir = true;
+            AutorizacionFirebase.getFirebaseAuth().signOut();
+            Intent myIntent = new Intent(this, LoginActivity.class);
 
+            this.startActivity(myIntent);
+            this.onResume();
         } else if (id == R.id.nav_send) {
 
         }
 
-        if(cambia)
-            getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
+        if(!salir) {
+            if(cambia)
+                getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
         return true;
     }
 

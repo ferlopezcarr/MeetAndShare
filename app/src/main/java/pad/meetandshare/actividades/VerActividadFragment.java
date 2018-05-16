@@ -1,6 +1,7 @@
 package pad.meetandshare.actividades;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,15 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         if (bundle != null) {
             actividad = (Actividad) bundle.getSerializable(ACTIVIDAD);
             nombreUsuario = bundle.getString(NOMBRE_USUARIO);
+        }
+
+        if(!AutorizacionFirebase.amIAuthentificated()) {
+            AutorizacionFirebase.setSingOut(true);
+            AutorizacionFirebase.getFirebaseAuth().signOut();
+            Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
+
+            this.startActivity(myIntent);
+            this.onResume();
         }
     }
 
