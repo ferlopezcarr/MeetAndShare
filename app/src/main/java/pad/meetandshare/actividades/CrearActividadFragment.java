@@ -118,6 +118,15 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listItems = Categoria.getArray();
+        checkedItems = new boolean[listItems.length];
+
+        saActividad = new SAActividadImp();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_crear_actividad,
@@ -205,14 +214,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listItems = Categoria.getArray();
-        checkedItems = new boolean[listItems.length];
-
-        saActividad = new SAActividadImp();
-    }
 
     @Override
     public void onStart() {

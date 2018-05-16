@@ -271,16 +271,16 @@ public class Actividad implements Serializable {
         this.idUsuariosInscritos = idUsuariosInscritos;
     }
 
-    public boolean addUsuario(String idUsuario) {
+    public boolean addUsuario(String uidUsuario) {
         if (idUsuariosInscritos == null) {
             idUsuariosInscritos = new ArrayList<String>();
         }
 
-        if (idUsuariosInscritos.contains(idUsuario)) {
+        if (idUsuariosInscritos.contains(uidUsuario)) {
             return false;
         }
         else {
-            idUsuariosInscritos.add(idUsuario);
+            idUsuariosInscritos.add(uidUsuario);
             return true;
         }
     }

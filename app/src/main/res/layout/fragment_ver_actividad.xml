@@ -203,7 +203,6 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
-
                 android:text="@string/ver_ubicacion"
                 android:textStyle="bold" />
 
@@ -241,7 +240,7 @@
                 android:id="@+id/descripcionVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100px"
+                android:layout_marginBottom="16dp"
                 android:background="@android:color/background_light"
                 android:maxLines="35"
                 android:minLines="3"
@@ -249,6 +248,18 @@
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="14sp" />
+
+            <!-- BOTON INSCRIBIRSE-->
+            <Button
+                android:id="@+id/inscribirse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:ems="10"
+                android:text="@string/inscribirse"
+                android:textStyle="bold" />
 
 
         </LinearLayout>

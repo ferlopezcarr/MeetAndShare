@@ -76,6 +76,7 @@
     <string name="seleccionar_ubicacion">Seleccionar Ubicacion</string>
     <string name="ver_ubicacion">Ver Ubicacion</string>
     <string name="ver_usuarios_inscritos">Ver Usuarios Inscritos</string>
+    <string name="inscribirse">Inscribirse</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>

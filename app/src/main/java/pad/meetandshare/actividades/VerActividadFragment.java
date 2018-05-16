@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
@@ -32,6 +35,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private String nombreUsuario;
     private View rootView;
     private LayoutInflater miInflater;
+    private Button ubicacionBoton;
+    private Button inscribirseBoton;
 
 
     public VerActividadFragment() {
@@ -58,7 +63,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             actividad = (Actividad) bundle.getSerializable(ACTIVIDAD);
             nombreUsuario = bundle.getString(NOMBRE_USUARIO);
         }
-
     }
 
     @Override
@@ -67,6 +71,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_ver_actividad, container, false);
         miInflater = inflater;
+
+        ubicacionBoton = ((Button) rootView.findViewById(R.id.ver_ubicacion));
+        ubicacionBoton.setOnClickListener(this);
+
+        inscribirseBoton = ((Button) rootView.findViewById(R.id.inscribirse));
+        inscribirseBoton.setOnClickListener(this);
 
         return rootView;
     }
@@ -137,12 +147,45 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         if(actividad.getDescripcion() != null)
             ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setText(actividad.getDescripcion());
 
+        //Boton de inscribirse
+        //si el usuario esta inscrito en la actividad
+        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+            inscribirseBoton.setVisibility(View.GONE);
+        }
+        else {//si no esta inscrito
+            inscribirseBoton.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()) {
+            case R.id.ver_ubicacion:
+                verUbicacion();
+                break;
+
+            case R.id.inscribirse:
+                inscribirse();
+                break;
+        }
+    }
+
+    private void verUbicacion() {
 
     }
+
+    private void inscribirse() {
+        if(actividad.addUsuario(AutorizacionFirebase.getCurrentUser().getUid())) {
+            SAActividad saActividad = new SAActividadImp();
+            saActividad.save(actividad, actividad.getUid());
+        }
+        else {//si ya contiene al usuario
+            Toast.makeText(getActivity(), "¡Ya estás inscrito!", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
 
 }
