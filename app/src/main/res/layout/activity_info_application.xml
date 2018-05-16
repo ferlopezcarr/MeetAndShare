@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actividades.InfoApplicationWebViewActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/caveat"
+            android:gravity="center"
+            android:padding="5sp"
+            android:text="@string/app_name"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="42sp"
+            android:textStyle="bold|italic"
+            android:typeface="normal" />
 
-    <include layout="@layout/content_info_application" />
+        <include
+            layout="@layout/content_info_application"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+
+</FrameLayout>

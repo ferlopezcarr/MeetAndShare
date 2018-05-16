@@ -122,7 +122,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
 
         //NombreAdmin
-        ((TextView) rootView.findViewById(R.id.administradorVerActividad)).setText(nombreUsuario);
+        String nombreAdmin = nombreUsuario;
+        //si el adminstrador es el usuario de la sesion
+        if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+            nombreAdmin = "Tú";
+        }
+        ((TextView) rootView.findViewById(R.id.administradorVerActividad)).setText(nombreAdmin);
 
         //Estado
         String estado = "";
@@ -182,11 +187,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private void inscribirse() {
         if(actividad.addUsuario(AutorizacionFirebase.getCurrentUser().getUid())) {
             SAActividad saActividad = new SAActividadImp();
-            saActividad.save(actividad, actividad.getUid());
+            saActividad.save(actividad, actividad.getIdAdministrador());
+            Toast.makeText(getActivity(), "¡Te has inscrito a la actividad '"+actividad.getNombre()+"'!", Toast.LENGTH_LONG).show();
+            inscribirseBoton.setVisibility(View.GONE);
         }
         else {//si ya contiene al usuario
             Toast.makeText(getActivity(), "¡Ya estás inscrito!", Toast.LENGTH_LONG).show();
-
         }
     }
 

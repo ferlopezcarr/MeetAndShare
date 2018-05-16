@@ -22,7 +22,6 @@ public interface SAUsuario {
      */
      void save(Usuario usuario, String ui);
 
-
-
      void get(String ui, MyCallBack myCallBack);
+
 }

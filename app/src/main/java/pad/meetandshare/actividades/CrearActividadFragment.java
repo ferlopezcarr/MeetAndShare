@@ -224,6 +224,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
+
                 for (DataSnapshot ds : dataSnapshotChid) {
                     Actividad act = ds.getValue(Actividad.class);
 

@@ -329,10 +329,19 @@ public class InicioFragment
         Float x = (float) 0.7;
         Float y = (float) 0.7;
         marcador.infoWindowAnchor(x,y);
-        //http://paletton.com/#uid=15z0u0kkQm7agxYf-rppWh2vlbA
-        marcador.icon(BitmapDescriptorFactory.defaultMarker(354));
         Float opacity = (float) 0.8;
         marcador.alpha(opacity);
+
+        //si la actividad es tuya
+        if(act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(215));
+        }
+        else {//si no eres el administrador
+            //http://paletton.com/#uid=15z0u0kkQm7agxYf-rppWh2vlbA
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(354));
+        }
+
+
         /*
         if(act.getDescripcion() != null) {
             snippet = snippet + "Descripción:" + '\n';

@@ -47,9 +47,9 @@ public class SAActividadImp implements SAActividad {
     }
 
     @Override
-    public void save(Actividad actividad, String ui){
+    public void save(Actividad actividad, String uidAdminstrador){
 
-        myRef.child(ui).child(actividad.getUid()).setValue(actividad);
+        myRef.child(uidAdminstrador).child(actividad.getUid()).setValue(actividad);
 
     }
 

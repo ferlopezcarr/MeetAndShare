@@ -24,7 +24,7 @@ public interface SAActividad {
      * @param ui
      * @return actividad guardada
      */
-    void save(Actividad actividad, String ui);
+    void save(Actividad actividad, String uidAdminstrador);
 
     /**
      * Método para obtener una actividad de las base de datos,
