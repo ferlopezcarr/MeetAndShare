@@ -77,6 +77,7 @@
     <string name="ver_ubicacion">Ver Ubicacion</string>
     <string name="ver_usuarios_inscritos">Ver Usuarios Inscritos</string>
     <string name="inscribirse">Inscribirse</string>
+    <string name="ver_actividad">Ver Actividad</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>
@@ -90,6 +91,9 @@
 
 
     <string name="radio">Seleccione el radio en Km de para filtrar actividades</string>
+
+    <!-- Marker -->
+    <string name="textInfoMarker">Click para ver categorías, click y mantén pulsado para más detalles</string>
 
 
 </resources>

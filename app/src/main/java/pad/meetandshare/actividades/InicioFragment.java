@@ -1,6 +1,8 @@
 package pad.meetandshare.actividades;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 
 import android.location.Criteria;
@@ -13,6 +15,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -36,6 +40,8 @@ import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +51,9 @@ import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
  * Use the {@link InicioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InicioFragment extends Fragment implements OnMapReadyCallback{
+public class InicioFragment extends Fragment
+        implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +69,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
     private MapView mapView;
     private LocationManager locationManager;
 
+    private FragmentManager fragmentManager;
 
     private View rootView;
 
@@ -82,9 +91,6 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
     @Override
@@ -103,7 +109,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
 
         mapView.getMapAsync(this);
 
-
+        fragmentManager = this.getFragmentManager();
 
         return rootView;
     }
@@ -182,7 +188,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         // Updates the location and zoom of the MapView
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -196,11 +202,52 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17));
 
 
-        }catch (SecurityException e){}
+        } catch (SecurityException e){}
 
         mMap.setIndoorEnabled(true);
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Set a listener for info window events.
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+            @Override
+            public void onInfoWindowLongClick(Marker marker) {
+
+                final Actividad actividad = (Actividad) marker.getTag();
+
+                SAUsuario saUsuario = new SAUsuarioImp();
+
+                saUsuario.get(actividad.getIdAdministrador(), new MyCallBack() {
+                    @Override
+                    public void onCallbackUsuario(Usuario usuario) {
+                        if(usuario != null) {
+                            //hacer la transicion
+                            Fragment fragmento = VerActividadFragment.newInstance(actividad, usuario.getNombre());
+
+                            FragmentTransaction ft = fragmentManager.beginTransaction();
+                            ft.replace(R.id.ContenedorMenuLateral, fragmento);
+                            ft.addToBackStack(null);
+
+                            ft.commit();
+                        }
+                    }
+
+                    @Override
+                    public void onCallbackActividad(Actividad actividad) {
+
+                    }
+
+                    @Override
+                    public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+
+                    }
+                });
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(this.getActivity().getLayoutInflater()));
+
 
         SAActividad saActividad = new SAActividadImp();
         // Add a marker in Sydney and move the camera
@@ -208,12 +255,10 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
         saActividad.getAll(new MyCallBack() {
             @Override
             public void onCallbackUsuario(Usuario usuario) {
-
             }
 
             @Override
             public void onCallbackActividad(Actividad actividad) {
-
             }
 
             @Override
@@ -221,13 +266,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
 
                 for(Actividad actual : actividad) {
 
-                    MarkerOptions marcador = new MarkerOptions().position(
-                            new LatLng(actual.getUbicacion().getLatitude(), actual.getUbicacion().getLongitude())
-                        );
-
-                    construirMarcador(marcador, actual);
-
-                    mMap.addMarker(marcador);
+                    mMap.addMarker(construirMarcador(actual)).setTag(actual);
                 }
             }
         });
@@ -235,21 +274,31 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
         //mMap.moveCamera();
     }
 
-    private void construirMarcador(MarkerOptions markerOptions, Actividad act) {
-        String snippet = "";
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Actividad actividad = (Actividad) marker.getTag();
 
-        markerOptions.title(act.getNombre());
+        if(actividad != null) {
+            String snippet = "";
 
-        /*
-        if(act.getCategorias() != null) {
-            snippet = snippet + "Categorías:" + '\n';
-            for (Categoria cat : act.getCategorias()) {
-                snippet = snippet + '\t' + cat.getDisplayName() + '\n';
+            if(actividad.getCategorias() != null) {
+                snippet = snippet + "Categorías:";
+                for (Categoria cat : actividad.getCategorias()) {
+                    snippet = snippet + '\n' + cat.getDisplayName();
+                }
             }
-            snippet += '\n';
+            marker.setSnippet(snippet);
         }
 
+        marker.hideInfoWindow();
+        marker.showInfoWindow();
+    }
 
+    private MarkerOptions construirMarcador(Actividad act) {
+        MarkerOptions marcador = new MarkerOptions().position(new LatLng(act.getUbicacion().getLatitude(), act.getUbicacion().getLongitude()));
+        marcador.title(act.getNombre());
+
+        /*
         if(act.getDescripcion() != null) {
             snippet = snippet + "Descripción:" + '\n';
 
@@ -261,8 +310,7 @@ public class InicioFragment extends Fragment implements OnMapReadyCallback{
             }
         }
         */
-
-        markerOptions.snippet(snippet);
+        return marcador;
     }
 
 }
