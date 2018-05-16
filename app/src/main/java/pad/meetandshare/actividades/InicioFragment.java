@@ -15,12 +15,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -29,7 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -67,8 +64,7 @@ public class InicioFragment extends Fragment
 
     private GoogleMap mMap;
     private MapView mapView;
-    private LocationManager locationManager;
-
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private FragmentManager fragmentManager;
 
     private View rootView;
@@ -98,18 +94,16 @@ public class InicioFragment extends Fragment
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
-        MapsInitializer.initialize(this.getActivity());
+        fragmentManager = this.getFragmentManager();
 
 
-        locationManager= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
 
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
 
         mapView.getMapAsync(this);
-
-        fragmentManager = this.getFragmentManager();
 
         return rootView;
     }
@@ -196,10 +190,14 @@ public class InicioFragment extends Fragment
         try {
             mMap.setMyLocationEnabled(true);
             Criteria criteria = new Criteria();
-            String bestProvider = locationManager.getBestProvider(criteria, true);
-            Location currentLocation = locationManager.getLastKnownLocation(bestProvider);
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17));
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+
+                }
+            });
 
 
         } catch (SecurityException e){}
