@@ -1,10 +1,12 @@
 package pad.meetandshare.actividades;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -12,9 +14,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -48,8 +53,13 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
  * Use the {@link InicioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InicioFragment extends Fragment
-        implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
+public class InicioFragment
+        extends Fragment
+        implements
+            GoogleMap.OnInfoWindowClickListener,
+            OnMapReadyCallback,
+            ActivityCompat.OnRequestPermissionsResultCallback
+{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,6 +78,8 @@ public class InicioFragment extends Fragment
     private FragmentManager fragmentManager;
 
     private View rootView;
+
+    private final int MY_LOCATION_REQUEST_CODE = 123;
 
     public InicioFragment() {
         // Required empty public constructor
@@ -108,8 +120,6 @@ public class InicioFragment extends Fragment
         return rootView;
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -141,7 +151,6 @@ public class InicioFragment extends Fragment
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
     @Override
     public void onResume() {
@@ -188,19 +197,30 @@ public class InicioFragment extends Fragment
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         try {
-            mMap.setMyLocationEnabled(true);
-            Criteria criteria = new Criteria();
+            //si tienes permisos
+            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
 
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                mMap.setMyLocationEnabled(true);
 
-                }
-            });
+                Criteria criteria = new Criteria();
 
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                    }
+                });
 
-        } catch (SecurityException e){}
+            } else {//si no tienes permisos
+                //pides los permisos
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_LOCATION_REQUEST_CODE);
+            }
+        } catch (SecurityException e){
+            Toast.makeText(getActivity(), "¡Security exception!", Toast.LENGTH_LONG).show();
+            //deslogear
+        }
 
         mMap.setIndoorEnabled(true);
         mMap.setBuildingsEnabled(true);
@@ -311,4 +331,33 @@ public class InicioFragment extends Fragment
         return marcador;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        //si tienes permisos
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        } else {//si no tienes permisos
+
+            if (requestCode == MY_LOCATION_REQUEST_CODE) {
+                if (permissions.length == 1 &&
+                        permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mMap.setMyLocationEnabled(true);
+
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                        }
+                    });
+
+                } else {
+                    mMap.setMyLocationEnabled(false);
+                }
+            }
+        }
+    }
 }
