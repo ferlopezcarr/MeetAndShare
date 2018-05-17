@@ -268,23 +268,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            if(event.getRepeatCount() == 0) {
-                Toast.makeText(getApplicationContext(), "Mantén pulsado para salir",
-                        Toast.LENGTH_SHORT).show();
-
-                return true;
-            }
-            else {
-                setResult(RESULT_OK);
-                finish();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        // super.onBackPressed(); commented this line in order to disable back press
+        //Write your code here
+        finish();
     }
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,

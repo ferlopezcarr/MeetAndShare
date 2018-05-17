@@ -212,14 +212,18 @@ public class InicioFragment
             if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
 
-                mMap.setMyLocationEnabled(true);
 
-                Criteria criteria = new Criteria();
+                mMap.setMyLocationEnabled(true);
 
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                        if(location!=null)
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                        else
+                            Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
+
+
                     }
                 });
 
@@ -299,8 +303,7 @@ public class InicioFragment
                 }
             }
         });
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera();
+
     }
 
     @Override
@@ -342,18 +345,7 @@ public class InicioFragment
         }
 
 
-        /*
-        if(act.getDescripcion() != null) {
-            snippet = snippet + "Descripción:" + '\n';
 
-            if(act.getDescripcion().length() > 20) {
-                snippet = snippet + act.getDescripcion().substring(0, 20) + " ..." + '\n';
-            }
-            else {
-                snippet = snippet + act.getDescripcion() + '\n';
-            }
-        }
-        */
         return marcador;
     }
 
@@ -376,7 +368,10 @@ public class InicioFragment
                     fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                            if(location!=null)
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                            else
+                                Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
                         }
                     });
 
