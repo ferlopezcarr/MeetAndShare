@@ -38,8 +38,10 @@ public class MenuLateralActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        if (getFragmentManager().findFragmentById(R.id.ContenedorMenuLateral) == null) {
+            getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, new InicioFragment()).commit();
 
-        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, new InicioFragment()).commit();
+        }
 
          drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
