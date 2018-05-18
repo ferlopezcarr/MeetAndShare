@@ -53,24 +53,6 @@
             android:value="false" />
 
 
-        <service
-            android:name=".actividades.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".actividades.MyFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name=".actividades.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".actividades.LoginActivity"
             android:label="@string/app_name">
@@ -80,6 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".actividades.MenuLateralActivity"
             android:label="@string/app_name"
@@ -91,7 +74,8 @@
         <activity
             android:name=".actividades.InfoApplicationWebViewActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
     </application>
 
 </manifest>

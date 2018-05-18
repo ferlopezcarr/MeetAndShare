@@ -1,5 +1,6 @@
 package pad.meetandshare.negocio.servicioAplicacion;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import pad.meetandshare.negocio.modelo.Actividad;
@@ -34,8 +35,6 @@ public interface SAActividad {
      */
     void get(String ui, final MyCallBack myCallBack);
 
-
-
     /**
      * Método para obtener una actividad de las base de datos,
      * si no existe devuelve null
@@ -44,7 +43,7 @@ public interface SAActividad {
      */
     void getAll(final MyCallBack myCallBack);
 
+    DatabaseReference getDatabaseReference();
 
-
-    public DatabaseReference getDatabaseReference();
+    boolean checkActividad(Actividad actividadCreada, DataSnapshot dataSnapshot);
 }

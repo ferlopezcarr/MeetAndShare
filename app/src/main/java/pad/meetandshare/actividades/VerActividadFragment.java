@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,20 +25,33 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     public static final String ACTIVIDAD = "Actividad";
     public static final String NOMBRE_USUARIO = "nombreUsuario";
 
+    private TextView tvNombre;
+    private TextView tvFechaIni;
+    private TextView tvHoraIni;
+    private TextView tvFechaFin;
+    private TextView tvHoraFin;
+    private TextView tvMaxParticipantes;
+    private TextView tvPlazasLibres;
+    private TextView tvNombreAdmin;
+    private TextView tvEstado;
+    private TextView tvDescripcion;
+    private Button ubicacionBoton;
+    private Button inscribirseBoton;
+    private Button verUsuariosInscritosBoton;
+
     private String uidActividad;
     private Actividad actividad;
     private String nombreUsuario;
+
     private View rootView;
+
     private LayoutInflater miInflater;
-    private Button ubicacionBoton;
-    private Button inscribirseBoton;
 
 
     public VerActividadFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static VerActividadFragment newInstance(Actividad actividad, String nombreUsuario) {
         VerActividadFragment fragment = new VerActividadFragment();
         Bundle bundle = new Bundle();
@@ -68,6 +82,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    // ON CREATE VIEW ---------
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,14 +90,37 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         rootView = inflater.inflate(R.layout.fragment_ver_actividad, container, false);
         miInflater = inflater;
 
+        initViewElems();
+
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        return rootView;
+    }
+
+    private void initViewElems() {
+        tvNombre = ((TextView) rootView.findViewById(R.id.nombreVerActividad));
+
+        tvFechaIni = ((TextView) rootView.findViewById(R.id.fechaIniVerActividad));
+        tvHoraIni = ((TextView) rootView.findViewById(R.id.horaIniVerActividad));
+        tvFechaFin = ((TextView) rootView.findViewById(R.id.fechaFinVerActividad));
+        tvHoraFin = ((TextView) rootView.findViewById(R.id.horaFinVerActividad));
+        tvMaxParticipantes = ((TextView) rootView.findViewById(R.id.maxParticipantesVerActividad));
+        tvPlazasLibres = ((TextView) rootView.findViewById(R.id.plazasLibresVerActividad));
+        tvNombreAdmin = ((TextView) rootView.findViewById(R.id.administradorVerActividad));
+        tvEstado = ((TextView) rootView.findViewById(R.id.finalizadaVerActividad));
+        tvDescripcion = ((TextView) rootView.findViewById(R.id.descripcionVerActividad));
+
         ubicacionBoton = ((Button) rootView.findViewById(R.id.ver_ubicacion));
         ubicacionBoton.setOnClickListener(this);
 
         inscribirseBoton = ((Button) rootView.findViewById(R.id.inscribirse));
         inscribirseBoton.setOnClickListener(this);
 
-        return rootView;
+        verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
+        verUsuariosInscritosBoton.setOnClickListener(this);
     }
+    //-------------------------
 
     @Override
     public void onStart() {
@@ -96,29 +134,29 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         Integer maxParticipantes = actividad.getMaxParticipantes();
 
-        //Nombre actividad
-        ((TextView) rootView.findViewById(R.id.nombreVerActividad)).setText(actividad.getNombre());
+        //Nombre
+        tvNombre.setText(actividad.getNombre());
 
         //FechaIni
-        ((TextView) rootView.findViewById(R.id.fechaIniVerActividad)).setText(arrayFechaIni[0]);
+        tvFechaIni.setText(arrayFechaIni[0]);
         //HoraIni
-        ((TextView) rootView.findViewById(R.id.horaIniVerActividad)).setText(arrayFechaIni[2]);
+        tvHoraIni.setText(arrayFechaIni[2]);
 
         //FechaFin
-        ((TextView) rootView.findViewById(R.id.fechaFinVerActividad)).setText(arrayFechaFin[0]);
+        tvFechaFin.setText(arrayFechaFin[0]);
         //HoraFin
-        ((TextView) rootView.findViewById(R.id.horaFinVerActividad)).setText(arrayFechaFin[2]);
+        tvHoraFin.setText(arrayFechaFin[2]);
 
         //Max Participantes
-        ((TextView) rootView.findViewById(R.id.maxParticipantesVerActividad)).setText(maxParticipantes.toString());
+        tvMaxParticipantes.setText(maxParticipantes.toString());
 
         //Plazas libres
         Integer plazasLibres = maxParticipantes - actividad.getIdUsuariosInscritos().size();
         if(plazasLibres <= 0) {
-            ((TextView) rootView.findViewById(R.id.plazasLibresVerActividad)).setText("-");
+            tvPlazasLibres.setText("-");
         }
         else {//si hay plazas libres
-            ((TextView) rootView.findViewById(R.id.plazasLibresVerActividad)).setText(plazasLibres.toString());
+            tvPlazasLibres.setText(plazasLibres.toString());
         }
 
         //NombreAdmin
@@ -127,7 +165,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
             nombreAdmin = "Tú";
         }
-        ((TextView) rootView.findViewById(R.id.administradorVerActividad)).setText(nombreAdmin);
+        tvNombreAdmin.setText(nombreAdmin);
 
         //Estado
         String estado = "";
@@ -136,7 +174,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         } else {//no finalizada
             estado = "Activa";
         }
-        ((TextView) rootView.findViewById(R.id.finalizadaVerActividad)).setText(estado);
+        tvEstado.setText(estado);
 
         //Categorias
         if(actividad.getCategorias() != null) {
@@ -153,7 +191,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         //Descripción
         if(actividad.getDescripcion() != null)
-            ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setText(actividad.getDescripcion());
+            tvDescripcion.setText(actividad.getDescripcion());
 
         //Boton de inscribirse
         //si el usuario esta inscrito en la actividad
@@ -168,7 +206,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.ver_ubicacion:
                 verUbicacion();
@@ -176,6 +213,10 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
             case R.id.inscribirse:
                 inscribirse();
+                break;
+
+            case R.id.ver_usuarios_inscritos:
+                verUsuariosInscritos();
                 break;
         }
     }
@@ -193,6 +234,16 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
         else {//si ya contiene al usuario
             Toast.makeText(getActivity(), "¡Ya estás inscrito!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void verUsuariosInscritos() {
+        //si esta inscrito
+        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+
+        }
+        else {//si no esta inscrito
+            inscribirseBoton.setVisibility(View.GONE);
         }
     }
 

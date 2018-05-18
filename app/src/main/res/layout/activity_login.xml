@@ -18,7 +18,7 @@
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/caveat"
         android:gravity="center"
-        android:padding="5sp"
+        android:paddingBottom="2dp"
         android:text="@string/app_name"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat"
@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:indeterminate="false"
         android:visibility="gone" />
 
 

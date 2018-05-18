@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,10 +37,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import pad.meetandshare.R;
+import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
@@ -53,8 +57,6 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
  * Activities that contain this fragment must implement the
  * {@link InicioFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link InicioFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class InicioFragment
         extends Fragment
@@ -64,14 +66,7 @@ public class InicioFragment
             ActivityCompat.OnRequestPermissionsResultCallback
 {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Float color = ColorFile.DEFAULT_COLOR;
 
     private OnFragmentInteractionListener mListener;
 
@@ -88,20 +83,10 @@ public class InicioFragment
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
-    public static InicioFragment newInstance() {
-        InicioFragment fragment = new InicioFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(!AutorizacionFirebase.amIAuthentificated()) {
             AutorizacionFirebase.setSingOut(true);
             AutorizacionFirebase.getFirebaseAuth().signOut();
@@ -110,6 +95,9 @@ public class InicioFragment
             this.startActivity(myIntent);
             this.onResume();
         }
+
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
@@ -159,7 +147,6 @@ public class InicioFragment
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -173,6 +160,19 @@ public class InicioFragment
     public void onStart() {
         super.onStart();
         mapView.onStart();
+
+        readColorFromFile();
+    }
+
+    void readColorFromFile() {
+        if(ColorFile.read(color, this.getActivity())) {
+            if(color == null) {
+                color = ColorFile.DEFAULT_COLOR;
+            }
+        }
+        else {
+            ColorFile.write(ColorFile.DEFAULT_COLOR, this.getActivity());
+        }
     }
 
     @Override
@@ -180,17 +180,19 @@ public class InicioFragment
         super.onStop();
         mapView.onStop();
     }
+
     @Override
     public void onPause() {
         mapView.onPause();
-
         super.onPause();
     }
+
     @Override
     public void onDestroy() {
         mapView.onDestroy();
         super.onDestroy();
     }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -282,7 +284,7 @@ public class InicioFragment
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(this.getActivity().getLayoutInflater()));
 
 
-        SAActividad saActividad = new SAActividadImp();
+        final SAActividad saActividad = new SAActividadImp();
         // Add a marker in Sydney and move the camera
 
         saActividad.getAll(new MyCallBack() {
@@ -295,11 +297,18 @@ public class InicioFragment
             }
 
             @Override
-            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+            public void onCallbackActividadAll(ArrayList<Actividad> actividades) {
 
-                for(Actividad actual : actividad) {
+                for(Actividad actual : actividades) {
+                    //si la fecha de fin es mas tarde de ahora se finaliza
+                    if(actual.getFechaFin().before(new Date()) && !actual.getFinalizada()) {
+                        actual.setFinalizada(true);
+                        saActividad.save(actual, actual.getIdAdministrador());
+                    }
 
-                    mMap.addMarker(construirMarcador(actual)).setTag(actual);
+                    if(!actual.getFinalizada() && actual.getActiva()) {
+                        mMap.addMarker(construirMarcador(actual)).setTag(actual);
+                    }
                 }
             }
         });
@@ -335,16 +344,26 @@ public class InicioFragment
         Float opacity = (float) 0.8;
         marcador.alpha(opacity);
 
-        //si la actividad es tuya
-        if(act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
-            marcador.icon(BitmapDescriptorFactory.defaultMarker(215));
+        //si estas inscrito en la actividad
+        if(act.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+            //si eres el admin de la actividad
+            if(act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+                marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ADMIN_COLOR));//morado
+            }
+            else {
+                marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.PARTICIPANT_COLOR));
+            }
         }
-        else {//si no eres el administrador
-            //http://paletton.com/#uid=15z0u0kkQm7agxYf-rppWh2vlbA
-            marcador.icon(BitmapDescriptorFactory.defaultMarker(354));
+        else {//resto de actividades
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(color));
         }
 
-
+        Date tommorrow = new Date();
+        tommorrow = FechaUtil.sumarRestarDiasFecha(tommorrow, ColorFile.TIME_DIFFERENCE);
+        //si la activadad empieza mañana
+        if(act.getFechaInicio().before(tommorrow)) {
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW));
+        }
 
         return marcador;
     }

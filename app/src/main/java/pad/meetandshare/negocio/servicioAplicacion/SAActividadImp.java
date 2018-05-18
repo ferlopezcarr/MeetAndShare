@@ -127,4 +127,34 @@ public class SAActividadImp implements SAActividad {
     public DatabaseReference getDatabaseReference() {
         return myRef;
     }
+
+    @Override
+    public boolean checkActividad(Actividad actividadCreada, DataSnapshot dataSnapshot) {
+        boolean sameName = false;
+        boolean sameAdmin = false;
+
+        Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
+
+        for (DataSnapshot ds : dataSnapshotChid) {
+            Actividad act = ds.getValue(Actividad.class);
+
+            //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
+            if (actividadCreada != null && act != null) {
+
+                if (act.getNombre() != null) {
+                    if (!act.getUid().equalsIgnoreCase(actividadCreada.getUid())) {
+
+                        sameName = act.getNombre().equalsIgnoreCase(actividadCreada.getNombre());
+                        sameAdmin = act.getIdAdministrador().equalsIgnoreCase(actividadCreada.getIdAdministrador());
+
+                        if (sameName && sameAdmin) {
+                            ds.getRef().removeValue();
+                        }
+                    }
+                }
+            }
+        }
+
+        return (sameName && sameAdmin);
+    }
 }

@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50px"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="50px">
 
 
             <TextView
@@ -54,8 +55,8 @@
                 android:id="@+id/nombreVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- FECHA INI-->
@@ -70,8 +71,8 @@
                 android:id="@+id/fechaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
             <!-- HORA FIN-->
 
@@ -85,8 +86,8 @@
                 android:id="@+id/horaIniVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- FECHA FIN-->
@@ -101,8 +102,8 @@
                 android:id="@+id/fechaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
             <!-- HORA FIN-->
 
@@ -116,8 +117,8 @@
                 android:id="@+id/horaFinVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- MAX PARTICIPANTES -->
@@ -132,8 +133,8 @@
                 android:id="@+id/maxParticipantesVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- PLAZAS LIBRES -->
@@ -150,8 +151,8 @@
                 android:id="@+id/plazasLibresVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- ADMINISTRADOR -->
@@ -166,8 +167,8 @@
                 android:id="@+id/administradorVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- ESTADO -->
@@ -182,8 +183,8 @@
                 android:id="@+id/finalizadaVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="?attr/colorBackgroundFloating"/>
+                android:textColor="?attr/colorBackgroundFloating"
+                android:textSize="18sp" />
 
 
             <!-- UBICACION -->
@@ -221,8 +222,7 @@
                 style="@style/CodeFont"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
 
             <!-- DESCRIPCION -->
@@ -254,11 +254,22 @@
                 android:id="@+id/inscribirse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="26dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
                 android:text="@string/inscribirse"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ver_usuarios_inscritos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:ems="10"
+                android:text="@string/ver_usuarios_inscritos"
                 android:textStyle="bold" />
 
 

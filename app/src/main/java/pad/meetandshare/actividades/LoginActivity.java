@@ -273,6 +273,7 @@ public class LoginActivity extends AppCompatActivity {
         //Write your code here
         finish();
     }
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -78,7 +79,6 @@ public class PerfilUsuarioFragment extends Fragment {
             this.startActivity(myIntent);
             this.onResume();
         }
-
     }
 
     @Override
@@ -104,6 +104,9 @@ public class PerfilUsuarioFragment extends Fragment {
         }
 
         ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(FechaUtil.getDateFormat().format(miUser.getFechaNacimiento()));
+
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         return rootView;
     }

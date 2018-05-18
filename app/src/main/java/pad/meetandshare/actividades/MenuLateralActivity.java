@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 
 import pad.meetandshare.R;
@@ -19,7 +20,6 @@ import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener {
-
 
 
     @Override
@@ -43,14 +43,17 @@ public class MenuLateralActivity extends AppCompatActivity
 
         }
 
-         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -61,12 +64,9 @@ public class MenuLateralActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.menu_lateral, menu);
         return true;
     }
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -113,7 +113,5 @@ public class MenuLateralActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
 
 }
