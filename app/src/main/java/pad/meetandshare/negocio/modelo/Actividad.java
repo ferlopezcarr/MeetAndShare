@@ -161,7 +161,7 @@ public class Actividad implements Serializable {
     }
 
     public Date getFechaFin() {
-        return fechaInicio;
+        return fechaFin;
     }
 
     public void setFechaFin(Date fechaFin) {

@@ -8,9 +8,7 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -28,7 +26,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -86,6 +83,7 @@ public class InicioFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
 
         if(!AutorizacionFirebase.amIAuthentificated()) {
             AutorizacionFirebase.setSingOut(true);
@@ -107,8 +105,6 @@ public class InicioFragment
         rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         fragmentManager = this.getFragmentManager();
 
-
-        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
 
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -153,7 +149,6 @@ public class InicioFragment
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
     }
 
     @Override
@@ -216,7 +211,6 @@ public class InicioFragment
 
 
                 mMap.setMyLocationEnabled(true);
-
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
@@ -374,12 +368,13 @@ public class InicioFragment
         //si tienes permisos
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+
             mMap.setMyLocationEnabled(true);
         } else {//si no tienes permisos
 
             if (requestCode == MY_LOCATION_REQUEST_CODE) {
-                if (permissions.length == 1 &&
-                        permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+                if (permissions.length == 2 &&
+                        permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&  permissions[1] == Manifest.permission.ACCESS_COARSE_LOCATION && grantResults[1] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     mMap.setMyLocationEnabled(true);

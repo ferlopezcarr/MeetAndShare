@@ -23,7 +23,9 @@ public enum Categoria {
     Naturaleza("Naturaleza"),
     Series("Series"),
     Viajes("Viajes"),
-    Videojuegos("Videojuegos");
+    Videojuegos("Videojuegos"),
+    Television("Televisión"),
+    CienciaFiccion("Ciencia Ficción");
     //hay que ir rellenando
 
     private final String displayName;
