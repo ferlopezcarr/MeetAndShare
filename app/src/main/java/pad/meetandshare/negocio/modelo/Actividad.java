@@ -2,6 +2,7 @@ package pad.meetandshare.negocio.modelo;
 
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -94,16 +95,21 @@ public class Actividad implements Serializable {
      * @return
      */
     public static boolean isValidFechaIni(Date fechaIni) {
-        FechaUtil fechaUtil = new FechaUtil();
-        Date today = new Date();
-        today.setTime(0);
-        int resCompareDates = fechaIni.compareTo(today);
-
-        return (resCompareDates >= 0); //hoy o despues
+        return (fechaIni.after(new Date())); //despues de ahora
     }
 
-    public static boolean isValidHora(String horaIniString) {
-        String hora[] = horaIniString.split(":");
+    public static boolean isOnlyFechaIniLaterThanToday(Date fechaIni) {
+
+        Date todayWithHour = new Date();
+        String todayStr = FechaUtil.getDateFormat().format(todayWithHour);
+
+        Date today = FechaUtil.dateCorrectFormat(todayStr, "00:00");
+
+        return (fechaIni.compareTo(today) >= 0);//hoy o despues
+    }
+
+    public static boolean isValidHora(String horaString) {
+        String hora[] = horaString.split(":");
         String horas = hora[0];
         String minutos = hora[1];
 
@@ -111,17 +117,16 @@ public class Actividad implements Serializable {
                 (Integer.parseInt(minutos) < 60 && Integer.parseInt(minutos) >= 0);
     }
 
-    /**
-     * Valida la fecha de fin de la actividad
-     * @param fechaIni
-     * @param fechaFin
-     * @return
-     */
-    public static boolean isValidFechaFin(Date fechaIni, Date fechaFin) {
-        int resCompareToday = fechaFin.compareTo(new Date());
-        int resCompareFechaIni = fechaFin.compareTo(fechaIni);
+    public static boolean isOnlyFechaFinLaterThanFechaIni(String fechaIniString, String fechaFinString) throws ParseException {
 
-        return (resCompareToday >= 0 && resCompareFechaIni >= 0); //hoy o despues
+        Date fechaIniWithOutHour = FechaUtil.getDateFormat().parse(fechaIniString);
+        Date fechaFinWithOutHour = FechaUtil.getDateFormat().parse(fechaFinString);
+
+        return (fechaFinWithOutHour.compareTo(fechaIniWithOutHour) >= 0);
+    }
+
+    public static boolean isValidFechaFin(Date fechaIni, Date fechaFin) {
+        return fechaFin.after(fechaIni); //despues de ahora
     }
 
     /**

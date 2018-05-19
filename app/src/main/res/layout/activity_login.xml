@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context=".actividades.LoginActivity">
 
-    <!-- Login progress -->
-
 
     <TextView
         android:id="@+id/titulo"

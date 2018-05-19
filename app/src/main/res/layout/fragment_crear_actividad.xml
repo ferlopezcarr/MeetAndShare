@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
 
@@ -330,14 +330,14 @@
                 android:id="@+id/crearActividadPost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
+
                 android:ems="10"
                 android:text="@string/crear_actividad"
-                android:textStyle="bold"
-
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

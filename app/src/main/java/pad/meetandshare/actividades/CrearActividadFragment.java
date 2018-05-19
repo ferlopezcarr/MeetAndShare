@@ -441,10 +441,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             try {
                 fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
 
-                if (!Actividad.isValidFechaIni(fechaIni)) {
-                    etFechaIni.setError("La fecha no puede ser anterior a hoy");
+                if(!actividad.isOnlyFechaIniLaterThanToday(fechaIni)) {
+                    etFechaIni.setError("La fecha de inicio debe ser hoy o posterior");
                     focusView = etFechaIni;
-                } else {
+                }
+                else {
                     fechaIniOK = true;
                 }
             } catch (ParseException e) {
@@ -466,7 +467,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             } else {
                 if (fechaIniOK) {
                     fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
-                    horaIniOK = true;
+
+                    horaIniOK = Actividad.isValidFechaIni(fechaIni);
+                    if (!horaIniOK) {
+                        etHoraIni.setError("La hora de inicio debe ser ahora o posterior");
+                        focusView = etHoraIni;
+                    }
                 } else {
                     etHoraIni.setError("Introduce una fecha de inicio correcta");
                     focusView = etHoraIni;
@@ -482,8 +488,8 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             } else {
                 try {
                     fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
-                    fechaFinOK = true;
                 } catch (ParseException e) {
+                    fechaFinOK = true;
                     etFechaFin.setError("Formato de fecha incorrecto");
                     focusView = etFechaFin;
                 }
@@ -496,27 +502,37 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             } else {
                 horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
 
-                if (!Actividad.isValidHora(horaFinString)) {
-                    etHoraFin.setError("Formato de hora incorrecto");
-                    focusView = etHoraFin;
-                } else {
-                    if (fechaFinOK) {
-                        fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
+                try {
+                    if (!actividad.isOnlyFechaFinLaterThanFechaIni(fechaIniString, fechaFinString)) {
+                        etFechaFin.setError("La fecha de inicio debe ser igual o posterior a la fecha de fin");
+                        focusView = etFechaFin;
+                    }
+                    else {
+                        fechaFinOK = true;
 
-                        if (fechaIni.compareTo(fechaFin) < 0) {//inicio antes que fin
-                            horaFinOK = true;
-                        } else {
-                            etHoraFin.setError("La hora de fin debe ser posterior a la de inicio");
+                        if (!Actividad.isValidHora(horaFinString)) {
+                            etHoraFin.setError("Formato de hora incorrecto");
                             focusView = etHoraFin;
                         }
-                    } else {
-                        etHoraFin.setError("Introduce una fecha de fin correcta");
-                        focusView = etHoraFin;
+                        else {
+                            fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
+
+                            if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
+                                etHoraFin.setError("La hora de fin debe ser posterior a la hora de inicio");
+                                focusView = etHoraFin;
+                            } else {
+                                horaFinOK = true;
+                            }
+                        }
                     }
+                } catch(ParseException e) {
+                    fechaFinOK = false;
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    focusView = etFechaFin;
                 }
             }
         } else {
-            etFechaFin.setError("Introduce una fecha y hora de inicio correctas");
+            etFechaFin.setError("Introduce una fecha de inicio correcta");
             focusView = etFechaFin;
         }
 
