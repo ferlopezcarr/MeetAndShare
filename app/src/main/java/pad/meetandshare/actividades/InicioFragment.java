@@ -106,6 +106,7 @@ public class InicioFragment
         fragmentManager = this.getFragmentManager();
 
 
+
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
@@ -211,14 +212,16 @@ public class InicioFragment
 
 
                 mMap.setMyLocationEnabled(true);
+
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if(location!=null)
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
-                        else
+                        else {
                             Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
-
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.4167, -3.70325), 17));
+                        }
 
                     }
                 });
@@ -361,6 +364,8 @@ public class InicioFragment
 
         return marcador;
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
