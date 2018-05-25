@@ -1,42 +1,48 @@
 package pad.meetandshare.actividades;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 
-import android.location.Criteria;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import pad.meetandshare.R;
+import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
@@ -48,49 +54,48 @@ import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
  * Activities that contain this fragment must implement the
  * {@link InicioFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link InicioFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class InicioFragment extends Fragment
-        implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
+public class InicioFragment
+        extends Fragment
+        implements
+            GoogleMap.OnInfoWindowClickListener,
+            OnMapReadyCallback,
+            ActivityCompat.OnRequestPermissionsResultCallback
+{
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Float color = ColorFile.DEFAULT_COLOR;
 
     private OnFragmentInteractionListener mListener;
 
     private GoogleMap mMap;
     private MapView mapView;
-    private LocationManager locationManager;
-
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private FragmentManager fragmentManager;
 
     private View rootView;
+
+    private final int MY_LOCATION_REQUEST_CODE = 123;
 
     public InicioFragment() {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
-    public static InicioFragment newInstance() {
-        InicioFragment fragment = new InicioFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
+
+        if(!AutorizacionFirebase.amIAuthentificated()) {
+            AutorizacionFirebase.setSingOut(true);
+            AutorizacionFirebase.getFirebaseAuth().signOut();
+            Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
+
+            this.startActivity(myIntent);
+            this.onResume();
+        }
+
+        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
@@ -98,10 +103,9 @@ public class InicioFragment extends Fragment
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
-        MapsInitializer.initialize(this.getActivity());
+        fragmentManager = this.getFragmentManager();
 
 
-        locationManager= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -109,12 +113,8 @@ public class InicioFragment extends Fragment
 
         mapView.getMapAsync(this);
 
-        fragmentManager = this.getFragmentManager();
-
         return rootView;
     }
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -144,21 +144,31 @@ public class InicioFragment extends Fragment
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mapView.onStart();
+
+        readColorFromFile();
+    }
+
+    void readColorFromFile() {
+        if(ColorFile.read(color, this.getActivity())) {
+            if(color == null) {
+                color = ColorFile.DEFAULT_COLOR;
+            }
+        }
+        else {
+            ColorFile.write(ColorFile.DEFAULT_COLOR, this.getActivity());
+        }
     }
 
     @Override
@@ -166,17 +176,19 @@ public class InicioFragment extends Fragment
         super.onStop();
         mapView.onStop();
     }
+
     @Override
     public void onPause() {
         mapView.onPause();
-
         super.onPause();
     }
+
     @Override
     public void onDestroy() {
         mapView.onDestroy();
         super.onDestroy();
     }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -194,15 +206,35 @@ public class InicioFragment extends Fragment
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         try {
-            mMap.setMyLocationEnabled(true);
-            Criteria criteria = new Criteria();
-            String bestProvider = locationManager.getBestProvider(criteria, true);
-            Location currentLocation = locationManager.getLastKnownLocation(bestProvider);
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17));
+            //si tienes permisos
+            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
 
 
-        } catch (SecurityException e){}
+                mMap.setMyLocationEnabled(true);
+
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if(location!=null)
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                        else {
+                            Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.4167, -3.70325), 17));
+                        }
+
+                    }
+                });
+
+            } else {//si no tienes permisos
+                //pides los permisos
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_LOCATION_REQUEST_CODE);
+            }
+        } catch (SecurityException e){
+            Toast.makeText(getActivity(), "¡Security exception!", Toast.LENGTH_LONG).show();
+            //deslogear
+        }
 
         mMap.setIndoorEnabled(true);
         mMap.setBuildingsEnabled(true);
@@ -249,7 +281,7 @@ public class InicioFragment extends Fragment
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(this.getActivity().getLayoutInflater()));
 
 
-        SAActividad saActividad = new SAActividadImp();
+        final SAActividad saActividad = new SAActividadImp();
         // Add a marker in Sydney and move the camera
 
         saActividad.getAll(new MyCallBack() {
@@ -262,16 +294,22 @@ public class InicioFragment extends Fragment
             }
 
             @Override
-            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+            public void onCallbackActividadAll(ArrayList<Actividad> actividades) {
 
-                for(Actividad actual : actividad) {
+                for(Actividad actual : actividades) {
+                    //si la fecha de fin es mas tarde de ahora se finaliza
+                    if(actual.getFechaFin().before(new Date()) && !actual.getFinalizada()) {
+                        actual.setFinalizada(true);
+                        saActividad.save(actual, actual.getIdAdministrador());
+                    }
 
-                    mMap.addMarker(construirMarcador(actual)).setTag(actual);
+                    if(!actual.getFinalizada() && actual.getActiva()) {
+                        mMap.addMarker(construirMarcador(actual)).setTag(actual);
+                    }
                 }
             }
         });
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera();
+
     }
 
     @Override
@@ -297,20 +335,69 @@ public class InicioFragment extends Fragment
     private MarkerOptions construirMarcador(Actividad act) {
         MarkerOptions marcador = new MarkerOptions().position(new LatLng(act.getUbicacion().getLatitude(), act.getUbicacion().getLongitude()));
         marcador.title(act.getNombre());
+        Float x = (float) 0.7;
+        Float y = (float) 0.7;
+        marcador.infoWindowAnchor(x,y);
+        Float opacity = (float) 0.8;
+        marcador.alpha(opacity);
 
-        /*
-        if(act.getDescripcion() != null) {
-            snippet = snippet + "Descripción:" + '\n';
-
-            if(act.getDescripcion().length() > 20) {
-                snippet = snippet + act.getDescripcion().substring(0, 20) + " ..." + '\n';
+        //si estas inscrito en la actividad
+        if(act.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+            //si eres el admin de la actividad
+            if(act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+                marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ADMIN_COLOR));//morado
             }
             else {
-                snippet = snippet + act.getDescripcion() + '\n';
+                marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.PARTICIPANT_COLOR));
             }
         }
-        */
+        else {//resto de actividades
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(color));
+        }
+
+        Date tommorrow = new Date();
+        tommorrow = FechaUtil.sumarRestarDiasFecha(tommorrow, ColorFile.TIME_DIFFERENCE);
+        //si la activadad empieza mañana
+        if(act.getFechaInicio().before(tommorrow)) {
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW));
+        }
+
         return marcador;
     }
 
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        //si tienes permisos
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            mMap.setMyLocationEnabled(true);
+        } else {//si no tienes permisos
+
+            if (requestCode == MY_LOCATION_REQUEST_CODE) {
+                if (permissions.length == 2 &&
+                        permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&  permissions[1] == Manifest.permission.ACCESS_COARSE_LOCATION && grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mMap.setMyLocationEnabled(true);
+
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if(location!=null)
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                            else
+                                Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                } else {
+                    mMap.setMyLocationEnabled(false);
+                }
+            }
+        }
+    }
 }
