@@ -21,12 +21,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -69,9 +72,9 @@ public class InicioFragment
 
     private GoogleMap mMap;
     private MapView mapView;
+    private LocationServices mLocationServices;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FragmentManager fragmentManager;
-
     private View rootView;
 
     private final int MY_LOCATION_REQUEST_CODE = 123;
@@ -83,6 +86,7 @@ public class InicioFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
 
         if(!AutorizacionFirebase.amIAuthentificated()) {
@@ -94,6 +98,9 @@ public class InicioFragment
             this.onResume();
         }
 
+        MapsInitializer.initialize(this.getActivity());
+
+
         //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
@@ -104,8 +111,6 @@ public class InicioFragment
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         fragmentManager = this.getFragmentManager();
-
-
 
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -150,6 +155,7 @@ public class InicioFragment
     @Override
     public void onResume() {
         super.onResume();
+        mapView.onResume();
     }
 
     @Override

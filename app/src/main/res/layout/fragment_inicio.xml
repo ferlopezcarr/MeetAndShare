@@ -59,6 +59,9 @@
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map"
+            app:uiCompass="true"
+            app:zOrderOnTop="true"
+            app:uiZoomControls="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
