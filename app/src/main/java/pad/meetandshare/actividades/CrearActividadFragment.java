@@ -426,7 +426,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (nombre == null || nombre.isEmpty()) {
             etNombre.setError(campoObligatorio);
             focusView = etNombre;
-        } else if (!Usuario.isValidNombre(nombre)) {
+        } else if (!actividad.isValidNombre(nombre)) {
             etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
             focusView = etNombre;
         } else {

@@ -108,6 +108,17 @@ public class PerfilUsuarioFragment extends Fragment {
         //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        if(miUser.getDescripcion() == null) {
+            rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
+            rootView.findViewById(R.id.descripcionPerfil).setVisibility(View.GONE);
+        }
+        else {
+            if(miUser.getDescripcion().length() == 0) {
+                rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
+                rootView.findViewById(R.id.descripcionPerfil).setVisibility(View.GONE);
+            }
+        }
+
         return rootView;
     }
 

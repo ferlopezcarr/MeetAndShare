@@ -140,14 +140,19 @@
                 android:id="@+id/descripcionPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100px"
                 android:background="@android:color/background_light"
                 android:maxLines="35"
-                android:minLines="3"
                 android:padding="5sp"
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
                 android:textSize="14sp" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="26dp"
+                android:background="?android:attr/listDivider" />
 
 
         </LinearLayout>

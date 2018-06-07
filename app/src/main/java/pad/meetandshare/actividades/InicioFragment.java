@@ -44,6 +44,7 @@ import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
@@ -79,8 +80,20 @@ public class InicioFragment
 
     private final int MY_LOCATION_REQUEST_CODE = 123;
 
+    public static final String UBICACION = "ubication";
+
+    private Ubicacion ubicacionVerAct = null;
+
     public InicioFragment() {
         // Required empty public constructor
+    }
+
+    public static InicioFragment newInstance(Ubicacion ubication) {
+        InicioFragment fragment = new InicioFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(UBICACION, ubication);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -100,6 +113,11 @@ public class InicioFragment
 
         MapsInitializer.initialize(this.getActivity());
 
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null) {
+            ubicacionVerAct = (Ubicacion) bundle.getSerializable(UBICACION);
+        }
 
         //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -114,7 +132,6 @@ public class InicioFragment
 
         mapView =  rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
-
 
         mapView.getMapAsync(this);
 
@@ -191,7 +208,8 @@ public class InicioFragment
 
     @Override
     public void onDestroy() {
-        mapView.onDestroy();
+        if(mapView != null)
+            mapView.onDestroy();
         super.onDestroy();
     }
 
@@ -219,18 +237,22 @@ public class InicioFragment
 
                 mMap.setMyLocationEnabled(true);
 
-                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if(location!=null)
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
-                        else {
-                            Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.4167, -3.70325), 17));
+                if(this.ubicacionVerAct != null) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(ubicacionVerAct.getLatitude(), ubicacionVerAct.getLongitude()), 17));
+                }
+                else {
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if(location!=null)
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17));
+                            else {
+                                Toast.makeText(getActivity(), "¡Activa la ubicación!", Toast.LENGTH_LONG).show();
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.4167, -3.70325), 17));
+                            }
                         }
-
-                    }
-                });
+                    });
+                }
 
             } else {//si no tienes permisos
                 //pides los permisos
