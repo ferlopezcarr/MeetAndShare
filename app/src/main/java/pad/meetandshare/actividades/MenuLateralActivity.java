@@ -20,7 +20,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener, ModificaUsuarioFragment.OnFragmentInteractionListener,FragmentTransaction {
+        implements NavigationView.OnNavigationItemSelectedListener, InicioFragment.OnFragmentInteractionListener,FragmentTransaction {
 
 
     @Override

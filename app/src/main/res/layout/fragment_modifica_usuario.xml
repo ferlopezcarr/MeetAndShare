@@ -163,32 +163,33 @@
                     android:id="@+id/descripcionPerfilModificar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="80px"
                     android:background="@android:color/background_light"
-                    android:fadeScrollbars="false"
+
+                    android:gravity="top"
                     android:maxLines="12"
                     android:padding="5sp"
                     android:scrollbars="vertical"
-                    android:textColor="?attr/colorBackgroundFloating"
-                    android:textSize="16sp"
+                    android:inputType="textMultiLine"
+                    android:text=""
+                    android:textAlignment="viewStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-
-                    android:layout_marginBottom="80px"
-                    />
+                    android:textColor="?attr/colorBackgroundFloating"
+                    android:textSize="16sp" />
 
                 <!-- BOTON REGISTRO-->
                 <Button
-                    android:id="@+id/modificarPost"
+                    android:id="@+id/botonModificarUsuarioPost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="50px"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimaryDark"
                     android:ems="10"
-                    android:text="@string/action_save"
 
-                    android:textStyle="bold"
-                    android:layout_marginBottom="50px"
-                    />
+                    android:text="@string/action_save"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
