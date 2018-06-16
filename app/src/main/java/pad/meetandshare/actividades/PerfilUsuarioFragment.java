@@ -5,13 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.FechaUtil;
@@ -92,6 +94,7 @@ public class PerfilUsuarioFragment extends Fragment {
         ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getNombre());
         ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
         ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
+        ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setMovementMethod(new ScrollingMovementMethod());
 
         for (Categoria interes : miUser.getCategorias()) {
             TextView interesVista = (TextView) inflater.inflate(R.layout.layout_interes, null);
@@ -118,6 +121,33 @@ public class PerfilUsuarioFragment extends Fragment {
                 rootView.findViewById(R.id.descripcionPerfil).setVisibility(View.GONE);
             }
         }
+
+
+
+        ((ScrollView) rootView.findViewById(R.id.scrollPerfil)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                ((TextView) rootView.findViewById(R.id.descripcionPerfil)).getParent().requestDisallowInterceptTouchEvent(false);
+
+                return false;
+            }
+        });
+
+        ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                ((TextView) rootView.findViewById(R.id.descripcionPerfil)).getParent().requestDisallowInterceptTouchEvent(true);
+
+                return false;
+            }
+        });
+
+
+
 
         return rootView;
     }
