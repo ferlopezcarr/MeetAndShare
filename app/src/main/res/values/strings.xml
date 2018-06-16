@@ -98,7 +98,13 @@
     <string name="title_activity_info_application">InfoApplication</string>
 
 
+    <!-- Mapa -->
     <string name="radio">Radio de búsqueda (Km)</string>
+    <string name="LeyendaMapaTitle">Color de las actividades</string>
+    <string name="actAdminColor">Eres el administrador</string>
+    <string name="actUsuarioInscritoColor">Estás inscrito</string>
+    <string name="actInicioInminenteColor">Queda menos de un día para su inicio</string>
+    <string name="actOtrosUsuariosColor">De otros usuarios</string>
 
     <!-- Marker -->
     <string name="textInfoMarker">Click para ver categorías, click y mantén pulsado para más detalles</string>

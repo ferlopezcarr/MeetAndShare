@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private Usuario usuario;
+
+    private boolean _doubleBackToExitPressedOnce = false;
 
 
     @Override
@@ -197,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user.
                                 showProgress(false);
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.makeText(LoginActivity.this, "Fallo de autenticación",
                                         Toast.LENGTH_SHORT).show();
                             }
 
@@ -271,7 +274,21 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed(); commented this line in order to disable back press
         //Write your code here
-        finish();
+
+        Log.i(TAG, "onBackPressed--");
+        if (_doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this._doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Pulsa otra vez para salir", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                _doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     private interface ProfileQuery {

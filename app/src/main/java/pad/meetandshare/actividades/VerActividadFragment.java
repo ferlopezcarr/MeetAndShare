@@ -142,12 +142,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         //FechaIni
         tvFechaIni.setText(arrayFechaIni[0]);
         //HoraIni
-        tvHoraIni.setText(arrayFechaIni[2]);
+        tvHoraIni.setText(arrayFechaIni[1]);
 
         //FechaFin
         tvFechaFin.setText(arrayFechaFin[0]);
         //HoraFin
-        tvHoraFin.setText(arrayFechaFin[2]);
+        tvHoraFin.setText(arrayFechaFin[1]);
 
         //Max Participantes
         tvMaxParticipantes.setText(maxParticipantes.toString());

@@ -13,12 +13,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -77,6 +79,7 @@ public class InicioFragment
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FragmentManager fragmentManager;
     private View rootView;
+    private FloatingActionButton leyendaBoton;
 
     private final int MY_LOCATION_REQUEST_CODE = 123;
 
@@ -135,7 +138,25 @@ public class InicioFragment
 
         mapView.getMapAsync(this);
 
+        leyendaBoton = (FloatingActionButton) rootView.findViewById(R.id.botonLeyenda);
+
+        leyendaBoton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeToLeyenda();
+            }
+        });
+
         return rootView;
+    }
+
+    private void changeToLeyenda() {
+
+        Fragment frag = new LeyendaMapaFragment();
+
+        this.getFragmentManager().beginTransaction().
+                replace(R.id.ContenedorMenuLateral, frag)
+                .addToBackStack(null).commit();
     }
 
     @Override
@@ -387,7 +408,7 @@ public class InicioFragment
         tommorrow = FechaUtil.sumarRestarDiasFecha(tommorrow, ColorFile.TIME_DIFFERENCE);
         //si la activadad empieza mañana
         if(act.getFechaInicio().before(tommorrow)) {
-            marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW));
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW_COLOR));
         }
 
         return marcador;

@@ -43,7 +43,7 @@
 
         <!-- BOTON PARA LA LEYENDA DE COLORES -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_gallery"
+            android:id="@+id/botonLeyenda"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="12dp"
