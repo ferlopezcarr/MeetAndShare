@@ -147,7 +147,14 @@ public class PerfilUsuarioFragment extends Fragment {
         });
 
 
-
+        rootView.findViewById(R.id.editaPerfil).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fr= new ModificaUsuarioFragment();
+                FragmentTransaction fc=(FragmentTransaction) getActivity();
+                fc.replaceFragment(fr);
+            }
+        });
 
         return rootView;
     }

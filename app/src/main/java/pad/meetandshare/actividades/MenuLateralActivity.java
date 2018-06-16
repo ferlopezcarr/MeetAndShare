@@ -1,5 +1,6 @@
 package pad.meetandshare.actividades;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener, ModificaUsuarioFragment.OnFragmentInteractionListener,FragmentTransaction {
 
 
     @Override
@@ -113,5 +114,16 @@ public class MenuLateralActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+    @Override
+    public void replaceFragment(Fragment fragment) {
+
+        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
+
 
 }
