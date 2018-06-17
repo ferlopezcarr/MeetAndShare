@@ -1,8 +1,10 @@
 package pad.meetandshare.actividades;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -42,6 +44,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private Button inscribirseBoton;
     private Button verUsuariosInscritosBoton;
     private FloatingActionButton modificarActividadBoton;
+    private Button borrarActividad;
+
 
     private String uidActividad;
     private Actividad actividad;
@@ -128,6 +132,10 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
         modificarActividadBoton.setOnClickListener(this);
+
+        borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
+        borrarActividad.setOnClickListener(this);
+
     }
     //-------------------------
 
@@ -241,6 +249,10 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             case R.id.editaActividad:
                 changeToModificarActividad();
                 break;
+
+            case R.id.eliminar_actividad:
+                eliminarActividad();
+                break;
         }
     }
 
@@ -291,6 +303,31 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         ft.addToBackStack(null);
 
         ft.commit();
+    }
+
+
+    private void eliminarActividad(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.titulo);
+        builder.setMessage(R.string.cuerpo);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.Si, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),R.string.borradoConfirm , Toast.LENGTH_SHORT).show();
+                SAActividad saActividad = new SAActividadImp();
+                saActividad.delete(actividad, actividad.getIdAdministrador());
+            }
+        });
+
+        builder.setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        builder.show();
     }
 
 }

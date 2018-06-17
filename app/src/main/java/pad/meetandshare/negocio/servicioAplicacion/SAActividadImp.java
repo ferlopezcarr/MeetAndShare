@@ -41,6 +41,8 @@ public class SAActividadImp implements SAActividad {
     @Override
     public boolean delete(Actividad actividad, String ui){
 
+         myRef.child(ui).child(actividad.getUid()).removeValue();
+
 
 
         return false;

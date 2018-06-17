@@ -114,6 +114,15 @@
     <string name="textInfoMarker">Click para ver categorías, click y mantén pulsado para más detalles</string>
 
 
+    <!-- Confirmacion -->
+    <string name="titulo">¿Estas seguro?</string>
+    <string name="cuerpo">¿Seguro que desea borrar la siguiente actividad?</string>
+    <string name="borradoConfirm">La actividad ha sido borrada </string>
+    <string name="Si">Si</string>
+    <string name="No">No</string>
+
+
+
 </resources>
 
 
