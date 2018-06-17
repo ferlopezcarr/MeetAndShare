@@ -47,7 +47,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private Button borrarActividad;
 
 
-    private String uidActividad;
     private Actividad actividad;
     private String nombreUsuario;
 
@@ -317,7 +316,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(),R.string.borradoConfirm , Toast.LENGTH_SHORT).show();
                 SAActividad saActividad = new SAActividadImp();
-                saActividad.delete(actividad, actividad.getIdAdministrador());
+                actividad.setActiva(false);
+                saActividad.save(actividad, actividad.getIdAdministrador());
             }
         });
 
