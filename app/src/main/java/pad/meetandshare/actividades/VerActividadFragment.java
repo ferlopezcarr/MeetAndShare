@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private Button ubicacionBoton;
     private Button inscribirseBoton;
     private Button verUsuariosInscritosBoton;
+    private FloatingActionButton modificarActividadBoton;
 
     private String uidActividad;
     private Actividad actividad;
@@ -74,6 +76,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             nombreUsuario = bundle.getString(NOMBRE_USUARIO);
         }
 
+        /*
         if(!AutorizacionFirebase.amIAuthentificated()) {
             AutorizacionFirebase.setSingOut(true);
             AutorizacionFirebase.getFirebaseAuth().signOut();
@@ -82,6 +85,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             this.startActivity(myIntent);
             this.onResume();
         }
+        */
     }
 
     // ON CREATE VIEW ---------
@@ -121,6 +125,9 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
         verUsuariosInscritosBoton.setOnClickListener(this);
+
+        modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
+        modificarActividadBoton.setOnClickListener(this);
     }
     //-------------------------
 
@@ -214,7 +221,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             inscribirseBoton.setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -230,6 +236,10 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
             case R.id.ver_usuarios_inscritos:
                 verUsuariosInscritos();
+                break;
+
+            case R.id.editaActividad:
+                changeToModificarActividad();
                 break;
         }
     }
@@ -270,5 +280,17 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    private void changeToModificarActividad() {
+
+        Fragment fragmento = ModificaActividadFragment.newInstance(actividad);
+
+        FragmentManager fm = this.getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ContenedorMenuLateral, fragmento);
+        ft.addToBackStack(null);
+
+        ft.commit();
+    }
 
 }

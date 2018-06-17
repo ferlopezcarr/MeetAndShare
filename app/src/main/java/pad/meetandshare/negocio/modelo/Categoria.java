@@ -8,6 +8,7 @@ public enum Categoria {
     Aventura("Aventura"),
     Baile("Baile"),
     Belleza("Belleza"),
+    CienciaFiccion("Ciencia Ficción"),
     Cine("Cine"),
     Cocina("Cocina"),
     Comida("Comida"),
@@ -22,10 +23,10 @@ public enum Categoria {
     Musica("Música"),
     Naturaleza("Naturaleza"),
     Series("Series"),
-    Viajes("Viajes"),
-    Videojuegos("Videojuegos"),
     Television("Televisión"),
-    CienciaFiccion("Ciencia Ficción");
+    Viajes("Viajes"),
+    Videojuegos("Videojuegos");
+
     //hay que ir rellenando
 
     private final String displayName;

@@ -1,6 +1,12 @@
 package pad.meetandshare.negocio.modelo;
 
 
+import android.app.Activity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -302,4 +308,484 @@ public class Actividad implements Serializable {
         }
     }
 
+    public static Actividad checkInputActividad(
+            Activity activity,
+            String[] listItems,
+            boolean[] checkedItems,
+            Ubicacion ubicacionSeleccionada,
+            String uid,
+            EditText etNombre,
+            EditText etFechaIni,
+            EditText etHoraIni,
+            EditText etFechaFin,
+            EditText etHoraFin,
+            EditText etMaxParticipantes,
+            EditText etDescripcion
+    ) {
+
+        Actividad act = null;
+
+        //OBTENER ELEMENTOS DE LA VISTA
+        String nombre = etNombre.getText().toString();
+        String fechaIniString = etFechaIni.getText().toString();
+        String horaIniString = etHoraIni.getText().toString();
+        String fechaFinString = etFechaFin.getText().toString();
+        String horaFinString = etHoraFin.getText().toString();
+        String maxParticipantesString = etMaxParticipantes.getText().toString();
+        String descripcion = etDescripcion.getText().toString();
+        int maxParticipantes = 0;
+        Date fechaIni = null;
+        long horaIni = 0;
+        Date fechaFin = null;
+        long horaFin = 0;
+
+        ArrayList<Categoria> intereses = new ArrayList<>();
+
+        for (int i = 0; i < checkedItems.length; ++i) {
+            if (checkedItems[i]) {
+                Categoria cat = Categoria.getCategoria(listItems[i]);
+                intereses.add(cat);
+            }
+        }
+
+        boolean nombreOk = false;
+        boolean fechaIniOK = false;
+        boolean horaIniOK = false;
+        boolean fechaFinOK = false;
+        boolean horaFinOK = false;
+        boolean maxParticipantesOK = false;
+        View focusView = null;
+
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        fechaIniString = fechaIniString.trim();
+        horaIniString = horaIniString.trim();
+        fechaFinString = fechaFinString.trim();
+        horaFinString = horaFinString.trim();
+        descripcion = descripcion.trim();
+
+        final String campoObligatorio = "Por favor, rellene todos los campos";
+
+        //NOMBRE
+        if (nombre == null || nombre.isEmpty()) {
+            etNombre.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etNombre;
+        } else if (!isValidNombre(nombre)) {
+            etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
+            if(focusView != null)
+                focusView = etNombre;
+        } else {
+            nombreOk = true;
+        }
+
+        //FECHA INI
+        if (fechaIniString == null || fechaIniString.isEmpty()) {
+            etFechaIni.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etFechaIni;
+        } else {
+            try {
+                fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
+
+                if(!isOnlyFechaIniLaterThanToday(fechaIni)) {
+                    etFechaIni.setError("La fecha de inicio debe ser hoy o posterior");
+                    if(focusView != null)
+                        focusView = etFechaIni;
+                }
+                else {
+                    fechaIniOK = true;
+                }
+            } catch (ParseException e) {
+                etFechaIni.setError("Formato de fecha incorrecto");
+                if(focusView != null)
+                    focusView = etFechaIni;
+            }
+        }
+
+        //HORA INI
+        if (horaIniString == null || horaIniString.isEmpty()) {
+            etHoraIni.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etHoraIni;
+        } else {
+            horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
+
+            if (!Actividad.isValidHora(horaIniString)) {
+                etHoraIni.setError("Formato de hora incorrecto");
+                if(focusView != null)
+                    focusView = etHoraIni;
+            } else {
+                if (fechaIniOK) {
+                    fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
+
+                    horaIniOK = Actividad.isValidFechaIni(fechaIni);
+                    if (!horaIniOK) {
+                        etHoraIni.setError("La hora de inicio debe ser ahora o posterior");
+                        if(focusView != null)
+                            focusView = etHoraIni;
+                    }
+                } else {
+                    etHoraIni.setError("Introduce una fecha de inicio correcta");
+                    if(focusView != null)
+                        focusView = etFechaIni;
+                }
+            }
+        }
+
+        if (fechaIniOK && horaIniOK) {
+            //FECHA FIN
+            if (fechaFinString == null || fechaFinString.isEmpty()) {
+                etFechaFin.setError(campoObligatorio);
+                if(focusView != null)
+                    focusView = etFechaFin;
+            } else {
+                try {
+                    fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
+                } catch (ParseException e) {
+                    fechaFinOK = true;
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    if(focusView != null)
+                        focusView = etFechaFin;
+                }
+            }
+
+            //HORA FIN
+            if (horaFinString == null || horaFinString.isEmpty()) {
+                etHoraFin.setError(campoObligatorio);
+                if(focusView != null)
+                    focusView = etHoraFin;
+            } else {
+                horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
+
+                try {
+                    if (!isOnlyFechaFinLaterThanFechaIni(fechaIniString, fechaFinString)) {
+                        etFechaFin.setError("La fecha de inicio debe ser igual o posterior a la fecha de fin");
+                        if(focusView != null)
+                            focusView = etFechaFin;
+                    }
+                    else {
+                        fechaFinOK = true;
+
+                        if (!Actividad.isValidHora(horaFinString)) {
+                            etHoraFin.setError("Formato de hora incorrecto");
+                            if(focusView != null)
+                                focusView = etHoraFin;
+                        }
+                        else {
+                            fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
+
+                            if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
+                                etHoraFin.setError("La hora de fin debe ser posterior a la hora de inicio");
+                                if(focusView != null)
+                                    focusView = etHoraFin;
+                            } else {
+                                horaFinOK = true;
+                            }
+                        }
+                    }
+                } catch(ParseException e) {
+                    fechaFinOK = false;
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    if(focusView != null)
+                        focusView = etFechaFin;
+                }
+            }
+        } else {
+            etFechaFin.setError("Introduce una fecha de inicio correcta");
+            if(focusView != null)
+                focusView = etFechaFin;
+        }
+
+        //MAX PARTICIPANTES
+        if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
+            etMaxParticipantes.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etMaxParticipantes;
+        } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
+            etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
+            if(focusView != null)
+                focusView = etMaxParticipantes;
+        } else {
+            maxParticipantes = Integer.parseInt(maxParticipantesString);
+            maxParticipantesOK = true;
+        }
+
+        //INTERESES
+        int i = 0;
+        boolean unlessOneInteres = false;
+        while (i < checkedItems.length && !unlessOneInteres) {
+            unlessOneInteres = checkedItems[i];
+            i++;
+        }
+
+        if (!unlessOneInteres) {
+            Toast toast2 = Toast.makeText(activity, "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
+            toast2.setGravity(Gravity.CENTER, 0, 0);
+            toast2.show();
+        }
+
+        boolean ubicacionOk = false;
+        //UBICACION
+        if (ubicacionSeleccionada == null) {
+            Toast toast3 = Toast.makeText(activity, "Selecciona una ubicación", Toast.LENGTH_SHORT);
+            toast3.setGravity(Gravity.CENTER, 0, 0);
+            toast3.show();
+        } else {
+            ubicacionOk = true;
+        }
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+
+        if(focusView != null)
+            focusView.setFocusable(true);
+
+        if(nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres)
+            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, uid);
+
+        return act;
+    }
+
+    public static Actividad checkInputActividadModificar(
+            Activity activity,
+            String[] listItems,
+            boolean[] checkedItems,
+            Date fechaInicioAnt,
+            Ubicacion ubicacionSeleccionada,
+            String uid,
+            EditText etNombre,
+            EditText etFechaIni,
+            EditText etHoraIni,
+            EditText etFechaFin,
+            EditText etHoraFin,
+            EditText etMaxParticipantes,
+            EditText etDescripcion
+    ) {
+
+        Actividad act = null;
+
+        //OBTENER ELEMENTOS DE LA VISTA
+        String nombre = etNombre.getText().toString();
+        String fechaIniString = etFechaIni.getText().toString();
+        String horaIniString = etHoraIni.getText().toString();
+        String fechaFinString = etFechaFin.getText().toString();
+        String horaFinString = etHoraFin.getText().toString();
+        String maxParticipantesString = etMaxParticipantes.getText().toString();
+        String descripcion = etDescripcion.getText().toString();
+        int maxParticipantes = 0;
+        Date fechaIni = null;
+        long horaIni = 0;
+        Date fechaFin = null;
+        long horaFin = 0;
+
+        ArrayList<Categoria> intereses = new ArrayList<>();
+
+        for (int i = 0; i < checkedItems.length; ++i) {
+            if (checkedItems[i]) {
+                Categoria cat = Categoria.getCategoria(listItems[i]);
+                intereses.add(cat);
+            }
+        }
+
+        boolean nombreOk = false;
+        boolean fechaIniOK = false;
+        boolean horaIniOK = false;
+        boolean fechaFinOK = false;
+        boolean horaFinOK = false;
+        boolean maxParticipantesOK = false;
+        View focusView = null;
+
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        fechaIniString = fechaIniString.trim();
+        horaIniString = horaIniString.trim();
+        fechaFinString = fechaFinString.trim();
+        horaFinString = horaFinString.trim();
+        descripcion = descripcion.trim();
+
+        final String campoObligatorio = "Por favor, rellene todos los campos";
+
+        //NOMBRE
+        if (nombre == null || nombre.isEmpty()) {
+            etNombre.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etNombre;
+        } else if (!isValidNombre(nombre)) {
+            etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
+            if(focusView != null)
+                focusView = etNombre;
+        } else {
+            nombreOk = true;
+        }
+
+        //FECHA INI
+        if (fechaIniString == null || fechaIniString.isEmpty()) {
+            etFechaIni.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etFechaIni;
+        } else {
+            try {
+                fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
+
+                fechaIniOK = true;
+            } catch (ParseException e) {
+                etFechaIni.setError("Formato de fecha incorrecto");
+                if(focusView != null)
+                    focusView = etFechaIni;
+            }
+        }
+
+        //HORA INI
+        if (horaIniString == null || horaIniString.isEmpty()) {
+            etHoraIni.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etHoraIni;
+        } else {
+            horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
+
+            if (!Actividad.isValidHora(horaIniString)) {
+                etHoraIni.setError("Formato de hora incorrecto");
+                if(focusView != null)
+                    focusView = etHoraIni;
+            } else {
+                if (fechaIniOK) {
+                    fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
+
+                    if(!fechaInicioAnt.equals(fechaIni)) {
+                        horaIniOK = Actividad.isValidFechaIni(fechaIni);
+                        if (!horaIniOK) {
+                            etHoraIni.setError("La hora de inicio debe ser ahora o posterior");
+                            if (focusView != null)
+                                focusView = etHoraIni;
+                        }
+                    }
+                    else {
+                        horaIniOK = true;
+                    }
+                } else {
+                    etHoraIni.setError("Introduce una fecha de inicio correcta");
+                    if(focusView != null)
+                        focusView = etFechaIni;
+                }
+            }
+        }
+
+        if (fechaIniOK && horaIniOK) {
+            //FECHA FIN
+            if (fechaFinString == null || fechaFinString.isEmpty()) {
+                etFechaFin.setError(campoObligatorio);
+                if(focusView != null)
+                    focusView = etFechaFin;
+            } else {
+                try {
+                    fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
+                } catch (ParseException e) {
+                    fechaFinOK = true;
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    if(focusView != null)
+                        focusView = etFechaFin;
+                }
+            }
+
+            //HORA FIN
+            if (horaFinString == null || horaFinString.isEmpty()) {
+                etHoraFin.setError(campoObligatorio);
+                if(focusView != null)
+                    focusView = etHoraFin;
+            } else {
+                horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
+
+                try {
+                    if (!isOnlyFechaFinLaterThanFechaIni(fechaIniString, fechaFinString)) {
+                        etFechaFin.setError("La fecha de inicio debe ser igual o posterior a la fecha de fin");
+                        if(focusView != null)
+                            focusView = etFechaFin;
+                    }
+                    else {
+                        fechaFinOK = true;
+
+                        if (!Actividad.isValidHora(horaFinString)) {
+                            etHoraFin.setError("Formato de hora incorrecto");
+                            if(focusView != null)
+                                focusView = etHoraFin;
+                        }
+                        else {
+                            fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
+
+                            if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
+                                etHoraFin.setError("La hora de fin debe ser posterior a la hora de inicio");
+                                if(focusView != null)
+                                    focusView = etHoraFin;
+                            } else {
+                                horaFinOK = true;
+                            }
+                        }
+                    }
+                } catch(ParseException e) {
+                    fechaFinOK = false;
+                    etFechaFin.setError("Formato de fecha incorrecto");
+                    if(focusView != null)
+                        focusView = etFechaFin;
+                }
+            }
+        } else {
+            etFechaFin.setError("Introduce una fecha de inicio correcta");
+            if(focusView != null)
+                focusView = etFechaFin;
+        }
+
+        //MAX PARTICIPANTES
+        if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
+            etMaxParticipantes.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = etMaxParticipantes;
+        } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
+            etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
+            if(focusView != null)
+                focusView = etMaxParticipantes;
+        } else {
+            maxParticipantes = Integer.parseInt(maxParticipantesString);
+            maxParticipantesOK = true;
+        }
+
+        //INTERESES
+        int i = 0;
+        boolean unlessOneInteres = false;
+        while (i < checkedItems.length && !unlessOneInteres) {
+            unlessOneInteres = checkedItems[i];
+            i++;
+        }
+
+        if (!unlessOneInteres) {
+            Toast toast2 = Toast.makeText(activity, "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
+            toast2.setGravity(Gravity.CENTER, 0, 0);
+            toast2.show();
+        }
+
+        boolean ubicacionOk = false;
+        //UBICACION
+        if (ubicacionSeleccionada == null) {
+            Toast toast3 = Toast.makeText(activity, "Selecciona una ubicación", Toast.LENGTH_SHORT);
+            toast3.setGravity(Gravity.CENTER, 0, 0);
+            toast3.show();
+        } else {
+            ubicacionOk = true;
+        }
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+
+        if(focusView != null)
+            focusView.setFocusable(true);
+
+        if(nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres)
+            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, uid);
+
+        return act;
+    }
 }

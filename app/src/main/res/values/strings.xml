@@ -32,14 +32,14 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="action_settings">Modificar perfil</string>
-    <string name="action_save">Guardar</string>
+    <string name="action_save">Guardar Cambios</string>
 
     <string name="title_activity_menu_lateral">MenuLateralActivity</string>
     <string name="descripcionUsuarioMsg">Cuéntanos más sobre ti...</string>
 
     <!-- Strings related to Ver Perfil -->
     <string name="PerfilTitle">Perfil</string>
-
+    <string name="baja_usuario">Darse de baja</string>
 
 
     <!-- Strings related to Crear Actividad -->
@@ -47,6 +47,9 @@
     <!-- Strings related to Ver Actividad -->
     <string name="VerActividadTitle">Ver Actividad</string>
     <string name="descripcionActividadMsg">¿De qué va la actividad?</string>
+
+    <!-- Strings related to Modificar Actividad -->
+    <string name="ModificarActividadTitle">Modificar Actividad</string>
 
 
     <!--String related to Cerrar Sesión -->
@@ -87,6 +90,7 @@
     <string name="ver_usuarios_inscritos">Ver Usuarios Inscritos</string>
     <string name="inscribirse">Inscribirse</string>
     <string name="ver_actividad">Ver Actividad</string>
+    <string name="eliminar_actividad">Eliminar Actividad</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>

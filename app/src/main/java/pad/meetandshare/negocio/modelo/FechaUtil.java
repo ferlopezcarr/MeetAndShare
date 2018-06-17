@@ -24,6 +24,10 @@ public class FechaUtil {
     private static final String DOS_PUNTOS = ":";
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private final static SimpleDateFormat dateWithHourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final static SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+    private final static String AM = "a.m.";
+    private final static String PM = "p.m.";
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
@@ -93,9 +97,9 @@ public class FechaUtil {
                 //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
                 String AM_PM;
                 if (hourOfDay < 12) {
-                    AM_PM = "a.m.";
+                    AM_PM = AM;
                 } else {
-                    AM_PM = "p.m.";
+                    AM_PM = PM;
                 }
                 //Muestro la hora con el formato deseado
                 etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
@@ -106,6 +110,30 @@ public class FechaUtil {
         }, hora, minuto, false);
 
         recogerHora.show();
+    }
+
+    public static String horaMostrarString(Date fecha) {
+        String am_pm = AM;
+        String hora = hourFormat.format(fecha);
+        String res = "";
+        String auxHora = "";
+
+        int horas = Integer.parseInt(hora.substring(0,2));
+
+        if(horas > 12) {
+            horas -= 12;
+            am_pm = PM;
+        }
+        else if(horas == 12) {
+            am_pm = PM;
+        }
+
+        if(horas < 10)
+            auxHora = "0";
+
+        res = auxHora + horas + hora.substring(2) + " " + am_pm;
+
+        return res;
     }
 
     public static Date sumarRestarDiasFecha(Date fecha, int dias) {

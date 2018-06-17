@@ -182,17 +182,29 @@
                     android:id="@+id/descripcionPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="26dp"
                     android:background="@android:color/background_light"
                     android:fadeScrollbars="false"
                     android:maxLines="12"
                     android:padding="5sp"
                     android:scrollbars="vertical"
-                    android:textColor="?attr/colorBackgroundFloating"
-                    android:textSize="16sp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="?attr/colorBackgroundFloating"
 
-                    android:layout_marginBottom="80px"
-                    />
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/eliminarUsuarioPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+
+                    android:ems="10"
+                    android:text="@string/baja_usuario"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
