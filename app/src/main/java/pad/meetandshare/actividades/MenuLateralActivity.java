@@ -81,9 +81,9 @@ public class MenuLateralActivity extends AppCompatActivity
         if (id == R.id.nav_Inicio) {
             fragmento = new InicioFragment();
         } else if (id == R.id.nav_Perfil) {
-            fragmento = new PerfilUsuarioFragment();
+            fragmento =PerfilUsuarioFragment.newInstance();
         } else if (id == R.id.nav_CrearActividad) {
-            fragmento = new CrearActividadFragment();
+            fragmento = CrearActividadFragment.newInstance();
         } else if (id == R.id.nav_CerrarSesion) {
             salir = true;
         }

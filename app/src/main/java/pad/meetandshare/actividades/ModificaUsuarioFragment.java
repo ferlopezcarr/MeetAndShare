@@ -300,6 +300,17 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
             miUser.setFechaNacimiento(fecha);
             miUser.setDescripcion(descripcion);
 
+            ArrayList<Categoria> intereses = new ArrayList<>();
+
+            for (int i = 0; i < checkedItems.length; ++i) {
+                if (checkedItems[i]) {
+                    Categoria cat = Categoria.getCategoria(listItems[i]);
+                    intereses.add(cat);
+                }
+            }
+
+            miUser.setCategorias(intereses);
+
             saUsuario.save(miUser, miUser.getUid());
 
             AutorizacionFirebase.setUsuario(miUser);
@@ -341,15 +352,13 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
     }
 
     private void changeToVerPerfil() {
-        Fragment fragmento = PerfilUsuarioFragment.newInstance();
 
-        FragmentManager fm = this.getFragmentManager();
 
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.ContenedorMenuLateral, fragmento);
-        ft.addToBackStack(null);
+         Fragment fr = PerfilUsuarioFragment.newInstance();
 
-        ft.commit();
+        pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) getActivity();
+        fc.replaceFragment(fr);
+
     }
 
     @Override
