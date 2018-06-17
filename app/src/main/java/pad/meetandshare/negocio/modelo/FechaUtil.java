@@ -13,26 +13,15 @@ import java.util.Date;
 
 public class FechaUtil {
 
-    //Calendario para obtener fecha & hora
-    public static final Calendar c = Calendar.getInstance();
-    //Variables para obtener la fecha
-    public static final int mes = c.get(Calendar.MONTH);
-    public static final int dia = c.get(Calendar.DAY_OF_MONTH);
-    public static final int anio = c.get(Calendar.YEAR);
-    private static final String CERO = "0";
-    private static final String BARRA = "/";
-    private static final String DOS_PUNTOS = ":";
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private final static SimpleDateFormat dateWithHourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private final static SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
 
-    private final static String AM = "a.m.";
-    private final static String PM = "p.m.";
+
     //Variables para obtener la hora hora
-    final int hora = c.get(Calendar.HOUR_OF_DAY);
-    final int minuto = c.get(Calendar.MINUTE);
-    EditText etFecha;
-    EditText etHora;
+
+    private EditText etFecha;
+    private EditText etHora;
 
     public FechaUtil() {
     }
@@ -62,22 +51,22 @@ public class FechaUtil {
     public void obtenerFecha(Activity activity, int id) {
 
         etFecha = (EditText) activity.findViewById(id);
-
+        Calendar c = Calendar.getInstance();
         DatePickerDialog recogerFecha = new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
                 final int mesActual = month + 1;
                 //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10) ? CERO + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
+                String diaFormateado = (dayOfMonth < 10) ? "0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10) ? CERO + String.valueOf(mesActual) : String.valueOf(mesActual);
+                String mesFormateado = (mesActual < 10) ? "0" + String.valueOf(mesActual) : String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
-                etFecha.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                etFecha.setText(diaFormateado + "/" + mesFormateado + "/" + year);
             }
 
             //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
-        }, anio, mes, dia);
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         //Muestro el widget
 
         recogerFecha.show();
@@ -86,34 +75,35 @@ public class FechaUtil {
     public void obtenerHora(Activity activity, int id) {
 
         etHora = (EditText) activity.findViewById(id);
+        Calendar c = Calendar.getInstance();
 
         TimePickerDialog recogerHora = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                String horaFormateada = (hourOfDay < 10) ? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String horaFormateada = (hourOfDay < 10) ? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                String minutoFormateado = (minute < 10) ? String.valueOf(CERO + minute) : String.valueOf(minute);
+                String minutoFormateado = (minute < 10) ? String.valueOf("0" + minute) : String.valueOf(minute);
                 //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
                 String AM_PM;
                 if (hourOfDay < 12) {
-                    AM_PM = AM;
+                    AM_PM = "a.m.";
                 } else {
-                    AM_PM = PM;
+                    AM_PM = "p.m. ";
                 }
                 //Muestro la hora con el formato deseado
-                etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                etHora.setText(horaFormateada + ":" + minutoFormateado + " " + AM_PM);
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
             //Pero el sistema devuelve la hora en formato 24 horas
-        }, hora, minuto, false);
+        }, c.get(Calendar.HOUR_OF_DAY),  c.get(Calendar.MINUTE), false);
 
         recogerHora.show();
     }
 
     public static String horaMostrarString(Date fecha) {
-        String am_pm = AM;
+        String am_pm = "a.m.";
         String hora = hourFormat.format(fecha);
         String res = "";
         String auxHora = "";
@@ -122,10 +112,10 @@ public class FechaUtil {
 
         if(horas > 12) {
             horas -= 12;
-            am_pm = PM;
+            am_pm = "p.m.";
         }
         else if(horas == 12) {
-            am_pm = PM;
+            am_pm = "p.m.";
         }
 
         if(horas < 10)

@@ -1,15 +1,10 @@
 package pad.meetandshare.actividades;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
+
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Scroller;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,8 +27,6 @@ import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
-import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
-import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class ModificaUsuarioFragment extends Fragment implements View.OnClickListener {
@@ -354,9 +344,8 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
     private void changeToVerPerfil() {
 
 
-         Fragment fr = PerfilUsuarioFragment.newInstance();
-
-        pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) getActivity();
+        Fragment fr = PerfilUsuarioFragment.newInstance();
+        FragmentTransaction fc=(FragmentTransaction) this.getActivity();
         fc.replaceFragment(fr);
 
     }

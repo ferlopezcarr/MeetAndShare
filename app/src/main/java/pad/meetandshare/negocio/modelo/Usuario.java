@@ -119,9 +119,9 @@ public class Usuario {
      * @return
      */
     public static boolean isValidFechaNacimiento(Date fechaNacimiento) {
-        Calendar calendarMayorEdad = FechaUtil.c;
+        Calendar calendarMayorEdad = Calendar.getInstance();
 
-        int anio = FechaUtil.anio - 18;
+        int anio = Calendar.getInstance().get(Calendar.YEAR) - 18;
         calendarMayorEdad.set(Calendar.YEAR, anio);
 
         Date fechaMayorEdad = calendarMayorEdad.getTime();

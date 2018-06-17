@@ -334,8 +334,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Ubicacion.PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this.getActivity());
-
+                Place place = PlacePicker.getPlace( this.getActivity(),data);
                 ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
