@@ -30,12 +30,17 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Modificar perfil</string>
+    <string name="action_save">Guardar</string>
+
     <string name="title_activity_menu_lateral">MenuLateralActivity</string>
     <string name="descripcionUsuarioMsg">Cuéntanos más sobre ti...</string>
 
     <!-- Strings related to Ver Perfil -->
-    <string name="PerfilTitle">Ver Perfil</string>
+    <string name="PerfilTitle">Perfil</string>
+
+
 
     <!-- Strings related to Crear Actividad -->
 
@@ -93,8 +98,13 @@
     <string name="title_activity_info_application">InfoApplication</string>
 
 
-
+    <!-- Mapa -->
     <string name="radio">Radio de búsqueda (Km)</string>
+    <string name="LeyendaMapaTitle">Color de las actividades</string>
+    <string name="actAdminColor">Eres el administrador</string>
+    <string name="actUsuarioInscritoColor">Estás inscrito</string>
+    <string name="actInicioInminenteColor">Queda menos de un día para su inicio</string>
+    <string name="actOtrosUsuariosColor">De otros usuarios</string>
 
     <!-- Marker -->
     <string name="textInfoMarker">Click para ver categorías, click y mantén pulsado para más detalles</string>

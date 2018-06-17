@@ -39,8 +39,6 @@ public class SAUsuarioImp implements SAUsuario {
 
     public boolean delete(Usuario usuario, String ui){
 
-
-
         return false;
     }
 
@@ -50,7 +48,6 @@ public class SAUsuarioImp implements SAUsuario {
         myRef = database.getReference(Usuario.UsersDataBaseName);
         myRef.child(ui).setValue(usuario);
     }
-
 
     @Override
     public void get(String ui, final MyCallBack myCallBack) {
@@ -77,6 +74,35 @@ public class SAUsuarioImp implements SAUsuario {
         };
 
         myRef.addListenerForSingleValueEvent(listener);
+    }
+
+    @Override
+    public DatabaseReference getDatabaseReference() {
+        return myRef;
+    }
+
+    @Override
+    public boolean checkUsuario(Usuario usuarioModificado, DataSnapshot dataSnapshot) {
+        boolean sameEmail = false;
+
+        Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
+
+        for (DataSnapshot ds : dataSnapshotChid) {
+            Usuario usr = ds.getValue(Usuario.class);
+
+            //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
+            if (usuarioModificado != null && usr != null) {
+                if (!usuarioModificado.getUid().equalsIgnoreCase(usr.getUid())) {//mismo id
+                    if (usuarioModificado.getEmail() != null && usr.getEmail() != null) {
+
+                        sameEmail = usuarioModificado.getEmail().equalsIgnoreCase(usr.getEmail());
+                        ds.getRef().removeValue();
+                    }
+                }
+            }
+        }
+
+        return sameEmail;
     }
 
 }

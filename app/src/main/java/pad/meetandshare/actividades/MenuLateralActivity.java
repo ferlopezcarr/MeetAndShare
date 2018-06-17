@@ -1,5 +1,6 @@
 package pad.meetandshare.actividades;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PerfilUsuarioFragment.OnFragmentInteractionListener, InicioFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, InicioFragment.OnFragmentInteractionListener,FragmentTransaction {
 
 
     @Override
@@ -73,37 +74,36 @@ public class MenuLateralActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragmento=null;
+        Fragment fragmento = null;
         boolean cambia = false;
         boolean salir = false;
 
         if (id == R.id.nav_Inicio) {
-            cambia = true;
             fragmento = new InicioFragment();
         } else if (id == R.id.nav_Perfil) {
             fragmento = new PerfilUsuarioFragment();
-            cambia = true;
         } else if (id == R.id.nav_CrearActividad) {
             fragmento = new CrearActividadFragment();
-            cambia = true;
-
         } else if (id == R.id.nav_CerrarSesion) {
             salir = true;
+        }
+
+        if(!salir) {
+            this.getFragmentManager().beginTransaction().
+                    replace(R.id.ContenedorMenuLateral, fragmento)
+                    .addToBackStack(null).commit();
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            //Log out
             AutorizacionFirebase.getFirebaseAuth().signOut();
+            //Volver al login
             Intent myIntent = new Intent(this, LoginActivity.class);
 
             this.startActivity(myIntent);
             this.onResume();
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        if(!salir) {
-            if(cambia)
-                getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragmento).commit();
-
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
         }
 
         return true;
@@ -113,5 +113,16 @@ public class MenuLateralActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+    @Override
+    public void replaceFragment(Fragment fragment) {
+
+        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
+
 
 }
