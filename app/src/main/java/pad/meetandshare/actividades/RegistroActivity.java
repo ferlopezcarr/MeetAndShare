@@ -292,12 +292,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         EditText etNombre = (EditText) findViewById(R.id.nombreRegistro);
         if (nombre == null || nombre.isEmpty()) {
             etNombre.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etNombre;
+            focusView = etNombre;
         } else if (!Usuario.isValidNombre(nombre)) {
             etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
-            if(focusView != null)
-                focusView = etNombre;
+            focusView = etNombre;
         } else {
             nombreOk = true;
         }
@@ -306,12 +304,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         EditText etEmail = (EditText) findViewById(R.id.emailRegistro);
         if (email == null || email.isEmpty()) {
             etEmail.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etEmail;
+            focusView = etEmail;
         } else if (!Usuario.isValidEmail(email)) {
             etEmail.setError("El email introducido no es válido, debe ser de la forma 'usuario@dominio.xxx'");
-            if(focusView != null)
-                focusView = etEmail;
+            focusView = etEmail;
         } else {
             emailOk = true;
         }
@@ -320,23 +316,19 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         EditText etPassword = (EditText) findViewById(R.id.passwordRegistro);
         if (password == null || password.isEmpty()) {
             etPassword.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etPassword;
+            focusView = etPassword;
         } else if (!Usuario.isValidPassword(password)) {
             etPassword.setError("La contraseña introducida no es válida, debe contener al menos 6 caracteres");
-            if(focusView != null)
-                focusView = etPassword;
+            focusView = etPassword;
         } else {
             //PASSWORD CONFIRMACION
             EditText etPasswordConfirm = (EditText) findViewById(R.id.passwordConfirmationRegistro);
             if (passwordConfirm == null || passwordConfirm.isEmpty()) {
                 etPasswordConfirm.setError(campoObligatorio);
-                if(focusView != null)
-                    focusView = etPassword;
+                focusView = etPassword;
             } else if (password.compareTo(passwordConfirm) != 0) {
                 etPasswordConfirm.setError("Las contraseñas deben coincidir");
-                if(focusView != null)
-                    focusView = etPasswordConfirm;
+                focusView = etPasswordConfirm;
             } else {
                 passwordOk = true;
             }
@@ -346,23 +338,20 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         EditText etFechaNacim = (EditText) findViewById(R.id.fechaNacimientoRegistro);
         if (fechaNacString == null || fechaNacString.isEmpty()) {
             etFechaNacim.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etFechaNacim;
+            focusView = etFechaNacim;
         } else {
             try {
                 fecha = FechaUtil.getDateFormat().parse(fechaNacString);
 
                 if (!Usuario.isValidFechaNacimiento(fecha)) {
                     etFechaNacim.setError("Debes ser mayor de edad");
-                    if(focusView != null)
-                        focusView = etFechaNacim;
+                    focusView = etFechaNacim;
                 } else {
                     fechaNacOK = true;
                 }
             } catch (ParseException e) {
                 etFechaNacim.setError("Formato de fecha incorrecto");
-                if(focusView != null)
-                    focusView = etFechaNacim;
+                focusView = etFechaNacim;
             }
         }
 
@@ -384,9 +373,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         if (descripcion == null) {
             descripcion = "";
         }
-
-        if(focusView != null)
-            focusView.setFocusable(true);
 
         return (nombreOk && emailOk && passwordOk && fechaNacOK && unlessOneInteres);
     }

@@ -103,7 +103,16 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         // Required empty public constructor
     }
 
-    public static CrearActividadFragment newInstance() {
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment CrearActividadFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static CrearActividadFragment newInstance(String param1, String param2) {
         CrearActividadFragment fragment = new CrearActividadFragment();
 
         return fragment;
@@ -416,12 +425,10 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         //NOMBRE
         if (nombre == null || nombre.isEmpty()) {
             etNombre.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etNombre;
-        } else if (!actividad.isValidNombre(nombre)) {
+            focusView = etNombre;
+        } else if (!Usuario.isValidNombre(nombre)) {
             etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
-            if(focusView != null)
-                focusView = etNombre;
+            focusView = etNombre;
         } else {
             nombreOk = true;
         }
@@ -429,39 +436,34 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         //FECHA INI
         if (fechaIniString == null || fechaIniString.isEmpty()) {
             etFechaIni.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etFechaIni;
+            focusView = etFechaIni;
         } else {
             try {
                 fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
 
                 if(!actividad.isOnlyFechaIniLaterThanToday(fechaIni)) {
                     etFechaIni.setError("La fecha de inicio debe ser hoy o posterior");
-                    if(focusView != null)
-                        focusView = etFechaIni;
+                    focusView = etFechaIni;
                 }
                 else {
                     fechaIniOK = true;
                 }
             } catch (ParseException e) {
                 etFechaIni.setError("Formato de fecha incorrecto");
-                if(focusView != null)
-                    focusView = etFechaIni;
+                focusView = etFechaIni;
             }
         }
 
         //HORA INI
         if (horaIniString == null || horaIniString.isEmpty()) {
             etHoraIni.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etHoraIni;
+            focusView = etHoraIni;
         } else {
             horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
 
             if (!Actividad.isValidHora(horaIniString)) {
                 etHoraIni.setError("Formato de hora incorrecto");
-                if(focusView != null)
-                    focusView = etHoraIni;
+                focusView = etHoraIni;
             } else {
                 if (fechaIniOK) {
                     fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
@@ -469,13 +471,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                     horaIniOK = Actividad.isValidFechaIni(fechaIni);
                     if (!horaIniOK) {
                         etHoraIni.setError("La hora de inicio debe ser ahora o posterior");
-                        if(focusView != null)
-                            focusView = etHoraIni;
+                        focusView = etHoraIni;
                     }
                 } else {
                     etHoraIni.setError("Introduce una fecha de inicio correcta");
-                    if(focusView != null)
-                        focusView = etFechaIni;
+                    focusView = etHoraIni;
                 }
             }
         }
@@ -484,48 +484,42 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             //FECHA FIN
             if (fechaFinString == null || fechaFinString.isEmpty()) {
                 etFechaFin.setError(campoObligatorio);
-                if(focusView != null)
-                    focusView = etFechaFin;
+                focusView = etFechaFin;
             } else {
                 try {
                     fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
                 } catch (ParseException e) {
                     fechaFinOK = true;
                     etFechaFin.setError("Formato de fecha incorrecto");
-                    if(focusView != null)
-                        focusView = etFechaFin;
+                    focusView = etFechaFin;
                 }
             }
 
             //HORA FIN
             if (horaFinString == null || horaFinString.isEmpty()) {
                 etHoraFin.setError(campoObligatorio);
-                if(focusView != null)
-                    focusView = etHoraFin;
+                focusView = etHoraFin;
             } else {
                 horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
 
                 try {
                     if (!actividad.isOnlyFechaFinLaterThanFechaIni(fechaIniString, fechaFinString)) {
                         etFechaFin.setError("La fecha de inicio debe ser igual o posterior a la fecha de fin");
-                        if(focusView != null)
-                            focusView = etFechaFin;
+                        focusView = etFechaFin;
                     }
                     else {
                         fechaFinOK = true;
 
                         if (!Actividad.isValidHora(horaFinString)) {
                             etHoraFin.setError("Formato de hora incorrecto");
-                            if(focusView != null)
-                                focusView = etHoraFin;
+                            focusView = etHoraFin;
                         }
                         else {
                             fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
 
                             if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
                                 etHoraFin.setError("La hora de fin debe ser posterior a la hora de inicio");
-                                if(focusView != null)
-                                    focusView = etHoraFin;
+                                focusView = etHoraFin;
                             } else {
                                 horaFinOK = true;
                             }
@@ -534,25 +528,21 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 } catch(ParseException e) {
                     fechaFinOK = false;
                     etFechaFin.setError("Formato de fecha incorrecto");
-                    if(focusView != null)
-                        focusView = etFechaFin;
+                    focusView = etFechaFin;
                 }
             }
         } else {
             etFechaFin.setError("Introduce una fecha de inicio correcta");
-            if(focusView != null)
-                focusView = etFechaFin;
+            focusView = etFechaFin;
         }
 
         //MAX PARTICIPANTES
         if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
             etMaxParticipantes.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etMaxParticipantes;
+            focusView = etMaxParticipantes;
         } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
             etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
-            if(focusView != null)
-                focusView = etMaxParticipantes;
+            focusView = etMaxParticipantes;
         } else {
             maxParticipantes = Integer.parseInt(maxParticipantesString);
             maxParticipantesOK = true;
@@ -586,9 +576,6 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         if (descripcion == null) {
             descripcion = "";
         }
-
-        if(focusView != null)
-            focusView.setFocusable(true);
 
         return (nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres);
     }

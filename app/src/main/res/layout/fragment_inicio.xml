@@ -22,9 +22,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
                 android:orientation="horizontal">
 
+                <EditText
+                    android:id="@+id/radio"
+                    style="@style/CodeFont"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/radio"
+                    android:inputType="numberDecimal"
+                    android:textColorLink="@color/colorPrimary"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    tools:layout_editor_absoluteY="4dp" />
+
+                <ImageButton
+                    android:id="@+id/ib_obtener_fecha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:src="@android:drawable/ic_dialog_map"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/radio"
+                    tools:ignore="ContentDescription"
+                    tools:layout_editor_absoluteY="0dp" />
             </LinearLayout>
 
 
@@ -32,18 +59,15 @@
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map"
-            app:uiCompass="true"
-            app:zOrderOnTop="true"
-            app:uiZoomControls="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:apiKey="AIzaSyBVd5QRp7_Vwz0EIacTJAH39ehhxpqsujc"
             />
 
-        <!-- BOTON PARA LA LEYENDA DE COLORES -->
+        <!-- BOTON PARA LA LEYENDA DE COLORES
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/botonLeyenda"
+            android:id="@+id/fab_gallery"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="12dp"
@@ -54,7 +78,7 @@
             android:src="@android:drawable/ic_menu_view"
             app:backgroundTint="@color/colorPrimary"
             app:layout_anchorGravity="bottom|right|end" />
-
+            -->
 
     </LinearLayout>
 

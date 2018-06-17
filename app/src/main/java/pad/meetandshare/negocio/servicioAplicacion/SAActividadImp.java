@@ -87,6 +87,8 @@ public class SAActividadImp implements SAActividad {
 
         myRef = database.getReference(Actividad.ActivitiesDatabaseName);
 
+
+
         ValueEventListener listener= new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,13 +99,15 @@ public class SAActividadImp implements SAActividad {
 
                 for(DataSnapshot child : dataSnapshotRoot){
 
-                    Iterable<DataSnapshot> dataSnapshotChild = child.getChildren();
+                Iterable<DataSnapshot> dataSnapshotChild = child.getChildren();
 
-                    for (DataSnapshot ds : dataSnapshotChild) {
-                        Actividad act = ds.getValue(Actividad.class);
-                        lista.add(act);
-                    }
+                for (DataSnapshot ds : dataSnapshotChild) {
+                    Actividad act = ds.getValue(Actividad.class);
+                    lista.add(act);
+
                 }
+                }
+
 
                 myCallBack.onCallbackActividadAll(lista);
             }
@@ -111,12 +115,13 @@ public class SAActividadImp implements SAActividad {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
+
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
 
         };
-        myRef.addValueEventListener(listener);
-    }
+    myRef.addValueEventListener(listener);
+            }
 
     @Override
     public DatabaseReference getDatabaseReference() {

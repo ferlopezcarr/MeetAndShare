@@ -240,8 +240,10 @@
                 android:id="@+id/descripcionVerActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="16dp"
                 android:background="@android:color/background_light"
+                android:maxLines="35"
+                android:minLines="3"
                 android:padding="5sp"
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
@@ -252,7 +254,6 @@
                 android:id="@+id/inscribirse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
@@ -263,19 +264,13 @@
                 android:id="@+id/ver_usuarios_inscritos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="26dp"
+                android:layout_marginTop="6dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
                 android:text="@string/ver_usuarios_inscritos"
                 android:textStyle="bold" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="26dp"
-                android:background="?android:attr/listDivider" />
 
 
         </LinearLayout>

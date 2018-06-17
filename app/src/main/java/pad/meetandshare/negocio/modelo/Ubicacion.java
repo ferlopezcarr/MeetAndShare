@@ -5,11 +5,10 @@ import android.net.Uri;
 
 import com.google.android.gms.location.places.Place;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-public class  Ubicacion implements Serializable {
+public class  Ubicacion  {
 
     private double latitude;
     private double longitude;

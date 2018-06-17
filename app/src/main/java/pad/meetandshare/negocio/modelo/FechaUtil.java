@@ -23,7 +23,7 @@ public class FechaUtil {
     private static final String BARRA = "/";
     private static final String DOS_PUNTOS = ":";
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private final static SimpleDateFormat dateWithHourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final static SimpleDateFormat dateWithHourFormat = new SimpleDateFormat("dd/MM/yyyy  hh:mm");
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);

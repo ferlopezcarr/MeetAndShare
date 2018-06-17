@@ -3,8 +3,8 @@ package pad.meetandshare.integracion;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,13 +24,8 @@ public class ColorFile {
     //http://paletton.com/#uid=15z0u0kkQm7agxYf-rppWh2vlbA
     public static final Float ADMIN_COLOR = (float) 270;//morado mias
     public static final Float PARTICIPANT_COLOR = (float) 212;//azul inscrito
-    public static final Float ACT_STARTS_TOMORROW_COLOR = (float) 60;//amarillo 1 dia para que empiece
+    public static final Float ACT_STARTS_TOMORROW = (float) 60;//amarillo 1 dia para que empiece
     public static final Float DEFAULT_COLOR = (float) 354;//rojas otros
-
-    public static final String ADMIN_COLOR_RGB = "5B2D76";
-    public static final String PARCITIPANT_COLOR_RGB = "5B2D76";
-    public static final String ACT_STARTS_TOMORROW_COLOR_RGB = "5B2D76";
-    public static final String DEFAULT_COLOR_RGB = "5B2D76";
 
     public static final int TIME_DIFFERENCE = 1;
 
@@ -62,16 +57,6 @@ public class ColorFile {
             }
         }
         return ok;
-    }
-    */
-
-    /*
-    public static Color floatToColor(Float x) {
-        int red = Math.min((int)(x * 256), 255);
-        int green = Math.min((int)((x * 256 - red) * 256), 255);
-        int blue = Math.min((int)(((x * 256 - red) * 256 - green) * 256), 255);
-
-        return Color.valueOf(red, green, blue);
     }
     */
 
