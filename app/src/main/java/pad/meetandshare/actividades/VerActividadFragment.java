@@ -1,6 +1,8 @@
 package pad.meetandshare.actividades;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -140,12 +142,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         //FechaIni
         tvFechaIni.setText(arrayFechaIni[0]);
         //HoraIni
-        tvHoraIni.setText(arrayFechaIni[2]);
+        tvHoraIni.setText(arrayFechaIni[1]);
 
         //FechaFin
         tvFechaFin.setText(arrayFechaFin[0]);
         //HoraFin
-        tvHoraFin.setText(arrayFechaFin[2]);
+        tvHoraFin.setText(arrayFechaFin[1]);
 
         //Max Participantes
         tvMaxParticipantes.setText(maxParticipantes.toString());
@@ -191,15 +193,26 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         //Descripción
         if(actividad.getDescripcion() != null)
-            tvDescripcion.setText(actividad.getDescripcion());
+            if(actividad.getDescripcion().length() != 0)
+                tvDescripcion.setText(actividad.getDescripcion());
+            else {
+                rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
+                rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);
+            }
+        else {
+            rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
+            rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);
+        }
 
         //Boton de inscribirse
         //si el usuario esta inscrito en la actividad
         if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
             inscribirseBoton.setVisibility(View.GONE);
+            rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.GONE);
         }
         else {//si no esta inscrito
             inscribirseBoton.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.VISIBLE);
         }
 
     }
@@ -222,6 +235,16 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     }
 
     private void verUbicacion() {
+
+        Fragment fragmento = InicioFragment.newInstance(actividad.getUbicacion());
+
+        FragmentManager fm = this.getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ContenedorMenuLateral, fragmento);
+        ft.addToBackStack(null);
+
+        ft.commit();
 
     }
 
