@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +51,10 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
     private Usuario miUser;
     private SAUsuarioImp saUsuario;
+
+    private String nombre;
+    private Date fecha;
+    private String descripcion;
 
     private ValueEventListener eventListener;
 
@@ -146,6 +151,7 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         listenerButtonIntereses(botonIntereses);
 
         botonGuardar = (Button)rootView.findViewById(R.id.botonModificarUsuarioPost);
+        botonGuardar.setOnClickListener(this);
 
         return rootView;
     }
@@ -160,8 +166,8 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
                 break;
 
             case R.id.botonModificarUsuarioPost:
-                modificarUsuario();
                 this.btnModificarPressed = true;
+                modificarUsuario();
                 break;
         }
     }
@@ -227,8 +233,81 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         });
     }
 
-    private void modificarUsuario() {
+    private boolean checkUsuario() {
+        View focusView = null;
 
+        boolean nombreOK = false;
+        boolean fechaOK = false;
+
+        nombre = tvNombreUsuario.getText().toString().trim();
+        String fechaStr = tvFechaNac.getText().toString().trim();
+
+        descripcion = tvDescripcion.getText().toString().trim();
+
+        final String campoObligatorio = "Por favor, rellene todos los campos";
+
+        //NOMBRE
+        if (nombre == null || nombre.isEmpty()) {
+            tvNombreUsuario.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = tvNombreUsuario;
+        } else if (!Usuario.isValidNombre(nombre)) {
+            tvNombreUsuario.setError("El nombre introducido no es válido, sólo puede contener letras");
+            if(focusView != null)
+                focusView = tvNombreUsuario;
+        } else {
+            nombreOK = true;
+        }
+
+        //FECHA DE NACIMIENTO
+        if(fechaStr == null || fechaStr.isEmpty()) {
+            tvFechaNac.setError(campoObligatorio);
+            if(focusView != null)
+                focusView = tvFechaNac;
+        }
+        else {
+            try {
+                fecha = FechaUtil.getDateFormat().parse(fechaStr);
+
+                if (!Usuario.isValidFechaNacimiento(fecha)) {
+                    tvFechaNac.setError("Debes ser mayor de edad");
+                    if(focusView != null)
+                        focusView = tvFechaNac;
+                } else {
+                    fechaOK = true;
+                }
+            } catch(ParseException e) {
+                tvFechaNac.setError("Formato de fecha incorrecto");
+                if(focusView != null)
+                    focusView = tvFechaNac;
+            }
+        }
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+
+        if(focusView != null)
+            focusView.setFocusable(true);
+
+        return nombreOK && fechaOK;
+    }
+
+    private void modificarUsuario() {
+        if(checkUsuario()) {
+            miUser.setNombre(nombre);
+            miUser.setFechaNacimiento(fecha);
+            miUser.setDescripcion(descripcion);
+
+            saUsuario.save(miUser, miUser.getUid());
+
+            AutorizacionFirebase.setUsuario(miUser);
+
+            usuarioModificado = true;
+
+            this.changeToVerPerfil();
+        }
     }
 
     @Override

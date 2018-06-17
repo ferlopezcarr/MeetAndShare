@@ -39,8 +39,6 @@ public class SAUsuarioImp implements SAUsuario {
 
     public boolean delete(Usuario usuario, String ui){
 
-
-
         return false;
     }
 
