@@ -352,7 +352,7 @@ public class InicioFragment
                         saActividad.save(actual, actual.getIdAdministrador());
                     }
 
-                    if(!actual.getFinalizada() && actual.getActiva()) {
+                    if(!actual.getFinalizada()) {
                         mMap.addMarker(construirMarcador(actual)).setTag(actual);
                     }
                 }
@@ -367,6 +367,8 @@ public class InicioFragment
 
         if(actividad != null) {
             String snippet = "";
+            if(!actividad.getActiva())
+                 snippet += "CANCELADA \n";
 
             if(actividad.getCategorias() != null) {
                 snippet = snippet + "Categorías:";

@@ -71,6 +71,12 @@
 
             <!-- NOMBRE-->
 
+            <LinearLayout
+                android:id="@+id/containercancelado"
+                style="@style/CodeFont"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
             <TextView
                 android:id="@+id/NombreLabel"
                 style="@style/CodeFont"

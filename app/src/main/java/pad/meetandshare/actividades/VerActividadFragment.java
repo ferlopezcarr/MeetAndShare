@@ -193,6 +193,13 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         tvEstado.setText(estado);
 
         //Categorias
+        if(!actividad.getActiva()){
+            TextView cancelado = (TextView) miInflater.inflate(R.layout.layout_interes, null);
+            cancelado.setText("Cancelado");
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            cancelado.setLayoutParams(llp);
+            ((LinearLayout) rootView.findViewById(R.id.containercancelado)).addView(cancelado);
+        }
         if(actividad.getCategorias() != null) {
             for (Categoria interes : actividad.getCategorias()) {
                 TextView interesVista = (TextView) miInflater.inflate(R.layout.layout_interes, null);
