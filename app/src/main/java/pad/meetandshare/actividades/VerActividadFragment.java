@@ -269,6 +269,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
             case R.id.inscribirse:
                 inscribirse();
+                recargarVista();
                 break;
 
             case R.id.ver_usuarios_inscritos:
@@ -362,8 +363,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(),R.string.borradoConfirm , Toast.LENGTH_SHORT).show();
                 SAActividad saActividad = new SAActividadImp();
-                actividad.setActiva(false);
-                saActividad.save(actividad, actividad.getIdAdministrador());
+                saActividad.delete(actividad, actividad.getIdAdministrador());
+                recargarVista();
             }
         });
 
@@ -395,5 +396,17 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
                 public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
             });
         }
+    }
+
+    private void recargarVista() {
+        Fragment fragmento = VerActividadFragment.newInstance(actividad, nombreUsuario);
+
+        FragmentManager fm = this.getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ContenedorMenuLateral, fragmento);
+        //ft.addToBackStack(null);
+
+        ft.commit();
     }
 }

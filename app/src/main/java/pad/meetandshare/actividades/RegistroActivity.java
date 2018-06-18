@@ -123,13 +123,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
 
             @Override
-            public void onCallbackActividad(Actividad actividad) {
-            }
+            public void onCallbackActividad(Actividad actividad) { }
 
             @Override
-            public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
-            }
-
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
         });
     }
 
@@ -164,36 +161,34 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             miUsuario = new Usuario(email, nombre, fecha, descripcion, intereses);
 
             AutorizacionFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, contrasenia)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = AutorizacionFirebase.getCurrentUser();
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference ref = database.getReference("server/saving-data/fireblog");
-                                SAUsuario miSaUsuario = new SAUsuarioImp();
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success");
+                    FirebaseUser user = AutorizacionFirebase.getCurrentUser();
 
-                                String uid = user.getUid();
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference("server/saving-data/fireblog");
+                    SAUsuario miSaUsuario = new SAUsuarioImp();
 
-                                miUsuario.setUid(uid);
+                    String uid = user.getUid();
+                    miUsuario.setUid(uid);
+                    miSaUsuario.save(miUsuario, uid);
+                    updateUI(user);
+                }
+                else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-                                miSaUsuario.save(miUsuario, uid);
-                                updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-                                Toast.makeText(RegistroActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            // ...
-                        }
-                    });
+                    Toast.makeText(RegistroActivity.this, "Email ya registrado, por favor utilice otro",
+                            Toast.LENGTH_SHORT).show();
+                }
+                }
+            });//addOnCompleteListener
         }
     }
 

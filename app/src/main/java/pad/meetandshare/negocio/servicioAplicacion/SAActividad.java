@@ -7,6 +7,10 @@ import pad.meetandshare.negocio.modelo.Actividad;
 
 public interface SAActividad {
 
+    /**
+     * Método que recibe una Actividad, le asigna un id y la persiste en la base de datos
+     * @param actividad
+     */
     public void create(Actividad actividad);
 
     /**
@@ -15,7 +19,7 @@ public interface SAActividad {
      * @param ui
      * @return si ha sido borrada o no
      */
-    boolean delete(Actividad actividad, String ui);
+    void delete(Actividad actividad, String ui);
 
     /**
      * Método que recibe una Actividad y la persiste en la base de datos,

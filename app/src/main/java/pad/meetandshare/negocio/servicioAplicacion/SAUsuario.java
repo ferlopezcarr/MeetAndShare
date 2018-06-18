@@ -9,6 +9,10 @@ import pad.meetandshare.negocio.modelo.Usuario;
 
 public interface SAUsuario {
 
+    /**
+     * Método que recibe un usuario, le asigna un uid, y lo persiste en la base de datos
+     * @param usuario
+     */
     void create(Usuario usuario);
 
     /**
@@ -16,7 +20,7 @@ public interface SAUsuario {
     * @param usuario
     * @return si ha sido borrado o no
     */
-    boolean delete(Usuario usuario, String ui);
+    void delete(Usuario usuario, String ui);
 
     /**
     * Método que recibe un Usuario y lo persiste en la base de datos,
@@ -28,8 +32,6 @@ public interface SAUsuario {
     void save(Usuario usuario, String ui);
 
     void get(String ui, MyCallBack myCallBack);
-
-
 
     DatabaseReference getDatabaseReference();
 

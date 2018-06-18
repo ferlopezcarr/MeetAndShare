@@ -15,12 +15,14 @@ import static android.content.ContentValues.TAG;
 
 public class SAUsuarioImp implements SAUsuario {
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+    private static SAUsuarioImp instance;
+
+    private static FirebaseDatabase database;
+    private static DatabaseReference myRef;
 
     public SAUsuarioImp(){
-         database = FirebaseDatabase.getInstance();
-         myRef = database.getReference(Usuario.UsersDataBaseName);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(Usuario.UsersDataBaseName);
     }
 
     @Override
@@ -37,9 +39,11 @@ public class SAUsuarioImp implements SAUsuario {
         save(usuario, uid);
     }
 
-    public boolean delete(Usuario usuario, String ui){
+    public void delete(Usuario usuario, String ui){
 
-        return false;
+        usuario.setActivo(false);
+
+        this.save(usuario, ui);
     }
 
 

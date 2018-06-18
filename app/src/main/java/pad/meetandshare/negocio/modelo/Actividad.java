@@ -227,6 +227,19 @@ public class Actividad implements Serializable {
         this.finalizada = finalizada;
     }
 
+    public boolean isEnCurso() {
+        Date ahora = new Date();
+        return (!finalizada && fechaInicio.after(ahora) && fechaFin.before(ahora));
+    }
+
+    public boolean isFinalizada() {
+
+        if(!finalizada)
+            finalizada = (fechaFin.before(new Date()));
+
+        return finalizada;
+    }
+
     /* --- Categorias --- */
 
     public List<Categoria> getCategorias() {

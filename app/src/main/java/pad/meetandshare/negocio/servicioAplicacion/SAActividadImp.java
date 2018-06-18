@@ -39,13 +39,13 @@ public class SAActividadImp implements SAActividad {
     }
 
     @Override
-    public boolean delete(Actividad actividad, String ui){
+    public void delete(Actividad actividad, String ui){
 
-         myRef.child(ui).child(actividad.getUid()).removeValue();
+        //borrado fisico
+        //myRef.child(ui).child(actividad.getUid()).removeValue();
 
-
-
-        return false;
+        actividad.setActiva(false);
+        this.save(actividad, ui);
     }
 
     @Override
