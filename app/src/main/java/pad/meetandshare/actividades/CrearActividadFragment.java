@@ -300,7 +300,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.ContenedorMenuLateral, fragmento);
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
 
         ft.commit();
     }

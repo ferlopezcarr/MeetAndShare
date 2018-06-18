@@ -430,6 +430,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                 listItems,
                 checkedItems,
                 actividad.getFechaInicio(),
+                actividad.getIdUsuariosInscritos().size(),
                 ubicacionSeleccionada,
                 AutorizacionFirebase.getUser().getUid(),
                 etNombre, etFechaIni, etHoraIni, etFechaFin, etHoraFin, etMaxParticipantes, etDescripcion);

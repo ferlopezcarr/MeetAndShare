@@ -91,6 +91,7 @@
     <string name="inscribirse">Inscribirse</string>
     <string name="ver_actividad">Ver Actividad</string>
     <string name="eliminar_actividad">Eliminar Actividad</string>
+    <string name="activar_actividad">Activar Actividad</string>
 
     <!-- Menu -->
     <string name="perfil">Perfil</string>
@@ -115,7 +116,7 @@
 
 
     <!-- Confirmacion -->
-    <string name="titulo">¿Estas seguro?</string>
+    <string name="titulo">¿Estás seguro?</string>
     <string name="cuerpo">¿Seguro que desea borrar la siguiente actividad?</string>
     <string name="borradoConfirm">La actividad ha sido borrada </string>
     <string name="Si">Si</string>

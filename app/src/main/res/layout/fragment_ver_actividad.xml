@@ -280,19 +280,12 @@
                 android:textSize="14sp" />
 
             <!-- BOTON INSCRIBIRSE-->
-            <Button
-                android:id="@+id/inscribirse"
+            <View
+                android:id="@+id/dividerButtons"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:ems="10"
-                android:text="@string/inscribirse"
-                android:textStyle="bold" />
-
-
-
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/ver_usuarios_inscritos"
@@ -303,6 +296,20 @@
                 android:background="@color/colorPrimaryDark"
                 android:ems="10"
                 android:text="@string/ver_usuarios_inscritos"
+                android:textStyle="bold" />
+
+
+
+
+            <Button
+                android:id="@+id/inscribirse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:ems="10"
+                android:text="@string/inscribirse"
                 android:textStyle="bold" />
 
 
@@ -317,8 +324,9 @@
                 android:text="@string/eliminar_actividad"
                 android:textStyle="bold" />
 
+
             <View
-                android:id="@+id/divider"
+                android:id="@+id/dividerEnd"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="26dp"

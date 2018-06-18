@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
@@ -87,9 +86,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             actividad = (Actividad) bundle.getSerializable(ACTIVIDAD);
             nombreUsuario = bundle.getString(NOMBRE_USUARIO);
         }
-
-
-
     }
 
     // ON CREATE VIEW ---------
@@ -125,19 +121,41 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         ubicacionBoton.setOnClickListener(this);
 
         inscribirseBoton = ((Button) rootView.findViewById(R.id.inscribirse));
-        inscribirseBoton.setOnClickListener(this);
-
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
         verUsuariosInscritosBoton.setOnClickListener(this);
 
+        //si el usuario esta inscrito en la actividad
+        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+            inscribirseBoton.setVisibility(View.GONE);
+        }
+        else {//si no esta inscrito
+            if(actividad.getActiva()) {
+                inscribirseBoton.setOnClickListener(this);
+            }
+            else {
+                inscribirseBoton.setVisibility(View.GONE);
+            }
+        }
 
         modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
-        modificarActividadBoton.setOnClickListener(this);
+        borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
 
-             borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
-            borrarActividad.setOnClickListener(this);
+        //si el admin eres tu
+        if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getUser().getUid())) {
 
-
+            if(actividad.getActiva()) {
+                modificarActividadBoton.setOnClickListener(this);
+                borrarActividad.setOnClickListener(this);
+            }
+            else {
+                modificarActividadBoton.setVisibility(View.GONE);
+                borrarActividad.setVisibility(View.GONE);
+            }
+        }
+        else {
+            modificarActividadBoton.setVisibility(View.GONE);
+            borrarActividad.setVisibility(View.GONE);
+        }
     }
     //-------------------------
 
@@ -235,22 +253,6 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
             rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);
         }
-
-
-        //Boton de inscribirse
-        //si el usuario esta inscrito en la actividad
-        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
-            inscribirseBoton.setVisibility(View.GONE);
-        }
-        else {//si no esta inscrito
-            inscribirseBoton.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.VISIBLE);
-        }
-
-
-
-
-
     }
 
     @Override
@@ -305,28 +307,29 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     }
 
     private void verUsuariosInscritos() {
-        //si esta inscrito
 
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            alertDialog.setTitle("Usuarios inscritos");
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Usuarios inscritos");
 
-            for(Usuario user: usuarios){
+        String usersNames= "";
+        for(Usuario user: usuarios){
+            usersNames += user.getNombre()+"\n";
+        }
+        usersNames += "\n";
+        usersNames += "Total: " + String.valueOf(usuarios.size());
 
-                alertDialog.setMessage(user.getNombre()+"\n");
-            }
+        alertDialog.setMessage(usersNames);
 
-            // Alert dialog button
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Alert dialog action goes here
-                            // onClick button code here
-                            dialog.dismiss();// use dismiss to cancel alert dialog
-                        }
-                    });
-            alertDialog.show();
-
-
+        // Alert dialog button
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Alert dialog action goes here
+                    // onClick button code here
+                    dialog.dismiss();// use dismiss to cancel alert dialog
+                }
+            });
+        alertDialog.show();
     }
 
     private void changeToModificarActividad() {
@@ -368,36 +371,24 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         builder.show();
     }
 
-
-
-    private void  traeUsuariosActividad(){
+    private void traeUsuariosActividad(){
 
         SAUsuario saUsuario = new SAUsuarioImp();
-
 
         for(String id : actividad.getIdUsuariosInscritos()){
 
             saUsuario.get(id, new MyCallBack() {
                 @Override
-                public void onCallbackUsuario(Usuario usuario2) {
-                    usuarios.add(usuario2);
-
+                public void onCallbackUsuario(Usuario user) {
+                    usuarios.add(user);
                 }
 
                 @Override
-                public void onCallbackActividad(Actividad actividad) {
-
-                }
+                public void onCallbackActividad(Actividad actividad) { }
 
                 @Override
-                public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
-
-                }
+                public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
             });
         }
-
-
-
-
     }
 }

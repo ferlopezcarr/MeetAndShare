@@ -554,6 +554,7 @@ public class Actividad implements Serializable {
             String[] listItems,
             boolean[] checkedItems,
             Date fechaInicioAnt,
+            int numUsuariosInscritos,
             Ubicacion ubicacionSeleccionada,
             String uid,
             EditText etNombre,
@@ -748,7 +749,14 @@ public class Actividad implements Serializable {
                 focusView = etMaxParticipantes;
         } else {
             maxParticipantes = Integer.parseInt(maxParticipantesString);
-            maxParticipantesOK = true;
+            if(numUsuariosInscritos > maxParticipantes) {
+                etMaxParticipantes.setError("Debes admitir como mínimo a toda la gente inscrita");
+                if(focusView != null)
+                    focusView = etMaxParticipantes;
+            }
+            else {
+                maxParticipantesOK = true;
+            }
         }
 
         //INTERESES
