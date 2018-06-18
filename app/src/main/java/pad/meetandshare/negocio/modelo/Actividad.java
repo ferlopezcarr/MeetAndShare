@@ -22,7 +22,7 @@ public class Actividad implements Serializable {
     private String uid;
 
     private String nombre;
-    private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
+    private static final String NOMBRE_PATTERN = "^([0-9a-zA-ZáéíóúñÁÉÍÓÚÑçÇ¡!¿? ])*$";
 
     private Date fechaInicio;
 
@@ -372,7 +372,7 @@ public class Actividad implements Serializable {
             if(focusView != null)
                 focusView = etNombre;
         } else if (!isValidNombre(nombre)) {
-            etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
+            etNombre.setError("El nombre contiene carácteres inválidos");
             if(focusView != null)
                 focusView = etNombre;
         } else {
@@ -615,7 +615,7 @@ public class Actividad implements Serializable {
             if(focusView != null)
                 focusView = etNombre;
         } else if (!isValidNombre(nombre)) {
-            etNombre.setError("El nombre introducido no es válido, sólo puede contener letras");
+            etNombre.setError("El nombre contiene carácteres inválidos");
             if(focusView != null)
                 focusView = etNombre;
         } else {

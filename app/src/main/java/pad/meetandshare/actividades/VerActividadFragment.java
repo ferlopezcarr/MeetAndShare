@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pad.meetandshare.R;
@@ -124,38 +125,42 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
         verUsuariosInscritosBoton.setOnClickListener(this);
 
-        //si el usuario esta inscrito en la actividad
-        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+        boolean inscribirseOK = false;
+
+        //si el usuario NO esta inscrito en la actividad y esta activa
+        inscribirseOK = (
+                !actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())
+                        && actividad.getActiva());
+
+        if(inscribirseOK)
+            inscribirseBoton.setOnClickListener(this);
+        else
             inscribirseBoton.setVisibility(View.GONE);
-        }
-        else {//si no esta inscrito
-            if(actividad.getActiva()) {
-                inscribirseBoton.setOnClickListener(this);
-            }
-            else {
-                inscribirseBoton.setVisibility(View.GONE);
-            }
-        }
 
         modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
         borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
 
+        boolean modificarOK = false;
+        boolean borrarOK = false;
+
         //si el admin eres tu
         if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getUser().getUid())) {
+            if(actividad.getActiva()) {//y la actividad esta activa
+                //si ya ha empezado (o terminado)
+                modificarOK = (actividad.getFechaInicio().after(new Date()));
+                borrarOK = true;
+            }
+        }
 
-            if(actividad.getActiva()) {
-                modificarActividadBoton.setOnClickListener(this);
-                borrarActividad.setOnClickListener(this);
-            }
-            else {
-                modificarActividadBoton.setVisibility(View.GONE);
-                borrarActividad.setVisibility(View.GONE);
-            }
-        }
-        else {
+        if(modificarOK)
+            modificarActividadBoton.setOnClickListener(this);
+        else
             modificarActividadBoton.setVisibility(View.GONE);
+
+        if(borrarOK)
+            borrarActividad.setOnClickListener(this);
+        else
             borrarActividad.setVisibility(View.GONE);
-        }
     }
     //-------------------------
 
