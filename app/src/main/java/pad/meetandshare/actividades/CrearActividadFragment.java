@@ -46,6 +46,8 @@ import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
+import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static pad.meetandshare.negocio.modelo.Ubicacion.PLACE_PICKER_REQUEST;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
@@ -196,7 +198,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.botonSeleccionarUbicacion:
-                Ubicacion.obtenerUbicacion(getActivity());
+                obtenerUbicacion();
                 break;
 
             case R.id.crearActividadPost:
@@ -311,16 +313,40 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             saActividad.getDatabaseReference().removeEventListener(eventListener);
     }
 
+    public void obtenerUbicacion() {
+
+        String accessFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
+
+        if (ContextCompat.checkSelfPermission(
+                this.getActivity(), accessFineLocation)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            //si no tiene permisos y debe pedirlos
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(), accessFineLocation)) {
+
+                ActivityCompat.requestPermissions(
+                        this.getActivity(),
+                        new String[]{accessFineLocation},
+                        MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            } else {//si no debe pedirlos
+                renderPlacePicker(this.getActivity());
+            }
+        } else {//si tiene permisos
+            renderPlacePicker(this.getActivity());
+        }
+    }
+
     // PERMISOS UBICACION --------
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //si se conceden los permisos
-                    Ubicacion.renderPlacePicker(this.getActivity(), Ubicacion.PLACE_PICKER_REQUEST);
+                    renderPlacePicker(this.getActivity());
                 } else {
                     String toastMsg = String.format("Para seleccionar la ubicación debes aceptar los permisos");
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
@@ -330,11 +356,28 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         }
     }
 
+    private void renderPlacePicker(Activity activity) {
+        try {
+
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            String msg = "Google Play Services no esta disponible en este momento";
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Ubicacion.PLACE_PICKER_REQUEST) {
+
+        if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace( this.getActivity(),data);
+                Place place = PlacePicker.getPlace(data, this.getActivity());
+
                 ubicacionSeleccionada = new Ubicacion(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
@@ -342,6 +385,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             }
         }
     }
+    // ---------------------------
 
     private void crearActividad() {
 
@@ -360,7 +404,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 actividadCreada = true;
             } else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
-                Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getActivity(), toastMsg, Toast.LENGTH_LONG).show();
             }
         }
     }

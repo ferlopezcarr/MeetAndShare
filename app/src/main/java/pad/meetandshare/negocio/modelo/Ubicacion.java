@@ -68,44 +68,7 @@ public class  Ubicacion implements Serializable {
     }
 
     //Para las actividades
-    public static void obtenerUbicacion(Activity activity) {
 
-        String accessFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
-
-        if (ContextCompat.checkSelfPermission(
-                activity, accessFineLocation)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            //si no tiene permisos y debe pedirlos
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, accessFineLocation)) {
-
-                ActivityCompat.requestPermissions(
-                        activity,
-                        new String[]{accessFineLocation},
-                        MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
-            } else {//si no debe pedirlos
-                Ubicacion.renderPlacePicker(activity,PLACE_PICKER_REQUEST);
-            }
-        } else {//si tiene permisos
-            Ubicacion.renderPlacePicker(activity, PLACE_PICKER_REQUEST);
-        }
-    }
-
-    public static void renderPlacePicker(Activity activity, int placePickerRequest) {
-        try {
-
-            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-            activity.startActivityForResult(builder.build(activity), placePickerRequest);
-
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            String msg = "Google Play Services no esta disponible en este momento";
-            Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
     /*
     public Ubicacion(String id) {

@@ -1,5 +1,7 @@
 package pad.meetandshare.actividades;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +43,8 @@ import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
+import static pad.meetandshare.negocio.modelo.Ubicacion.PLACE_PICKER_REQUEST;
+import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 public class ModificaActividadFragment extends Fragment implements View.OnClickListener {
 
@@ -238,7 +246,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                 break;
 
             case R.id.botonSeleccionarUbicacionModificarActividad:
-                Ubicacion.obtenerUbicacion(getActivity());
+                obtenerUbicacion();
                 break;
 
             case R.id.modificarActividadPost:
@@ -305,15 +313,40 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     }
 
     // PERMISOS UBICACION --------
+    public void obtenerUbicacion() {
+
+        String accessFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
+
+        if (ContextCompat.checkSelfPermission(
+                this.getActivity(), accessFineLocation)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            //si no tiene permisos y debe pedirlos
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(), accessFineLocation)) {
+
+                ActivityCompat.requestPermissions(
+                        this.getActivity(),
+                        new String[]{accessFineLocation},
+                        MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            } else {//si no debe pedirlos
+                renderPlacePicker(this.getActivity());
+            }
+        } else {//si tiene permisos
+            renderPlacePicker(this.getActivity());
+        }
+    }
+
+    // PERMISOS UBICACION --------
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //si se conceden los permisos
-                    Ubicacion.renderPlacePicker(getActivity(), Ubicacion.PLACE_PICKER_REQUEST);
+                    renderPlacePicker(this.getActivity());
                 } else {
                     String toastMsg = String.format("Para seleccionar la ubicación debes aceptar los permisos");
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
@@ -323,9 +356,25 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         }
     }
 
+    private void renderPlacePicker(Activity activity) {
+        try {
+
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            String msg = "Google Play Services no esta disponible en este momento";
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Ubicacion.PLACE_PICKER_REQUEST) {
+
+        if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this.getActivity());
 
@@ -336,6 +385,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             }
         }
     }
+// ---------------------------
 
     @Override
     public void onStart() {

@@ -188,7 +188,12 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         if (actividad.getFinalizada()) {
             estado = "Finalizada";
         } else {//no finalizada
-            estado = "Activa";
+            if(actividad.getActiva()) {
+                estado = "Activa";
+            }
+            else {
+                estado = "Cancelada";
+            }
         }
         tvEstado.setText(estado);
 
