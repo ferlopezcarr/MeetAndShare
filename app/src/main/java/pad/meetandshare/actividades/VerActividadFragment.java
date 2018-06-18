@@ -17,13 +17,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
 import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
+import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
 public class VerActividadFragment extends Fragment implements View.OnClickListener {
 
@@ -45,6 +52,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private Button verUsuariosInscritosBoton;
     private FloatingActionButton modificarActividadBoton;
     private Button borrarActividad;
+
+    private List<Usuario> usuarios;
 
 
     private Actividad actividad;
@@ -79,16 +88,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             nombreUsuario = bundle.getString(NOMBRE_USUARIO);
         }
 
-        /*
-        if(!AutorizacionFirebase.amIAuthentificated()) {
-            AutorizacionFirebase.setSingOut(true);
-            AutorizacionFirebase.getFirebaseAuth().signOut();
-            Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
 
-            this.startActivity(myIntent);
-            this.onResume();
-        }
-        */
+
     }
 
     // ON CREATE VIEW ---------
@@ -129,11 +130,13 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
         verUsuariosInscritosBoton.setOnClickListener(this);
 
+
         modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
         modificarActividadBoton.setOnClickListener(this);
 
-        borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
-        borrarActividad.setOnClickListener(this);
+             borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
+            borrarActividad.setOnClickListener(this);
+
 
     }
     //-------------------------
@@ -141,6 +144,9 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     @Override
     public void onStart() {
         super.onStart();
+
+        usuarios= new ArrayList<Usuario>();
+        traeUsuariosActividad();
 
         String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getFechaInicio());
         String arrayFechaIni[] = fechaIni.split(" ");
@@ -230,16 +236,21 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);
         }
 
+
         //Boton de inscribirse
         //si el usuario esta inscrito en la actividad
         if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
             inscribirseBoton.setVisibility(View.GONE);
-            rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.GONE);
         }
         else {//si no esta inscrito
             inscribirseBoton.setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.ver_usuarios_inscritos).setVisibility(View.VISIBLE);
         }
+
+
+
+
+
     }
 
     @Override
@@ -295,12 +306,27 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     private void verUsuariosInscritos() {
         //si esta inscrito
-        if(actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
 
-        }
-        else {//si no esta inscrito
-            inscribirseBoton.setVisibility(View.GONE);
-        }
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Usuarios inscritos");
+
+            for(Usuario user: usuarios){
+
+                alertDialog.setMessage(user.getNombre()+"\n");
+            }
+
+            // Alert dialog button
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Alert dialog action goes here
+                            // onClick button code here
+                            dialog.dismiss();// use dismiss to cancel alert dialog
+                        }
+                    });
+            alertDialog.show();
+
+
     }
 
     private void changeToModificarActividad() {
@@ -342,4 +368,36 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         builder.show();
     }
 
+
+
+    private void  traeUsuariosActividad(){
+
+        SAUsuario saUsuario = new SAUsuarioImp();
+
+
+        for(String id : actividad.getIdUsuariosInscritos()){
+
+            saUsuario.get(id, new MyCallBack() {
+                @Override
+                public void onCallbackUsuario(Usuario usuario2) {
+                    usuarios.add(usuario2);
+
+                }
+
+                @Override
+                public void onCallbackActividad(Actividad actividad) {
+
+                }
+
+                @Override
+                public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
+
+                }
+            });
+        }
+
+
+
+
+    }
 }

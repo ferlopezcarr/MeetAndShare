@@ -1,28 +1,20 @@
 package pad.meetandshare.actividades;
 
-import android.content.Context;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import pad.meetandshare.R;
-import pad.meetandshare.integracion.ColorFile;
+
 
 public class LeyendaMapaFragment extends Fragment {
 
     private View rootView;
 
-    private ImageView imgViewAdminColor;
 
     public LeyendaMapaFragment() {
         // Required empty public constructor

@@ -3,6 +3,8 @@ package pad.meetandshare.negocio.servicioAplicacion;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.List;
+
 import pad.meetandshare.negocio.modelo.Usuario;
 
 public interface SAUsuario {
@@ -26,6 +28,8 @@ public interface SAUsuario {
     void save(Usuario usuario, String ui);
 
     void get(String ui, MyCallBack myCallBack);
+
+
 
     DatabaseReference getDatabaseReference();
 

@@ -291,6 +291,9 @@
                 android:text="@string/inscribirse"
                 android:textStyle="bold" />
 
+
+
+
             <Button
                 android:id="@+id/ver_usuarios_inscritos"
                 android:layout_width="match_parent"
@@ -301,6 +304,7 @@
                 android:ems="10"
                 android:text="@string/ver_usuarios_inscritos"
                 android:textStyle="bold" />
+
 
             <Button
                 android:id="@+id/eliminar_actividad"
