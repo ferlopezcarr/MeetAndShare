@@ -111,7 +111,6 @@ public class FechaUtil {
         int horas = Integer.parseInt(hora.substring(0,2));
 
         if(horas > 12) {
-            horas -= 12;
             am_pm = "p.m.";
         }
         else if(horas == 12) {

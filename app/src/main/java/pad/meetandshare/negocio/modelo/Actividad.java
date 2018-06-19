@@ -232,7 +232,7 @@ public class Actividad implements Serializable {
         return (!finalizada && fechaInicio.after(ahora) && fechaFin.before(ahora));
     }
 
-    public boolean isFinalizada() {
+    public boolean isActividadFinalizada() {
 
         if(!finalizada)
             finalizada = (fechaFin.before(new Date()));

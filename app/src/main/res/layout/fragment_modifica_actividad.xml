@@ -8,7 +8,7 @@
     android:background="@color/colorAccent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".actividades.ModificaActividadFragment">
+    tools:context=".actividades.fragments.ModificaActividadFragment">
 
 
     <ScrollView

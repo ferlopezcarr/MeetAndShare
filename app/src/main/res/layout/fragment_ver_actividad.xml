@@ -5,7 +5,7 @@
     android:id="@+id/nav_VerActividad"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividades.VerActividadFragment">
+    tools:context=".actividades.fragments.VerActividadFragment">
 
     <ScrollView
         android:layout_width="match_parent"

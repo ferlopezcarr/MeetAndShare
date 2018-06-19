@@ -1,6 +1,5 @@
 package pad.meetandshare.actividades;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +16,9 @@ import android.view.WindowManager;
 
 
 import pad.meetandshare.R;
+import pad.meetandshare.actividades.fragments.CrearActividadFragment;
+import pad.meetandshare.actividades.fragments.InicioFragment;
+import pad.meetandshare.actividades.fragments.PerfilUsuarioFragment;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class MenuLateralActivity extends AppCompatActivity
@@ -81,7 +83,7 @@ public class MenuLateralActivity extends AppCompatActivity
         if (id == R.id.nav_Inicio) {
             fragmento = new InicioFragment();
         } else if (id == R.id.nav_Perfil) {
-            fragmento =PerfilUsuarioFragment.newInstance();
+            fragmento = PerfilUsuarioFragment.newInstance();
         } else if (id == R.id.nav_CrearActividad) {
             fragmento = CrearActividadFragment.newInstance();
         } else if (id == R.id.nav_CerrarSesion) {
