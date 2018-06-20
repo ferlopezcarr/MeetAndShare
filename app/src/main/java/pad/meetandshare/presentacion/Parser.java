@@ -3,19 +3,28 @@ package pad.meetandshare.presentacion;
 import android.app.Activity;
 import android.util.Pair;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import pad.meetandshare.negocio.modelo.Categoria;
 
 public class Parser {
 
+
+
     private static final int PARSE_COD_NULL = 000;
     private static final int PARSE_COD_STRING_EMPTY = 001;
-
     private static final String PE_MS_CAMPO_OBLIGATORIO = "Por favor, rellena el campo obligatorio";
+
+    protected static final int PARSE_COD_FORMATO_INCORRECTO = 202;
+    protected static final String PE_MS_FORMATO_INCORRECTO = "Formato incorrecto";
+
+
     private static final String MS_INTERESES = "Debes seleccionar al menos un interés";
 
     public static boolean isNotNull(Object obj) throws ParseException {
@@ -57,6 +66,23 @@ public class Parser {
         }
 
         return new Pair<>(unlessOneInteres, intereses);
+    }
+
+    //Fechas y horas
+    public static Date parseFecha(String fechaStr) throws ParseException {
+        Date fecha = null;
+        try {
+            fecha = FechaUtil.getDateFormat().parse(fechaStr);
+        } catch(ParseException pe) {
+            throw new ParseException(PE_MS_FORMATO_INCORRECTO, PARSE_COD_FORMATO_INCORRECTO);
+        }
+        return fecha;
+    }
+
+    protected void setError(EditText et, String err, View focusView) {
+        et.setError(err);
+        if(focusView != null)
+            focusView = et;
     }
 
 }

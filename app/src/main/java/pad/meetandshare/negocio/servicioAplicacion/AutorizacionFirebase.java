@@ -33,9 +33,10 @@ public class AutorizacionFirebase {
         user = usuario;
     }
 
-    public static void setSingOut(boolean salir) {
+    public static void singOut() {
         mAuth = null;
         user = null;
+        mAuth.signOut();
     }
 
     public static boolean amIAuthentificated() {

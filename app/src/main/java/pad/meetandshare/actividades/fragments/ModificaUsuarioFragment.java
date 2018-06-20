@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,33 +25,30 @@ import java.util.List;
 
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.FragmentTransaction;
+import pad.meetandshare.actividades.RegistroActivity;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
+import pad.meetandshare.presentacion.Parser;
+import pad.meetandshare.presentacion.ParserUsuario;
 
 public class ModificaUsuarioFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
-    private EditText tvNombreUsuario;
-    private EditText tvFechaNac;
+
+    private EditText etNombreUsuario;
+    private EditText etFechaNac;
     private ImageButton ibObtenerFechaNac;
-    private EditText tvDescripcion;
+    private EditText etDescripcion;
     private Button botonIntereses;
     private Button botonGuardar;
 
     private Usuario miUser;
     private SAUsuarioImp saUsuario;
 
-    private String nombre;
-    private Date fecha;
-    private String descripcion;
-
-    private ValueEventListener eventListener;
-
     private boolean btnModificarPressed = false;
-    private boolean usuarioModificado = false;
 
     private String[] listItems;
     private boolean[] checkedItems;
@@ -96,20 +94,20 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         rootView = inflater.inflate(R.layout.fragment_modifica_usuario, container, false);
 
         //Nombre
-        tvNombreUsuario = ((EditText) rootView.findViewById(R.id.nombreModifica));
-        tvNombreUsuario.setText(miUser.getNombre());
+        etNombreUsuario = ((EditText) rootView.findViewById(R.id.nombreModifica));
+        etNombreUsuario.setText(miUser.getNombre());
 
         //FechaNac
-        tvFechaNac = ((EditText) rootView.findViewById(R.id.fechaNacimientoModificar));
+        etFechaNac = ((EditText) rootView.findViewById(R.id.fechaNacimientoModificar));
         String fechaNac = FechaUtil.getDateFormat().format(miUser.getFechaNacimiento());
-        tvFechaNac.setText(fechaNac);
+        etFechaNac.setText(fechaNac);
         ibObtenerFechaNac = (ImageButton) rootView.findViewById(R.id.ib_obtener_fecha);
         ibObtenerFechaNac.setOnClickListener(this);
 
         //Descripción
-        tvDescripcion = ((EditText) rootView.findViewById(R.id.descripcionPerfilModificar));
+        etDescripcion = ((EditText) rootView.findViewById(R.id.descripcionPerfilModificar));
         if(miUser.getDescripcion().length() != 0)
-            tvDescripcion.setText(miUser.getDescripcion());
+            etDescripcion.setText(miUser.getDescripcion());
         /*
         tvDescripcion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -122,15 +120,15 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
             }
         });
         */
-        tvDescripcion.setOnTouchListener(new View.OnTouchListener() {
+        etDescripcion.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent event) {
-                tvDescripcion.setLines(6);
+                etDescripcion.setLines(6);
                 if (view.getId() == R.id.descripcionPerfilModificar) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
                     switch (event.getAction()&MotionEvent.ACTION_MASK){
                         case MotionEvent.ACTION_UP:
                             view.getParent().requestDisallowInterceptTouchEvent(false);
-                            tvDescripcion.setLines(tvDescripcion.getMinLines());
+                            etDescripcion.setLines(etDescripcion.getMinLines());
                             break;
                     }
                 }
@@ -139,7 +137,7 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         });
 
         botonIntereses = (Button)rootView.findViewById(R.id.botonInteresModificar);
-        listenerButtonIntereses(botonIntereses);
+        botonIntereses.setOnClickListener(this);
 
         botonGuardar = (Button)rootView.findViewById(R.id.botonModificarUsuarioPost);
         botonGuardar.setOnClickListener(this);
@@ -156,6 +154,10 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
                 fechaUtil.obtenerFecha(getActivity(), R.id.fechaNacimientoModificar);
                 break;
 
+            case R.id.botonInteresModificar:
+                listenerButtonIntereses(v);
+                break;
+
             case R.id.botonModificarUsuarioPost:
                 this.btnModificarPressed = true;
                 modificarUsuario();
@@ -165,197 +167,128 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
     /**
      * Método que configura el botón de seleccionar intereses
-     *
-     * @param intereses
+     * @param view
      */
-    private void listenerButtonIntereses(Button intereses) {
+    private void listenerButtonIntereses(View view) {
 
-        intereses.setOnClickListener(new View.OnClickListener() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+        mBuilder.setTitle(R.string.intereses);
+        mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
-            public void onClick(View view) {
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                mBuilder.setTitle(R.string.intereses);
-                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        if (isChecked) {
-                            mUserItems.add(position);
-                        } else {
-                            mUserItems.remove((Integer.valueOf(position)));
-                        }
-                    }
-                });
-
-                mBuilder.setCancelable(false);
-                mBuilder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String item = "";
-                        for (int i = 0; i < mUserItems.size(); i++) {
-                            item = item + listItems[mUserItems.get(i)];
-                            if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
-                            }
-                        }
-                    }
-                });
-
-                mBuilder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                mBuilder.setNeutralButton(R.string.clear_all, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mUserItems.clear();
-                        }
-                    }
-                });
-
-                AlertDialog mDialog = mBuilder.create();
-                mDialog.show();
+            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                if (isChecked) {
+                    mUserItems.add(position);
+                } else {
+                    mUserItems.remove((Integer.valueOf(position)));
+                }
             }
         });
+
+        mBuilder.setCancelable(false);
+        mBuilder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                String item = "";
+                for (int i = 0; i < mUserItems.size(); i++) {
+                    item = item + listItems[mUserItems.get(i)];
+                    if (i != mUserItems.size() - 1) {
+                        item = item + ", ";
+                    }
+                }
+            }
+        });
+
+        mBuilder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        mBuilder.setNeutralButton(R.string.clear_all, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                for (int i = 0; i < checkedItems.length; i++) {
+                    checkedItems[i] = false;
+                    mUserItems.clear();
+                }
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
     }
 
-    private boolean checkUsuario() {
+    private Usuario checkUsuario() {
         View focusView = null;
 
-        boolean nombreOK = false;
-        boolean fechaOK = false;
+        Usuario usr = miUser;
 
-        nombre = tvNombreUsuario.getText().toString().trim();
-        String fechaStr = tvFechaNac.getText().toString().trim();
+        String nombre = etNombreUsuario.getText().toString().trim();
+        String fechaStr = etFechaNac.getText().toString().trim();
+        String descripcion = etDescripcion.getText().toString().trim();
 
-        descripcion = tvDescripcion.getText().toString().trim();
-
-        final String campoObligatorio = "Por favor, rellene todos los campos";
+        ParserUsuario pu = new ParserUsuario();
 
         //NOMBRE
-        if (nombre == null || nombre.isEmpty()) {
-            tvNombreUsuario.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = tvNombreUsuario;
-        } else if (!Usuario.isValidNombre(nombre)) {
-            tvNombreUsuario.setError("El nombre introducido no es válido, sólo puede contener letras");
-            if(focusView != null)
-                focusView = tvNombreUsuario;
-        } else {
-            nombreOK = true;
+        nombre = pu.procesarNombre(nombre, etNombreUsuario, focusView);
+        if(nombre != null && !nombre.equalsIgnoreCase(usr.getNombre())) {
+            usr.setNombre(nombre);
         }
 
         //FECHA DE NACIMIENTO
-        if(fechaStr == null || fechaStr.isEmpty()) {
-            tvFechaNac.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = tvFechaNac;
+        Date fechaNueva = pu.procesarFechaNacimiento(fechaStr,etFechaNac,focusView);
+        //si es valida y distinta
+        if(fechaNueva != null && fechaNueva.compareTo(usr.getFechaNacimiento()) != 0) {
+            usr.setFechaNacimiento(fechaNueva);
         }
         else {
-            try {
-                fecha = FechaUtil.getDateFormat().parse(fechaStr);
+            etFechaNac.setText(FechaUtil.getDateFormat().format(usr.getFechaNacimiento()));
+        }
 
-                if (!Usuario.isValidFechaNacimiento(fecha)) {
-                    tvFechaNac.setError("Debes ser mayor de edad");
-                    if(focusView != null)
-                        focusView = tvFechaNac;
-                } else {
-                    fechaOK = true;
-                }
-            } catch(ParseException e) {
-                tvFechaNac.setError("Formato de fecha incorrecto");
-                if(focusView != null)
-                    focusView = tvFechaNac;
-            }
+        //INTERESES
+        Pair<Boolean, ArrayList<Categoria>> resIntereses = pu.procesarIntereses(listItems, checkedItems, this.getActivity());
+        if(resIntereses.first) {
+            usr.setCategorias(resIntereses.second);
         }
 
         //DESCRIPCION
         if (descripcion == null) {
             descripcion = "";
         }
+        usr.setDescripcion(descripcion);
 
         if(focusView != null)
             focusView.setFocusable(true);
 
-        return nombreOK && fechaOK;
+        if(nombre == null || fechaNueva == null || !resIntereses.first)
+            usr = null;
+
+        return usr;
     }
 
     private void modificarUsuario() {
-        if(checkUsuario()) {
-            miUser.setNombre(nombre);
-            miUser.setFechaNacimiento(fecha);
-            miUser.setDescripcion(descripcion);
+
+        Usuario usrModificado = checkUsuario();
+
+        if(usrModificado != null){
 
             ArrayList<Categoria> intereses = new ArrayList<>();
 
-            for (int i = 0; i < checkedItems.length; ++i) {
-                if (checkedItems[i]) {
-                    Categoria cat = Categoria.getCategoria(listItems[i]);
-                    intereses.add(cat);
-                }
-            }
+            saUsuario.save(usrModificado);
 
-            miUser.setCategorias(intereses);
-
-            saUsuario.save(miUser, miUser.getUid());
-
-            AutorizacionFirebase.setUsuario(miUser);
-
-            usuarioModificado = true;
+            AutorizacionFirebase.setUsuario(usrModificado);
 
             this.changeToVerPerfil();
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object obj = dataSnapshot.getValue(Usuario.class);
-
-                if(obj.getClass() == Usuario.class) {
-                    Usuario usr = (Usuario)obj;
-
-                    if(usr.getUid() != null && usr.getEmail() != null) {
-                        if(saUsuario.checkUsuario(miUser, dataSnapshot)) {
-                            if (btnModificarPressed && usuarioModificado) {
-                                changeToVerPerfil();
-                            }
-                        }
-                    }
-                }
-
-            }//onDataChange
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        saUsuario.getDatabaseReference().addValueEventListener(eventListener);
-    }
-
     private void changeToVerPerfil() {
-
 
         Fragment fr = PerfilUsuarioFragment.newInstance();
         FragmentTransaction fc=(FragmentTransaction) this.getActivity();
         fc.replaceFragment(fr);
 
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (eventListener != null)
-            saUsuario.getDatabaseReference().removeEventListener(eventListener);
     }
 
 }

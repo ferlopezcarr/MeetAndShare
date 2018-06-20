@@ -40,6 +40,7 @@ import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
+import pad.meetandshare.presentacion.ParserUsuario;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -126,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
 
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -135,28 +135,17 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !Usuario.isValidPassword(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+        ParserUsuario pu = new ParserUsuario();
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!Usuario.isValidEmail(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
+        //EMAIL
+        email = pu.procesarEmail(email, mEmailView, focusView);
 
-        if (cancel) {
+        //PASSWORD
+        password = pu.procesarPassword(password, mPasswordView, focusView);
+
+        if (email == null || password == null) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();

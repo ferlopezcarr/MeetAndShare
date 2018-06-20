@@ -11,7 +11,6 @@ public interface MyCallBack {
 
     void onCallbackActividad(Actividad actividad);
 
-
     void onCallbackActividadAll(ArrayList<Actividad> actividad);
 
 }

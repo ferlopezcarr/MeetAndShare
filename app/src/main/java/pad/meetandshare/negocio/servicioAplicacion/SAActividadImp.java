@@ -29,29 +29,28 @@ public class SAActividadImp implements SAActividad {
     public void create(Actividad actividad) {
 
         DatabaseReference pushRef = myRef.push();
-        //pushRef.setValue(actividad);
 
         String uid = pushRef.getKey();
 
         actividad.setUid(uid);
 
-        save(actividad, actividad.getIdAdministrador());
+        save(actividad);
     }
 
     @Override
-    public void delete(Actividad actividad, String ui){
+    public void delete(Actividad actividad){
 
         //borrado fisico
         //myRef.child(ui).child(actividad.getUid()).removeValue();
 
         actividad.setActiva(false);
-        this.save(actividad, ui);
+        this.save(actividad);
     }
 
     @Override
-    public void save(Actividad actividad, String uidAdminstrador){
+    public void save(Actividad actividad){
 
-        myRef.child(uidAdminstrador).child(actividad.getUid()).setValue(actividad);
+        myRef.child(actividad.getIdAdministrador()).child(actividad.getUid()).setValue(actividad);
 
     }
 

@@ -20,7 +20,7 @@ public interface SAUsuario {
     * @param usuario
     * @return si ha sido borrado o no
     */
-    void delete(Usuario usuario, String ui);
+    void delete(Usuario usuario);
 
     /**
     * Método que recibe un Usuario y lo persiste en la base de datos,
@@ -29,7 +29,7 @@ public interface SAUsuario {
     * @param usuario
     * @return usuario guardado
     */
-    void save(Usuario usuario, String ui);
+    void save(Usuario usuario);
 
     void get(String ui, MyCallBack myCallBack);
 

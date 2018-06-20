@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +30,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
+import pad.meetandshare.presentacion.ParserActividad;
 
 import static android.app.Activity.RESULT_OK;
 import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -388,13 +391,12 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private void crearActividad() {
 
-        actividad = Actividad.checkInputActividad(
+        actividad = checkInputActividad(
                 this.getActivity(),
                 listItems,
                 checkedItems,
                 ubicacionSeleccionada,
-                AutorizacionFirebase.getUser().getUid(),
-                etNombre, etFechaIni, etHoraIni, etFechaFin, etHoraFin, etMaxParticipantes, etDescripcion);
+                AutorizacionFirebase.getUser().getUid());
 
         if (actividad != null) {
 
@@ -408,4 +410,91 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         }
     }
 
+    public Actividad checkInputActividad(
+            Activity activity,
+            String[] listItems,
+            boolean[] checkedItems,
+            Ubicacion ubicacionSeleccionada,
+            String uid
+    ) {
+        //OBTENER ELEMENTOS DE LA VISTA
+        String nombre = etNombre.getText().toString();
+        String fechaIniString = etFechaIni.getText().toString();
+        String horaIniString = etHoraIni.getText().toString();
+        String fechaFinString = etFechaFin.getText().toString();
+        String horaFinString = etHoraFin.getText().toString();
+        String maxParticipantesString = etMaxParticipantes.getText().toString();
+        String descripcion = etDescripcion.getText().toString();
+
+        //PROCESAMIENTO PREVIO
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        fechaIniString = fechaIniString.trim();
+        horaIniString = horaIniString.trim();
+        fechaFinString = fechaFinString.trim();
+        horaFinString = horaFinString.trim();
+        descripcion = descripcion.trim();
+
+
+        //INICIALIZAR
+        boolean unlessOneInteres = false;
+        boolean ubicacionOK = false;
+
+        Integer maxParticipantes = 0;
+        Date fechaIni = null;
+        Date fechaFin = null;
+
+        View focusView = null;
+        Actividad act = null;
+
+        // --- CHECKS --- //
+        ParserActividad pa = new ParserActividad();
+
+        //NOMBRE
+        nombre = pa.procesarNombre(nombre, etNombre, focusView);
+
+        //FECHA INI
+        fechaIniString = pa.procesarFechaIniSinHora(fechaIniString, etFechaIni, focusView);
+
+        //HORA INI
+        horaIniString = pa.procesarHoraIni(horaIniString, etHoraIni, focusView);
+
+        //FECHA INI Y HORA INI
+        fechaIni = pa.procesarFechaIniCompleta(fechaIniString, horaIniString, etHoraIni, focusView);
+
+        //FECHA FIN
+        fechaFinString = pa.procesarFechaFinSinHora(fechaFinString, fechaIniString, etFechaFin, focusView);
+
+        //HORA FIN
+        horaFinString = pa.procesarHoraFin(horaFinString, etHoraFin, focusView);
+
+        //FECHA FIN Y HORA FIN
+        fechaFin = pa.procesarFechaFinCompleta(fechaIni, fechaFinString, horaFinString, etHoraFin, focusView);
+
+        //MAX PARTICIPANTES
+        maxParticipantes = pa.procesarMaxParticipantes(maxParticipantesString, etMaxParticipantes, focusView);
+
+        //INTERESES
+        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, activity);
+        unlessOneInteres = resIntereses.first;
+
+        //UBICACION
+        ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, activity);
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+
+        // -------------- //
+
+        if(focusView != null)
+            focusView.setFocusable(true);
+
+        if(nombre != null && fechaIni != null && fechaFin != null && maxParticipantes != null && unlessOneInteres && ubicacionOK) {
+            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, resIntereses.second, uid);
+        }
+
+        return act;
+    }
 }

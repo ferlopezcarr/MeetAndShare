@@ -43,7 +43,7 @@ import pad.meetandshare.actividades.MyInfoWindowAdapter;
 import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
@@ -104,8 +104,7 @@ public class InicioFragment
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
 
         if(!AutorizacionFirebase.amIAuthentificated()) {
-            AutorizacionFirebase.setSingOut(true);
-            AutorizacionFirebase.getFirebaseAuth().signOut();
+            AutorizacionFirebase.singOut();
             Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
 
             this.startActivity(myIntent);
@@ -347,7 +346,7 @@ public class InicioFragment
                     //si la fecha de fin es mas tarde de ahora se finaliza
                     if(actual.getFechaFin().before(new Date()) && !actual.getFinalizada()) {
                         actual.setFinalizada(true);
-                        saActividad.save(actual, actual.getIdAdministrador());
+                        saActividad.save(actual);
                     }
 
                     if(!actual.getFinalizada()) {
