@@ -166,47 +166,44 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(true);
 
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    final Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
+
+                    SAUsuario saUsuario = new SAUsuarioImp();
+                    saUsuario.get(user.getUid(), new MyCallBack() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                final Intent myIntent = new Intent(LoginActivity.this, MenuLateralActivity.class);
-
-                                SAUsuario saUsuario = new SAUsuarioImp();
-                                saUsuario.get(user.getUid(), new MyCallBack() {
-                                    @Override
-                                    public void onCallbackUsuario(Usuario value) {
-                                        AutorizacionFirebase.setUsuario(value);
-                                        LoginActivity.this.startActivity(myIntent);
-                                        LoginActivity.this.onResume();
-                                        showProgress(false);
-                                    }
-
-                                    @Override
-                                    public void onCallbackActividad(Actividad actividad) {
-                                    }
-
-                                    @Override
-                                    public void onCallbackActividadAll(ArrayList<Actividad> actividad) {
-                                    }
-
-                                });
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                showProgress(false);
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LoginActivity.this, "Fallo de autenticación",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            // ...
+                        public void onCallbackUsuario(Usuario value) {
+                            AutorizacionFirebase.setUsuario(value);
+                            LoginActivity.this.startActivity(myIntent);
+                            showProgress(false);
+                            //LoginActivity.this.onResume();
+                            finish();
                         }
+
+                        @Override
+                        public void onCallbackActividad(Actividad actividad) { }
+
+                        @Override
+                        public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
                     });
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    showProgress(false);
+                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                    Toast.makeText(LoginActivity.this, "Fallo de autenticación",
+                            Toast.LENGTH_SHORT).show();
+                }
+                }
+            });//addOnCompleteListener
 
         }
     }
@@ -264,7 +261,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-
 
         }
 

@@ -2,6 +2,7 @@ package pad.meetandshare.negocio.modelo;
 
 
 import android.app.Activity;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -15,21 +16,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pad.meetandshare.presentacion.Parser;
+import pad.meetandshare.presentacion.ParserActividad;
+
 public class Actividad implements Serializable {
 
-    public final static String ActivitiesDatabaseName = "activities";
-
+    // -------- ATRIBUTOS -------- //
     private String uid;
 
     private String nombre;
-    private static final String NOMBRE_PATTERN = "^([0-9a-zA-ZáéíóúñÁÉÍÓÚÑçÇ¡!¿? ])*$";
 
     private Date fechaInicio;
 
     private Date fechaFin;
 
     private int maxParticipantes;
-    //private static final String MAX_PARTICIPANTES_PATTERN = "^([0-9])*$";
 
     private String descripcion;
 
@@ -45,11 +46,14 @@ public class Actividad implements Serializable {
 
     private boolean finalizada;
 
+    // -- Datos para integracion -- //
+    public final static String ActivitiesDatabaseName = "activities";
+
     public static String rootDataBase(String userUid) {
         return Usuario.UsersDataBaseName + "/" + userUid + "/" + ActivitiesDatabaseName;
     }
 
-
+    // -------- METODOS -------- //
     /**
      * Constructoria por defecto de Actividad
      */
@@ -82,70 +86,8 @@ public class Actividad implements Serializable {
     }
 
 
-    /* PARSERS */
 
-    /**
-     * Valida el nombre
-     * @param nombre
-     * @return
-     */
-    public static boolean isValidNombre(String nombre) {
-        Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
-        Matcher matcher = pattern.matcher(nombre);
-        return matcher.matches();
-    }
-
-    /**
-     * Valida la fecha de inicio de la actividad
-     * @param fechaIni
-     * @return
-     */
-    public static boolean isValidFechaIni(Date fechaIni) {
-        return (fechaIni.after(new Date())); //despues de ahora
-    }
-
-    public static boolean isOnlyFechaIniLaterThanToday(Date fechaIni) {
-
-        Date todayWithHour = new Date();
-        String todayStr = FechaUtil.getDateFormat().format(todayWithHour);
-
-        Date today = FechaUtil.dateCorrectFormat(todayStr, "00:00");
-
-        return (fechaIni.compareTo(today) >= 0);//hoy o despues
-    }
-
-    public static boolean isValidHora(String horaString) {
-        String hora[] = horaString.split(":");
-        String horas = hora[0];
-        String minutos = hora[1];
-
-        return (Integer.parseInt(horas) < 24 && Integer.parseInt(horas) >= 0 ) &&
-                (Integer.parseInt(minutos) < 60 && Integer.parseInt(minutos) >= 0);
-    }
-
-    public static boolean isOnlyFechaFinLaterThanFechaIni(String fechaIniString, String fechaFinString) throws ParseException {
-
-        Date fechaIniWithOutHour = FechaUtil.getDateFormat().parse(fechaIniString);
-        Date fechaFinWithOutHour = FechaUtil.getDateFormat().parse(fechaFinString);
-
-        return (fechaFinWithOutHour.compareTo(fechaIniWithOutHour) >= 0);
-    }
-
-    public static boolean isValidFechaFin(Date fechaIni, Date fechaFin) {
-        return fechaFin.after(fechaIni); //despues de ahora
-    }
-
-    /**
-     * Valida el numero de participantes
-     * @param maxParticipantesString
-     * @return
-     */
-    public static boolean isValidMaxParticipantes(String maxParticipantesString) {
-        return (Integer.parseInt(maxParticipantesString) > 1);
-    }
-
-
-    /* GETTERS Y SETTERS */
+    // -- GETTERS Y SETTERS -- //
 
     public String getUid() {
         return uid;
@@ -240,7 +182,8 @@ public class Actividad implements Serializable {
         return finalizada;
     }
 
-    /* --- Categorias --- */
+
+    // -- Categorias -- //
 
     public List<Categoria> getCategorias() {
         return categorias;
@@ -283,7 +226,8 @@ public class Actividad implements Serializable {
         this.categorias.addAll(categorias);
     }
 
-    /* --- Usuarios inscritos --- */
+
+    // -- Usuarios inscritos -- //
 
     public List<String> getIdUsuariosInscritos() {
         return this.idUsuariosInscritos;
@@ -321,6 +265,10 @@ public class Actividad implements Serializable {
         }
     }
 
+
+
+    // -- CHECK INPUT ACTIVIDAD -- //
+
     public static Actividad checkInputActividad(
             Activity activity,
             String[] listItems,
@@ -336,8 +284,6 @@ public class Actividad implements Serializable {
             EditText etDescripcion
     ) {
 
-        Actividad act = null;
-
         //OBTENER ELEMENTOS DE LA VISTA
         String nombre = etNombre.getText().toString();
         String fechaIniString = etFechaIni.getText().toString();
@@ -346,29 +292,8 @@ public class Actividad implements Serializable {
         String horaFinString = etHoraFin.getText().toString();
         String maxParticipantesString = etMaxParticipantes.getText().toString();
         String descripcion = etDescripcion.getText().toString();
-        int maxParticipantes = 0;
-        Date fechaIni = null;
-        long horaIni = 0;
-        Date fechaFin = null;
-        long horaFin = 0;
 
-        ArrayList<Categoria> intereses = new ArrayList<>();
-
-        for (int i = 0; i < checkedItems.length; ++i) {
-            if (checkedItems[i]) {
-                Categoria cat = Categoria.getCategoria(listItems[i]);
-                intereses.add(cat);
-            }
-        }
-
-        boolean nombreOk = false;
-        boolean fechaIniOK = false;
-        boolean horaIniOK = false;
-        boolean fechaFinOK = false;
-        boolean horaFinOK = false;
-        boolean maxParticipantesOK = false;
-        View focusView = null;
-
+        //PROCESAMIENTO PREVIO
         //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
         nombre = nombre.trim();
         fechaIniString = fechaIniString.trim();
@@ -377,193 +302,73 @@ public class Actividad implements Serializable {
         horaFinString = horaFinString.trim();
         descripcion = descripcion.trim();
 
-        final String campoObligatorio = "Por favor, rellene todos los campos";
+
+        //INICIALIZAR
+        boolean unlessOneInteres = false;
+        boolean ubicacionOK = false;
+
+        Integer maxParticipantes = 0;
+        Date fechaIni = null;
+        Date fechaFin = null;
+
+        View focusView = null;
+        Actividad act = null;
+
+        // --- CHECKS --- //
+        ParserActividad pa = new ParserActividad();
 
         //NOMBRE
-        if (nombre == null || nombre.isEmpty()) {
-            etNombre.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etNombre;
-        } else if (!isValidNombre(nombre)) {
-            etNombre.setError("El nombre contiene carácteres inválidos");
-            if(focusView != null)
-                focusView = etNombre;
-        } else {
-            nombreOk = true;
-        }
+        nombre = pa.procesarNombre(nombre, etNombre, focusView);
 
         //FECHA INI
-        if (fechaIniString == null || fechaIniString.isEmpty()) {
-            etFechaIni.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etFechaIni;
-        } else {
-            try {
-                fechaIni = FechaUtil.getDateFormat().parse(fechaIniString);
-
-                if(!isOnlyFechaIniLaterThanToday(fechaIni)) {
-                    etFechaIni.setError("La fecha de inicio debe ser hoy o posterior");
-                    if(focusView != null)
-                        focusView = etFechaIni;
-                }
-                else {
-                    fechaIniOK = true;
-                }
-            } catch (ParseException e) {
-                etFechaIni.setError("Formato de fecha incorrecto");
-                if(focusView != null)
-                    focusView = etFechaIni;
-            }
-        }
+        fechaIniString = pa.procesarFechaIniSinHora(fechaIniString, etFechaIni, focusView);
 
         //HORA INI
-        if (horaIniString == null || horaIniString.isEmpty()) {
-            etHoraIni.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etHoraIni;
-        } else {
-            horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
+        horaIniString = pa.procesarHoraIni(horaIniString, etHoraIni, focusView);
 
-            if (!Actividad.isValidHora(horaIniString)) {
-                etHoraIni.setError("Formato de hora incorrecto");
-                if(focusView != null)
-                    focusView = etHoraIni;
-            } else {
-                if (fechaIniOK) {
-                    fechaIni = FechaUtil.dateCorrectFormat(fechaIniString, horaIniString);
+        //FECHA INI Y HORA INI
+        fechaIni = pa.procesarFechaIniCompleta(fechaIniString, horaIniString, etHoraIni, focusView);
 
-                    horaIniOK = Actividad.isValidFechaIni(fechaIni);
-                    if (!horaIniOK) {
-                        etHoraIni.setError("La hora de inicio debe ser ahora o posterior");
-                        if(focusView != null)
-                            focusView = etHoraIni;
-                    }
-                } else {
-                    etHoraIni.setError("Introduce una fecha de inicio correcta");
-                    if(focusView != null)
-                        focusView = etFechaIni;
-                }
-            }
-        }
+        //FECHA FIN
+        fechaFinString = pa.procesarFechaFinSinHora(fechaFinString, fechaIniString, etFechaFin, focusView);
 
-        if (fechaIniOK && horaIniOK) {
-            //FECHA FIN
-            if (fechaFinString == null || fechaFinString.isEmpty()) {
-                etFechaFin.setError(campoObligatorio);
-                if(focusView != null)
-                    focusView = etFechaFin;
-            } else {
-                try {
-                    fechaFin = FechaUtil.getDateFormat().parse(fechaFinString);
-                } catch (ParseException e) {
-                    fechaFinOK = true;
-                    etFechaFin.setError("Formato de fecha incorrecto");
-                    if(focusView != null)
-                        focusView = etFechaFin;
-                }
-            }
+        //HORA FIN
+        horaFinString = pa.procesarHoraFin(horaFinString, etHoraFin, focusView);
 
-            //HORA FIN
-            if (horaFinString == null || horaFinString.isEmpty()) {
-                etHoraFin.setError(campoObligatorio);
-                if(focusView != null)
-                    focusView = etHoraFin;
-            } else {
-                horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
-
-                try {
-                    if (!isOnlyFechaFinLaterThanFechaIni(fechaIniString, fechaFinString)) {
-                        etFechaFin.setError("La fecha de inicio debe ser igual o posterior a la fecha de fin");
-                        if(focusView != null)
-                            focusView = etFechaFin;
-                    }
-                    else {
-                        fechaFinOK = true;
-
-                        if (!Actividad.isValidHora(horaFinString)) {
-                            etHoraFin.setError("Formato de hora incorrecto");
-                            if(focusView != null)
-                                focusView = etHoraFin;
-                        }
-                        else {
-                            fechaFin = FechaUtil.dateCorrectFormat(fechaFinString, horaFinString);
-
-                            if (!Actividad.isValidFechaFin(fechaIni, fechaFin)) {
-                                etHoraFin.setError("La hora de fin debe ser posterior a la hora de inicio");
-                                if(focusView != null)
-                                    focusView = etHoraFin;
-                            } else {
-                                horaFinOK = true;
-                            }
-                        }
-                    }
-                } catch(ParseException e) {
-                    fechaFinOK = false;
-                    etFechaFin.setError("Formato de fecha incorrecto");
-                    if(focusView != null)
-                        focusView = etFechaFin;
-                }
-            }
-        } else {
-            etFechaFin.setError("Introduce una fecha de inicio correcta");
-            if(focusView != null)
-                focusView = etFechaFin;
-        }
+        //FECHA FIN Y HORA FIN
+        fechaFin = pa.procesarFechaFinCompleta(fechaIni, fechaFinString, horaFinString, etHoraFin, focusView);
 
         //MAX PARTICIPANTES
-        if (maxParticipantesString == null || maxParticipantesString.isEmpty()) {
-            etMaxParticipantes.setError(campoObligatorio);
-            if(focusView != null)
-                focusView = etMaxParticipantes;
-        } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
-            etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
-            if(focusView != null)
-                focusView = etMaxParticipantes;
-        } else {
-            maxParticipantes = Integer.parseInt(maxParticipantesString);
-            maxParticipantesOK = true;
-        }
+        maxParticipantes = pa.procesarMaxParticipantes(maxParticipantesString, etMaxParticipantes, focusView);
 
         //INTERESES
-        int i = 0;
-        boolean unlessOneInteres = false;
-        while (i < checkedItems.length && !unlessOneInteres) {
-            unlessOneInteres = checkedItems[i];
-            i++;
-        }
+        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, activity);
+        unlessOneInteres = resIntereses.first;
 
-        if (!unlessOneInteres) {
-            Toast toast2 = Toast.makeText(activity, "Debes seleccionar al menos un interés", Toast.LENGTH_SHORT);
-            toast2.setGravity(Gravity.CENTER, 0, 0);
-            toast2.show();
-        }
-
-        boolean ubicacionOk = false;
         //UBICACION
-        if (ubicacionSeleccionada == null) {
-            Toast toast3 = Toast.makeText(activity, "Selecciona una ubicación", Toast.LENGTH_SHORT);
-            toast3.setGravity(Gravity.CENTER, 0, 0);
-            toast3.show();
-        } else {
-            ubicacionOk = true;
-        }
+        ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, activity);
 
         //DESCRIPCION
         if (descripcion == null) {
             descripcion = "";
         }
 
+        // -------------- //
+
         if(focusView != null)
             focusView.setFocusable(true);
 
-        if(nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres)
-            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, uid);
+        if(nombre != null && fechaIni != null && fechaFin != null && maxParticipantes != null && unlessOneInteres && ubicacionOK) {
+            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, resIntereses.second, uid);
+        }
 
         return act;
     }
 
+    /*
     public static Actividad checkInputActividadModificar(
             Activity activity,
+            Actividad actividad,
             String[] listItems,
             boolean[] checkedItems,
             Date fechaInicioAnt,
@@ -578,8 +383,6 @@ public class Actividad implements Serializable {
             EditText etMaxParticipantes,
             EditText etDescripcion
     ) {
-
-        Actividad act = null;
 
         //OBTENER ELEMENTOS DE LA VISTA
         String nombre = etNombre.getText().toString();
@@ -756,13 +559,16 @@ public class Actividad implements Serializable {
             etMaxParticipantes.setError(campoObligatorio);
             if(focusView != null)
                 focusView = etMaxParticipantes;
-        } else if (!Actividad.isValidMaxParticipantes(maxParticipantesString)) {
-            etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
-            if(focusView != null)
-                focusView = etMaxParticipantes;
-        } else {
+        }
+        else {
             maxParticipantes = Integer.parseInt(maxParticipantesString);
-            if(numUsuariosInscritos > maxParticipantes) {
+
+            if (!Actividad.isValidMaxParticipantes(maxParticipantes)) {
+                etMaxParticipantes.setError("La actividad debe permitir almenos 2 participantes");
+                if(focusView != null)
+                    focusView = etMaxParticipantes;
+            }
+            else if(numUsuariosInscritos > maxParticipantes) {
                 etMaxParticipantes.setError("Debes admitir como mínimo a toda la gente inscrita");
                 if(focusView != null)
                     focusView = etMaxParticipantes;
@@ -804,9 +610,16 @@ public class Actividad implements Serializable {
         if(focusView != null)
             focusView.setFocusable(true);
 
-        if(nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres)
-            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, intereses, uid);
+        if(nombreOk && fechaIniOK && horaIniOK && fechaFinOK && horaFinOK && maxParticipantesOK && ubicacionOk && unlessOneInteres) {
+            actividad.setNombre(nombre);
+            actividad.setFechaInicio(fechaIni);
+            actividad.setFechaFin(fechaFin);
+            actividad.setMaxParticipantes(maxParticipantes);
+            actividad.setUbicacion(ubicacionSeleccionada);
+            actividad.setCategorias(intereses);
+        }
 
-        return act;
+        return actividad;
     }
+    */
 }

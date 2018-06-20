@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.fragments.CrearActividadFragment;
 import pad.meetandshare.actividades.fragments.InicioFragment;
+import pad.meetandshare.actividades.fragments.ModificaUsuarioFragment;
 import pad.meetandshare.actividades.fragments.PerfilUsuarioFragment;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
@@ -42,8 +43,9 @@ public class MenuLateralActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         if (getFragmentManager().findFragmentById(R.id.ContenedorMenuLateral) == null) {
-            getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, new InicioFragment()).commit();
-
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.ContenedorMenuLateral, new InicioFragment())
+                    .addToBackStack(null).commit();
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -59,9 +61,14 @@ public class MenuLateralActivity extends AppCompatActivity
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
+
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_inicio);
+        if(this.getFragmentManager().getBackStackEntryCount() == 0 && currentFragment != null)
+            finish();
     }
 
     @Override
@@ -91,12 +98,21 @@ public class MenuLateralActivity extends AppCompatActivity
         }
 
         if(!salir) {
-            this.getFragmentManager().beginTransaction().
-                    replace(R.id.ContenedorMenuLateral, fragmento)
-                    .addToBackStack(null).commit();
+
+            FragmentTransaction fc= (FragmentTransaction) this;
+            fc.replaceFragment(fragmento);
+
+            /*
+            android.app.FragmentTransaction ft = this.getFragmentManager().beginTransaction().
+                    replace(R.id.ContenedorMenuLateral, fragmento);
+            if(id != R.id.nav_CrearActividad)
+                ft.addToBackStack(null);
+            ft.commit();
+
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
+            */
         }
         else {
             //Log out

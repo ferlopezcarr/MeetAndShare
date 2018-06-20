@@ -118,7 +118,7 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Fragment fr= new ModificaUsuarioFragment();
-                FragmentTransaction fc=(FragmentTransaction) getActivity();
+                FragmentTransaction fc= (FragmentTransaction) getActivity();
                 fc.replaceFragment(fr);
             }
         });

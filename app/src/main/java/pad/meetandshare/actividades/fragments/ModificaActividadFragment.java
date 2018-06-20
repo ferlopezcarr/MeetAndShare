@@ -391,6 +391,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     public void onStart() {
         super.onStart();
 
+        /*
         eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -409,6 +410,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             }
         };
         saActividad.getDatabaseReference().addValueEventListener(eventListener);
+        */
     }
 
     @Override
@@ -420,15 +422,12 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
     private void modificarActividad() {
 
-        String uidAct = actividad.getUid();
-
         if(ubicacionSeleccionada == null)
             ubicacionSeleccionada = actividad.getUbicacion();
-
-        Actividad act = actividad;
-
-        act = Actividad.checkInputActividadModificar(
+        /*
+        actividad = Actividad.checkInputActividadModificar(
                 this.getActivity(),
+                actividad,
                 listItems,
                 checkedItems,
                 actividad.getFechaInicio(),
@@ -436,12 +435,11 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                 ubicacionSeleccionada,
                 AutorizacionFirebase.getUser().getUid(),
                 etNombre, etFechaIni, etHoraIni, etFechaFin, etHoraFin, etMaxParticipantes, etDescripcion);
-
-        if (act != null) {
-            act.setUid(uidAct);
+        */
+        if (actividad != null) {
 
             if (AutorizacionFirebase.getUser() != null) {
-                saActividad.save(act, AutorizacionFirebase.getCurrentUser().getUid());
+                saActividad.save(actividad, AutorizacionFirebase.getUser().getUid());
                 actividadModificada = true;
                 changeToVerActividad();
             } else {

@@ -271,10 +271,15 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
                 if(saActividad.checkActividad(actividad, dataSnapshot)) {
                     String toastMsg = String.format("Error ya has creado una actividad con ese nombre");
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                    btnCrearActividadPressed = false;
+                    actividadCreada = false;
                 }
-
-                if (btnCrearActividadPressed && actividadCreada) {
-                    changeToVerActividad();
+                else {
+                    if (btnCrearActividadPressed && actividadCreada) {
+                        btnCrearActividadPressed = false;
+                        actividadCreada = false;
+                        changeToVerActividad();
+                    }
                 }
 
             }//onDataChange
@@ -294,7 +299,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.ContenedorMenuLateral, fragmento);
-        //ft.addToBackStack(null);
+        ft.addToBackStack(null);
 
         ft.commit();
     }
