@@ -246,7 +246,10 @@
                 android:ems="10"
                 android:text="@string/action_register"
 
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginBottom="26dp"
+
+                />
 
         </LinearLayout>
     </ScrollView>

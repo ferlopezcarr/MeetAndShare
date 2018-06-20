@@ -193,18 +193,7 @@
 
                     android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/eliminarUsuarioPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
 
-                    android:ems="10"
-                    android:text="@string/baja_usuario"
-                    android:textStyle="bold" />
 
 
             </LinearLayout>
