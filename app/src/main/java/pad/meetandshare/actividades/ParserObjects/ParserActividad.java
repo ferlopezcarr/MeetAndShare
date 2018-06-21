@@ -1,4 +1,4 @@
-package pad.meetandshare.presentacion;
+package pad.meetandshare.actividades.ParserObjects;
 
 import android.app.Activity;
 import android.view.Gravity;
@@ -153,8 +153,8 @@ public class ParserActividad extends Parser {
         boolean nombreOK = false;
 
         try {
-            nombreOK = (Parser.isNotNull(nombre)
-                    && Parser.isNotEmptyString(nombre)
+            nombreOK = (isNotNull(nombre)
+                    && isNotEmptyString(nombre)
                     && ParserActividad.isValidNombre(nombre));
         } catch(ParseException pe) {
             setError(etNombre, pe.getMessage(), focusView);
@@ -170,8 +170,8 @@ public class ParserActividad extends Parser {
         boolean fechaIniOK = false;
 
         try {
-            fechaIniOK = (Parser.isNotNull(fechaIniString)
-                    && Parser.isNotEmptyString(fechaIniString));
+            fechaIniOK = (isNotNull(fechaIniString)
+                    && isNotEmptyString(fechaIniString));
 
             if(fechaIniOK) {
                 Date fechaIni = ParserActividad.parseFecha(fechaIniString);
@@ -192,8 +192,8 @@ public class ParserActividad extends Parser {
         boolean horaIniOK = false;
 
         try {
-            horaIniOK = (Parser.isNotNull(horaIniString)
-                    && Parser.isNotEmptyString(horaIniString));
+            horaIniOK = (isNotNull(horaIniString)
+                    && isNotEmptyString(horaIniString));
 
             if(horaIniOK) {
                 horaIniString = FechaUtil.horaCorrectFormat(horaIniString);
@@ -244,8 +244,8 @@ public class ParserActividad extends Parser {
         boolean fechaFinOK = false;
 
         try {
-            fechaFinOK = (Parser.isNotNull(fechaFinString)
-                    && Parser.isNotEmptyString(fechaFinString));
+            fechaFinOK = (isNotNull(fechaFinString)
+                    && isNotEmptyString(fechaFinString));
 
             if(fechaFinOK) {
                 Date fechaFin = ParserActividad.parseFecha(fechaFinString);
@@ -267,8 +267,8 @@ public class ParserActividad extends Parser {
         boolean horaFinOK = false;
 
         try {
-            horaFinOK = (Parser.isNotNull(horaFinString)
-                    && Parser.isNotEmptyString(horaFinString));
+            horaFinOK = (isNotNull(horaFinString)
+                    && isNotEmptyString(horaFinString));
 
             if(horaFinOK) {
                 horaFinString = FechaUtil.horaCorrectFormat(horaFinString);
@@ -316,8 +316,8 @@ public class ParserActividad extends Parser {
         Integer maxParticipantes = null;
 
         try {
-            maxParticipantesOK = (Parser.isNotNull(maxParticipantesString)
-                    && Parser.isNotEmptyString(maxParticipantesString));
+            maxParticipantesOK = (isNotNull(maxParticipantesString)
+                    && isNotEmptyString(maxParticipantesString));
 
             if(maxParticipantesOK) {
                 maxParticipantes = Integer.parseInt(maxParticipantesString);

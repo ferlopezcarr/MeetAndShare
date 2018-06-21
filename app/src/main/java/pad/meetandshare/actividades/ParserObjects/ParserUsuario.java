@@ -1,4 +1,4 @@
-package pad.meetandshare.presentacion;
+package pad.meetandshare.actividades.ParserObjects;
 
 import java.text.ParseException;
 

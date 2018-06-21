@@ -73,7 +73,6 @@ public class InicioFragment
 
     private GoogleMap mMap;
     private MapView mapView;
-    private LocationServices mLocationServices;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FragmentManager fragmentManager;
     private View rootView;

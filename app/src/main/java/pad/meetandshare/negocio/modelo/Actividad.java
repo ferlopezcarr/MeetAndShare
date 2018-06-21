@@ -3,21 +3,15 @@ package pad.meetandshare.negocio.modelo;
 
 import android.app.Activity;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import pad.meetandshare.presentacion.Parser;
-import pad.meetandshare.presentacion.ParserActividad;
+import pad.meetandshare.actividades.ParserObjects.ParserActividad;
 
 public class Actividad implements Serializable {
 
