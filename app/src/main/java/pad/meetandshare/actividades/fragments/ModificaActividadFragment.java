@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,10 @@ import java.util.Date;
 import java.util.List;
 
 import pad.meetandshare.R;
+import pad.meetandshare.actividades.ParserObjects.ParserActividad;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.presentacion.FechaUtil;
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
@@ -79,12 +81,8 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     private Actividad actividad;
     private SAActividad saActividad;
 
-    private ValueEventListener eventListener;
     private View rootView;
     private LayoutInflater miInflater;
-
-    private boolean btnModificarActividadPressed = false;
-    private boolean actividadModificada = false;
 
 
     public ModificaActividadFragment() {
@@ -221,7 +219,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
                 }
                 else if(etFechaIni.isEnabled()){
-                    fechaUtil.obtenerFecha(getActivity(), R.id.fechaIniModificarActividad);
+                    etFechaIni = fechaUtil.obtenerFecha(getActivity(), etFechaIni);
                 }
                 break;
 
@@ -231,16 +229,16 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
                 }
                 else if(etHoraIni.isEnabled()){
-                    fechaUtil.obtenerHora(getActivity(), R.id.horaIniModificarActividad);
+                    etHoraIni = fechaUtil.obtenerHora(getActivity(), etHoraIni);
                 }
                 break;
 
             case R.id.ib_obtener_fechaFinModificar:
-                fechaUtil.obtenerFecha(getActivity(), R.id.fechaFinModificarActividad);
+                etFechaFin = fechaUtil.obtenerFecha(getActivity(), etFechaFin);
                 break;
 
             case R.id.ib_obtener_horaFinModificar:
-                fechaUtil.obtenerHora(getActivity(), R.id.horaFinModificarActividad);
+                etHoraFin = fechaUtil.obtenerHora(getActivity(), etHoraFin);
                 break;
 
             case R.id.botonSeleccionarUbicacionModificarActividad:
@@ -249,7 +247,6 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
             case R.id.modificarActividadPost:
                 modificarActividad();
-                this.btnModificarActividadPressed = true;
                 break;
         }
     }
@@ -385,61 +382,19 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     }
 // ---------------------------
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        /*
-        eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if(saActividad.checkActividad(actividad, dataSnapshot)) {
-                    if (btnModificarActividadPressed && actividadModificada) {
-                        modificarActividad();
-                        changeToVerActividad();
-                    }
-                }
-
-            }//onDataChange
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        saActividad.getDatabaseReference().addValueEventListener(eventListener);
-        */
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (eventListener != null)
-            saActividad.getDatabaseReference().removeEventListener(eventListener);
-    }
-
     private void modificarActividad() {
-
+        /*
         if(ubicacionSeleccionada == null)
             ubicacionSeleccionada = actividad.getUbicacion();
-        /*
-        actividad = Actividad.checkInputActividadModificar(
-                this.getActivity(),
-                actividad,
-                listItems,
-                checkedItems,
-                actividad.getFechaInicio(),
-                actividad.getIdUsuariosInscritos().size(),
-                ubicacionSeleccionada,
-                AutorizacionFirebase.getUser().getUid(),
-                etNombre, etFechaIni, etHoraIni, etFechaFin, etHoraFin, etMaxParticipantes, etDescripcion);
         */
-        if (actividad != null) {
+
+        Actividad act = checkInputActividad();
+
+        if (act != null) {
 
             if (AutorizacionFirebase.getUser() != null) {
                 actividad.setUid(AutorizacionFirebase.getUser().getUid());
-                saActividad.save(actividad);
-                actividadModificada = true;
+                saActividad.save(act);
                 changeToVerActividad();
             } else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
@@ -447,6 +402,109 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             }
         }
 
+    }
+
+    public Actividad checkInputActividad() {
+        //OBTENER ELEMENTOS DE LA VISTA
+        String nombre = etNombre.getText().toString();
+        String fechaIniString = etFechaIni.getText().toString();
+        String horaIniString = etHoraIni.getText().toString();
+        String fechaFinString = etFechaFin.getText().toString();
+        String horaFinString = etHoraFin.getText().toString();
+        String maxParticipantesString = etMaxParticipantes.getText().toString();
+        String descripcion = etDescripcion.getText().toString();
+
+        //PROCESAMIENTO PREVIO
+        //QUITAR ESPACIOS AL PRINCIPIO Y FINAL DE CADA INPUT
+        nombre = nombre.trim();
+        fechaIniString = fechaIniString.trim();
+        horaIniString = horaIniString.trim();
+        fechaFinString = fechaFinString.trim();
+        horaFinString = horaFinString.trim();
+        descripcion = descripcion.trim();
+
+
+        //INICIALIZAR
+        boolean unlessOneInteres = false;
+        boolean ubicacionOK = false;
+
+        Integer maxParticipantes = 0;
+        Date fechaIni = null;
+        Date fechaFin = null;
+
+        View focusView = null;
+        Actividad act = null;
+
+        // --- CHECKS --- //
+        ParserActividad pa = new ParserActividad();
+
+        //NOMBRE
+        nombre = pa.procesarNombre(nombre, etNombre, focusView);
+        if(nombre != null) {
+            actividad.setNombre(nombre);
+        }
+
+        //FECHA INI
+        fechaIniString = pa.procesarFechaIniSinHora(fechaIniString, etFechaIni, focusView);
+
+        //HORA INI
+        horaIniString = pa.procesarHoraIni(horaIniString, etHoraIni, focusView);
+
+        //FECHA INI Y HORA INI
+        fechaIni = pa.procesarFechaIniCompleta(fechaIniString, horaIniString, etHoraIni, focusView);
+        if(fechaIni != null) {
+            actividad.setFechaInicio(fechaIni);
+        }
+
+        //FECHA FIN
+        fechaFinString = pa.procesarFechaFinSinHora(fechaFinString, fechaIniString, etFechaFin, focusView);
+
+        //HORA FIN
+        horaFinString = pa.procesarHoraFin(horaFinString, etHoraFin, focusView);
+
+        //FECHA FIN Y HORA FIN
+        fechaFin = pa.procesarFechaFinCompleta(fechaIni, fechaFinString, horaFinString, etHoraFin, focusView);
+        if(fechaFin != null) {
+            actividad.setFechaFin(fechaFin);
+        }
+
+        //MAX PARTICIPANTES
+        maxParticipantes = pa.procesarMaxParticipantesModificar(maxParticipantesString, act.getIdUsuariosInscritos().size(), etMaxParticipantes, focusView);
+        if(maxParticipantes != null) {
+            if(maxParticipantes != 0)
+                actividad.setMaxParticipantes(maxParticipantes);
+        }
+
+        //INTERESES
+        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
+        if(resIntereses.first) {
+            actividad.setCategorias(resIntereses.second);
+        }
+
+        //UBICACION
+        ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, this.getActivity());
+        if(ubicacionOK) {
+            actividad.setUbicacion(ubicacionSeleccionada);
+        }
+
+        //DESCRIPCION
+        if (descripcion == null) {
+            descripcion = "";
+        }
+        act.setDescripcion(descripcion);
+
+        // -------------- //
+
+        if(focusView != null)
+            focusView.setFocusable(true);
+
+        if(nombre == null || fechaIniString == null || horaIniString == null || fechaIni == null ||
+                fechaFinString == null || horaFinString == null || fechaFin == null ||
+                maxParticipantes == null || !resIntereses.first || !ubicacionOK) {
+            act = null;
+        }
+
+        return act;
     }
 
     private void changeToVerActividad() {

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 
 public class ParserActividad extends Parser {
@@ -310,6 +311,31 @@ public class ParserActividad extends Parser {
 
         return maxParticipantes;
     }
+
+    public Integer procesarMaxParticipantesModificar(String maxParticipantesString, int numInscritos, EditText etMaxParticipantes, View focusView) {
+        boolean maxParticipantesOK = false;
+        Integer maxParticipantes = null;
+
+        try {
+            maxParticipantesOK = (isNotNull(maxParticipantesString)
+                    && isNotEmptyString(maxParticipantesString));
+
+            if(maxParticipantesOK) {
+                maxParticipantes = Integer.parseInt(maxParticipantesString);
+                maxParticipantesOK = (ParserActividad.isValidMaxParticipantes(maxParticipantes)
+                && ParserActividad.isValidMaxParticipantesModificar(maxParticipantes, numInscritos));
+            }
+        } catch(ParseException pe) {
+            maxParticipantesOK = false;
+            setError(etMaxParticipantes, pe.getLocalizedMessage(), focusView);
+        }
+
+        if(!maxParticipantesOK)
+            maxParticipantes = null;
+
+        return maxParticipantes;
+    }
+
 
     public boolean procesarUbicacion(Ubicacion ubicacion, Activity activity) {
         if(ubicacion == null) {

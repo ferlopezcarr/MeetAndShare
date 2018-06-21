@@ -33,14 +33,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pad.meetandshare.R;
+import pad.meetandshare.actividades.ParserObjects.ParserActividad;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.presentacion.FechaUtil;
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
-import pad.meetandshare.presentacion.ParserActividad;
 
 import static android.app.Activity.RESULT_OK;
 import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -179,19 +179,19 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.ib_obtener_fechaIni:
-                fechaUtil.obtenerFecha(getActivity(), R.id.fechaIniCrearActividad);
+                etFechaIni = fechaUtil.obtenerFecha(getActivity(), etFechaIni);
                 break;
 
             case R.id.ib_obtener_horaIni:
-                fechaUtil.obtenerHora(getActivity(), R.id.horaIniCrearActividad);
+                etHoraIni = fechaUtil.obtenerHora(getActivity(), etHoraIni);
                 break;
 
             case R.id.ib_obtener_fechaFin:
-                fechaUtil.obtenerFecha(getActivity(), R.id.fechaFinCrearActividad);
+                etFechaFin = fechaUtil.obtenerFecha(getActivity(), etFechaFin);
                 break;
 
             case R.id.ib_obtener_horaFin:
-                fechaUtil.obtenerHora(getActivity(), R.id.horaFinCrearActividad);
+                etHoraFin = fechaUtil.obtenerHora(getActivity(), etHoraFin);
                 break;
 
             case R.id.botonSeleccionarUbicacion:
@@ -391,12 +391,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private void crearActividad() {
 
-        actividad = checkInputActividad(
-                this.getActivity(),
-                listItems,
-                checkedItems,
-                ubicacionSeleccionada,
-                AutorizacionFirebase.getUser().getUid());
+        actividad = checkInputActividad();
 
         if (actividad != null) {
 
@@ -410,13 +405,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public Actividad checkInputActividad(
-            Activity activity,
-            String[] listItems,
-            boolean[] checkedItems,
-            Ubicacion ubicacionSeleccionada,
-            String uid
-    ) {
+    public Actividad checkInputActividad() {
         //OBTENER ELEMENTOS DE LA VISTA
         String nombre = etNombre.getText().toString();
         String fechaIniString = etFechaIni.getText().toString();
@@ -475,11 +464,11 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         maxParticipantes = pa.procesarMaxParticipantes(maxParticipantesString, etMaxParticipantes, focusView);
 
         //INTERESES
-        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, activity);
+        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
         unlessOneInteres = resIntereses.first;
 
         //UBICACION
-        ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, activity);
+        ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, this.getActivity());
 
         //DESCRIPCION
         if (descripcion == null) {
@@ -492,7 +481,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             focusView.setFocusable(true);
 
         if(nombre != null && fechaIni != null && fechaFin != null && maxParticipantes != null && unlessOneInteres && ubicacionOK) {
-            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, resIntereses.second, uid);
+            act = new Actividad(nombre, fechaIni, fechaFin, maxParticipantes, descripcion, ubicacionSeleccionada, resIntereses.second, AutorizacionFirebase.getUser().getUid());
         }
 
         return act;

@@ -14,25 +14,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.FragmentTransaction;
-import pad.meetandshare.actividades.RegistroActivity;
+import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.presentacion.FechaUtil;
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
-import pad.meetandshare.presentacion.Parser;
-import pad.meetandshare.presentacion.ParserUsuario;
 
 public class ModificaUsuarioFragment extends Fragment implements View.OnClickListener {
 
@@ -151,7 +144,7 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
         switch (v.getId()) {
             case R.id.ib_obtener_fecha:
-                fechaUtil.obtenerFecha(getActivity(), R.id.fechaNacimientoModificar);
+                etFechaNac = fechaUtil.obtenerFecha(getActivity(), etFechaNac);
                 break;
 
             case R.id.botonInteresModificar:

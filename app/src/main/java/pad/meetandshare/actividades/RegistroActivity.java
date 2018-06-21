@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,20 +23,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import pad.meetandshare.R;
+import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.presentacion.FechaUtil;
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
-import pad.meetandshare.presentacion.ParserUsuario;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -127,7 +125,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.ib_obtener_fecha:
                 FechaUtil fechaUtil = new FechaUtil();
-                fechaUtil.obtenerFecha(this, R.id.fechaNacimientoRegistro);
+                etFecha = fechaUtil.obtenerFecha(this, etFecha);
                 break;
 
             case R.id.botonInteresRegistro:

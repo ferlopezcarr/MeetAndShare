@@ -34,13 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pad.meetandshare.R;
+import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
-import pad.meetandshare.presentacion.ParserUsuario;
 
 import static android.support.constraint.Constraints.TAG;
 

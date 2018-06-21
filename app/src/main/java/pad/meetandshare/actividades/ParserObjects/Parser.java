@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Categoria;
 
 public class Parser {
@@ -80,7 +81,8 @@ public class Parser {
     }
 
     protected void setError(EditText et, String err, View focusView) {
-        et.setError(err);
+        int pos = err.indexOf("(at");
+        et.setError(err.substring(0,pos));
         if(focusView != null)
             focusView = et;
     }

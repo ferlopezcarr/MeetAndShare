@@ -120,7 +120,7 @@ public class ParserUsuario extends Parser {
                     && ParserUsuario.isValidEmailLength(email)
                     && ParserUsuario.isValidEmail(email));
         } catch(ParseException pe) {
-            setError(etEmail, pe.getLocalizedMessage(), focusView);
+            setError(etEmail, pe.getMessage(), focusView);
         }
 
         if(!emailOK)
@@ -137,7 +137,7 @@ public class ParserUsuario extends Parser {
                     && Parser.isNotEmptyString(nombre)
                     && ParserUsuario.isValidNombre(nombre));
         } catch(ParseException pe) {
-            setError(etNombre, pe.getLocalizedMessage(), focusView);
+            setError(etNombre, pe.getMessage(), focusView);
         }
 
         if(!nombreOK)
@@ -154,7 +154,7 @@ public class ParserUsuario extends Parser {
                     && Parser.isNotEmptyString(password)
                     && ParserUsuario.isValidPassword(password));
         } catch(ParseException pe) {
-            setError(etPassword, pe.getLocalizedMessage(), focusView);
+            setError(etPassword, pe.getMessage(), focusView);
         }
 
         if(!passwordOK)
@@ -172,7 +172,7 @@ public class ParserUsuario extends Parser {
                     && ParserUsuario.isValidPassword(samePass)
                     && ParserUsuario.isValidSamePasswords(password, samePass));
         } catch(ParseException pe) {
-            setError(etSamePass, pe.getLocalizedMessage(), focusView);
+            setError(etSamePass, pe.getMessage(), focusView);
         }
 
         if(!samePasswordOK)
@@ -195,11 +195,14 @@ public class ParserUsuario extends Parser {
             }
         } catch(ParseException pe) {
             fechaNacOK = false;
-            setError(etFechaNac, pe.getLocalizedMessage(), focusView);
+            setError(etFechaNac, pe.getMessage(), focusView);
         }
 
         if(!fechaNacOK)
             fechaNac = null;
+        else {
+            etFechaNac.getError();
+        }
 
         return fechaNac;
     }

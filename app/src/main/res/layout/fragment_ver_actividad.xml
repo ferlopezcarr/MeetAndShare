@@ -268,6 +268,7 @@
                 android:layout_marginTop="10sp"
                 android:text="@string/descripcion" />
 
+            <!--
             <TextView
                 android:id="@+id/descripcionVerActividad"
                 android:layout_width="match_parent"
@@ -277,7 +278,22 @@
                 android:padding="5sp"
                 android:textAlignment="textStart"
                 android:textColor="?attr/colorBackgroundFloating"
-                android:textSize="14sp" />
+                android:textSize="14sp" />-->
+
+            <TextView
+                android:id="@+id/descripcionVerActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/background_light"
+                android:fadeScrollbars="false"
+                android:maxLines="12"
+                android:padding="5sp"
+                android:scrollbars="vertical"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?attr/colorBackgroundFloating"
+
+                android:textSize="16sp" />
 
             <!-- BOTON INSCRIBIRSE-->
             <View

@@ -43,7 +43,7 @@ import pad.meetandshare.actividades.MyInfoWindowAdapter;
 import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.presentacion.FechaUtil;
+import pad.meetandshare.actividades.utils.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
@@ -388,26 +388,26 @@ public class InicioFragment
         Float opacity = (float) 0.8;
         marcador.alpha(opacity);
 
+
         //si estas inscrito en la actividad
-        if(act.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+        if (act.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
             //si eres el admin de la actividad
-            if(act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+            if (act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
                 marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ADMIN_COLOR));//morado
-            }
-            else {
+            } else {
                 marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.PARTICIPANT_COLOR));
             }
-        }
-        else {//resto de actividades
+        } else {//resto de actividades
             marcador.icon(BitmapDescriptorFactory.defaultMarker(color));
         }
 
         Date tommorrow = new Date();
         tommorrow = FechaUtil.sumarRestarDiasFecha(tommorrow, ColorFile.TIME_DIFFERENCE);
         //si la activadad empieza mañana
-        if(act.getFechaInicio().before(tommorrow)) {
+        if (act.getFechaInicio().before(tommorrow)) {
             marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW_COLOR));
         }
+
 
         return marcador;
     }
