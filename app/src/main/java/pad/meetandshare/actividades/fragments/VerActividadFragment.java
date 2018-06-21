@@ -23,7 +23,7 @@ import java.util.List;
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
@@ -303,7 +303,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private void inscribirse() {
         if(actividad.addUsuario(AutorizacionFirebase.getCurrentUser().getUid())) {
             SAActividad saActividad = new SAActividadImp();
-            saActividad.save(actividad, actividad.getIdAdministrador());
+            saActividad.save(actividad);
             Toast.makeText(getActivity(), "¡Te has inscrito a la actividad '"+actividad.getNombre()+"'!", Toast.LENGTH_LONG).show();
             inscribirseBoton.setVisibility(View.GONE);
         }
@@ -363,7 +363,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(),R.string.borradoConfirm , Toast.LENGTH_SHORT).show();
                 SAActividad saActividad = new SAActividadImp();
-                saActividad.delete(actividad, actividad.getIdAdministrador());
+                saActividad.delete(actividad);
                 recargarVista();
             }
         });

@@ -16,7 +16,7 @@ import pad.meetandshare.R;
 import pad.meetandshare.actividades.FragmentTransaction;
 import pad.meetandshare.actividades.LoginActivity;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Usuario;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
@@ -41,8 +41,7 @@ public class PerfilUsuarioFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(!AutorizacionFirebase.amIAuthentificated()) {
-            AutorizacionFirebase.setSingOut(true);
-            AutorizacionFirebase.getFirebaseAuth().signOut();
+            AutorizacionFirebase.singOut();
             Intent myIntent = new Intent(this.getActivity(), LoginActivity.class);
 
             this.startActivity(myIntent);

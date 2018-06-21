@@ -25,8 +25,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ import java.util.List;
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;
-import pad.meetandshare.negocio.modelo.FechaUtil;
+import pad.meetandshare.presentacion.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
@@ -439,7 +437,8 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         if (actividad != null) {
 
             if (AutorizacionFirebase.getUser() != null) {
-                saActividad.save(actividad, AutorizacionFirebase.getUser().getUid());
+                actividad.setUid(AutorizacionFirebase.getUser().getUid());
+                saActividad.save(actividad);
                 actividadModificada = true;
                 changeToVerActividad();
             } else {

@@ -15,8 +15,6 @@ import static android.content.ContentValues.TAG;
 
 public class SAUsuarioImp implements SAUsuario {
 
-    private static SAUsuarioImp instance;
-
     private static FirebaseDatabase database;
     private static DatabaseReference myRef;
 
@@ -36,21 +34,21 @@ public class SAUsuarioImp implements SAUsuario {
 
         usuario.setUid(uid);
 
-        save(usuario, uid);
+        save(usuario);
     }
 
-    public void delete(Usuario usuario, String ui){
+    public void delete(Usuario usuario){
 
         usuario.setActivo(false);
 
-        this.save(usuario, ui);
+        this.save(usuario);
     }
 
 
-    public void save(Usuario usuario, String ui){
+    public void save(Usuario usuario){
 
         myRef = database.getReference(Usuario.UsersDataBaseName);
-        myRef.child(ui).setValue(usuario);
+        myRef.child(usuario.getUid()).setValue(usuario);
     }
 
     @Override

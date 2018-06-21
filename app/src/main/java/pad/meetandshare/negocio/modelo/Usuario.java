@@ -10,15 +10,11 @@ import java.util.List;
 
 public class Usuario {
 
-    public static final String UsersDataBaseName = "users";
-
     private String uid;
 
     private String email;
-    private static final String EMAIL_PATTERN = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$";
 
     private String nombre;
-    private static final String NOMBRE_PATTERN = "^([a-zA-ZáéíóúñÁÉÍÓÚÑ ])*$";
 
     private Date fechaNacimiento;
 
@@ -30,7 +26,10 @@ public class Usuario {
 
     private boolean activo;
 
+    // -- Datos para integracion -- //
+    public static final String UsersDataBaseName = "users";
 
+    // -------- METODOS -------- //
     /**
      * Constructora por defecto de Usuario
      */
@@ -72,71 +71,9 @@ public class Usuario {
     }
 
 
-    /* PARSERS */
+    // -- GETTERS Y SETTERS -- //
 
-    /**
-     * Valida el email
-     * @param email
-     * @return
-     */
-    public static boolean isValidEmail(String email) {
-        if(email != null && email.length() > 5) { //"x@x.x".length() = 5
-            Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-            Matcher matcher = pattern.matcher(email);
-            return matcher.matches();
-        }
-        else
-            return false;
-    }
-
-    /**
-     * Valida el nombre
-     * @param nombre
-     * @return
-     */
-    public static boolean isValidNombre(String nombre) {
-        if(nombre != null && nombre.length() > 0) {
-            Pattern pattern = Pattern.compile(NOMBRE_PATTERN);
-            Matcher matcher = pattern.matcher(nombre);
-            return matcher.matches();
-        }
-        else
-            return false;
-    }
-
-    /**
-     * Valida la contraseña
-     * @param password
-     * @return
-     */
-    public static boolean isValidPassword(String password) {
-        return (password != null && password.length() > 5);
-    }
-
-    /**
-     * Valida la fecha de nacimiento
-     * @param fechaNacimiento
-     * @return
-     */
-    public static boolean isValidFechaNacimiento(Date fechaNacimiento) {
-        Calendar calendarMayorEdad = Calendar.getInstance();
-
-        int anio = Calendar.getInstance().get(Calendar.YEAR) - 18;
-        calendarMayorEdad.set(Calendar.YEAR, anio);
-
-        Date fechaMayorEdad = calendarMayorEdad.getTime();
-
-        int resCompareDates = fechaNacimiento.compareTo(fechaMayorEdad);
-
-        return (resCompareDates <= 0);
-    }
-
-
-    /* GETTERS Y SETTERS */
-
-    public String getUid() {
-        return uid;
-    }
+    public String getUid() { return uid; }
 
     public void setUid(String uid) {
         this.uid = uid;
@@ -190,7 +127,8 @@ public class Usuario {
         this.activo = activo;
     }
 
-    /* --- Categorias --- */
+
+    // -- Categorias -- //
 
     public List<Categoria> getCategorias() {
         return categorias;

@@ -11,33 +11,29 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pad.meetandshare.negocio.modelo.FechaUtil;
 import pad.meetandshare.negocio.modelo.Ubicacion;
 
 public class ParserActividad extends Parser {
 
     private static final String NOMBRE_PATTERN = "^([0-9a-zA-ZáéíóúñÁÉÍÓÚÑçÇ¡!¿? ])*$";
 
-    private static final int PARSE_COD_FORMATO_INCORRECTO = 201;
-    private static final String PE_MS_FORMATO_INCORRECTO = "Formato incorrecto";
-
     //Nombre
-    private static final int PARSE_COD_NOMBRE_CARACTERES_INVALIDOS = 202;
+    private static final int PARSE_COD_NOMBRE_CARACTERES_INVALIDOS = 201;
     private static final String PE_MS_NOMBRE_CARACTERES_INVALIDOS = "Este campo contiene caracteres no válidos";
 
     //FechaIni
-    private static final int PARSE_COD_FECHA_INI_BEFORE_TODAY = 203;
+    private static final int PARSE_COD_FECHA_INI_BEFORE_TODAY = 202;
     private static final String PE_MS_FECHA_INI_BEFORE_TODAY = "La fecha de inicio debe ser posterior a la actual";
 
     //FechaFin
-    private static final int PARSE_COD_FECHA_FIN_BEFORE_FECHA_INI = 204;
+    private static final int PARSE_COD_FECHA_FIN_BEFORE_FECHA_INI = 203;
     private static final String PE_MS_FECHA_FIN_BEFORE_FECHA_INI = "La fecha de fin debe ser posterior a la de inicio";
 
     //MaxParticipantes
-    private static final int PARSE_COD_MAX_PARTICIPANTES_LESS_THAN_MIN = 205;
+    private static final int PARSE_COD_MAX_PARTICIPANTES_LESS_THAN_MIN = 204;
     private static final String PE_MS_MAX_PARTICIPANTES_LESS_THAN_MIN = "¡No puedes estar tú solo!";
 
-    private static final int PARSE_COD_MAX_PARTICIPANTES_LESS_THAN_INSCRITOS = 206;
+    private static final int PARSE_COD_MAX_PARTICIPANTES_LESS_THAN_INSCRITOS = 205;
     private static final String PE_MS_MAX_PARTICIPANTES_LESS_THAN_INSCRITOS = "¡No puedes echar a nadie!";
 
 
@@ -56,18 +52,6 @@ public class ParserActividad extends Parser {
 
         return true;
     }
-
-    //Fechas y horas
-    public static Date parseFecha(String fechaStr) throws ParseException {
-        Date fecha = null;
-        try {
-            fecha = FechaUtil.getDateFormat().parse(fechaStr);
-        } catch(ParseException pe) {
-            throw new ParseException(PE_MS_FORMATO_INCORRECTO, PARSE_COD_FORMATO_INCORRECTO);
-        }
-        return fecha;
-    }
-
 
     public static boolean isOnlyFechaIniLaterThanToday(Date fechaIni) throws ParseException {
 
@@ -142,13 +126,6 @@ public class ParserActividad extends Parser {
 
     // ---- PROCESAR ---- //
 
-    private void setError(EditText et, String err, View focusView) {
-        et.setError(err);
-        if(focusView != null)
-            focusView = et;
-    }
-
-
     public String procesarNombre(String nombre, EditText etNombre, View focusView) {
         boolean nombreOK = false;
 
@@ -157,7 +134,7 @@ public class ParserActividad extends Parser {
                     && isNotEmptyString(nombre)
                     && ParserActividad.isValidNombre(nombre));
         } catch(ParseException pe) {
-            setError(etNombre, pe.getMessage(), focusView);
+            setError(etNombre, pe.getLocalizedMessage(), focusView);
         }
 
         if(!nombreOK)
@@ -179,7 +156,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             fechaIniOK = false;
-            setError(etFechaIni, pe.getMessage(), focusView);
+            setError(etFechaIni, pe.getLocalizedMessage(), focusView);
         }
 
         if(!fechaIniOK)
@@ -201,7 +178,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             horaIniOK = false;
-            setError(etHoraIni, pe.getMessage(), focusView);
+            setError(etHoraIni, pe.getLocalizedMessage(), focusView);
         }
 
         if(!horaIniOK)
@@ -226,7 +203,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             horaIniOK = false;
-            setError(etHoraIni, pe.getMessage(), focusView);
+            setError(etHoraIni, pe.getLocalizedMessage(), focusView);
         }
 
         if(!horaIniOK)
@@ -254,7 +231,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             fechaFinOK = false;
-            setError(etFechaFin, pe.getMessage(), focusView);
+            setError(etFechaFin, pe.getLocalizedMessage(), focusView);
         }
 
         if(!fechaFinOK)
@@ -276,7 +253,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             horaFinOK = false;
-            setError(etHoraFin, pe.getMessage(), focusView);
+            setError(etHoraFin, pe.getLocalizedMessage(), focusView);
         }
 
         if(!horaFinOK)
@@ -302,7 +279,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             horaFinOK = false;
-            setError(etHoraFin, pe.getMessage(), focusView);
+            setError(etHoraFin, pe.getLocalizedMessage(), focusView);
         }
 
         if(!horaFinOK)
@@ -325,7 +302,7 @@ public class ParserActividad extends Parser {
             }
         } catch(ParseException pe) {
             maxParticipantesOK = false;
-            setError(etMaxParticipantes, pe.getMessage(), focusView);
+            setError(etMaxParticipantes, pe.getLocalizedMessage(), focusView);
         }
 
         if(!maxParticipantesOK)
