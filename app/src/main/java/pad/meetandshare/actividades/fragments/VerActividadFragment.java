@@ -340,7 +340,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     private void changeToModificarActividad() {
 
-        Fragment fragmento = ModificaActividadFragment.newInstance(actividad);
+        Fragment fragmento = ModificaActividadFragment.newInstance(actividad, actividad.getIdUsuariosInscritos().size());
 
         FragmentManager fm = this.getFragmentManager();
 

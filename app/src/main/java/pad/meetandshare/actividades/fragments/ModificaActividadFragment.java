@@ -72,12 +72,14 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     private Button modificarActividadBoton;
 
     private Ubicacion ubicacionSeleccionada;
+    private int numUsuariosInscritos;
 
     private String[] listItems;
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
 
     private static final String ACTIVIDAD = "actividad";
+    private static final String NUM_USUARIOS_INCRITOS = "numUsuariosInscritos";
     private Actividad actividad;
     private SAActividad saActividad;
 
@@ -96,10 +98,11 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
      * @param act Actividad.
      * @return A new instance of fragment ModificaActividadFragment.
      */
-    public static ModificaActividadFragment newInstance(Actividad act) {
+    public static ModificaActividadFragment newInstance(Actividad act, int numUsuariosInscritos) {
         ModificaActividadFragment fragment = new ModificaActividadFragment();
         Bundle args = new Bundle();
         args.putSerializable(ACTIVIDAD, act);
+        args.putSerializable(NUM_USUARIOS_INCRITOS, numUsuariosInscritos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -109,6 +112,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             actividad = (Actividad) getArguments().getSerializable(ACTIVIDAD);
+            numUsuariosInscritos = (int) getArguments().getSerializable(NUM_USUARIOS_INCRITOS);
         }
 
         listItems = Categoria.getArray();
@@ -383,10 +387,10 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 // ---------------------------
 
     private void modificarActividad() {
-        /*
+
         if(ubicacionSeleccionada == null)
             ubicacionSeleccionada = actividad.getUbicacion();
-        */
+
 
         Actividad act = checkInputActividad();
 
@@ -433,7 +437,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         Date fechaFin = null;
 
         View focusView = null;
-        Actividad act = null;
+        Actividad act = actividad;
 
         // --- CHECKS --- //
         ParserActividad pa = new ParserActividad();
@@ -441,7 +445,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //NOMBRE
         nombre = pa.procesarNombre(nombre, etNombre, focusView);
         if(nombre != null) {
-            actividad.setNombre(nombre);
+            act.setNombre(nombre);
         }
 
         //FECHA INI
@@ -453,7 +457,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //FECHA INI Y HORA INI
         fechaIni = pa.procesarFechaIniCompleta(fechaIniString, horaIniString, etHoraIni, focusView);
         if(fechaIni != null) {
-            actividad.setFechaInicio(fechaIni);
+            act.setFechaInicio(fechaIni);
         }
 
         //FECHA FIN
@@ -465,32 +469,33 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //FECHA FIN Y HORA FIN
         fechaFin = pa.procesarFechaFinCompleta(fechaIni, fechaFinString, horaFinString, etHoraFin, focusView);
         if(fechaFin != null) {
-            actividad.setFechaFin(fechaFin);
+            act.setFechaFin(fechaFin);
         }
 
         //MAX PARTICIPANTES
-        maxParticipantes = pa.procesarMaxParticipantesModificar(maxParticipantesString, act.getIdUsuariosInscritos().size(), etMaxParticipantes, focusView);
+        maxParticipantes = pa.procesarMaxParticipantesModificar(maxParticipantesString, numUsuariosInscritos, etMaxParticipantes, focusView);
         if(maxParticipantes != null) {
             if(maxParticipantes != 0)
-                actividad.setMaxParticipantes(maxParticipantes);
+                act.setMaxParticipantes(maxParticipantes);
         }
 
         //INTERESES
         Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
         if(resIntereses.first) {
-            actividad.setCategorias(resIntereses.second);
+            act.setCategorias(resIntereses.second);
         }
 
         //UBICACION
         ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, this.getActivity());
         if(ubicacionOK) {
-            actividad.setUbicacion(ubicacionSeleccionada);
+            act.setUbicacion(ubicacionSeleccionada);
         }
 
         //DESCRIPCION
         if (descripcion == null) {
             descripcion = "";
         }
+
         act.setDescripcion(descripcion);
 
         // -------------- //
