@@ -88,15 +88,11 @@ public class PerfilUsuarioFragment extends Fragment {
             }
         }
 
-
-
         ((ScrollView) rootView.findViewById(R.id.scrollPerfil)).setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 ((TextView) rootView.findViewById(R.id.descripcionPerfil)).getParent().requestDisallowInterceptTouchEvent(false);
-
                 return false;
             }
         });
@@ -105,13 +101,10 @@ public class PerfilUsuarioFragment extends Fragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 ((TextView) rootView.findViewById(R.id.descripcionPerfil)).getParent().requestDisallowInterceptTouchEvent(true);
-
                 return false;
             }
         });
-
 
         rootView.findViewById(R.id.editaPerfil).setOnClickListener(new View.OnClickListener() {
             @Override

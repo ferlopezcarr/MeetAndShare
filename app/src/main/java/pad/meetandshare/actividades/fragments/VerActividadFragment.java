@@ -8,11 +8,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,6 +122,24 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         ubicacionBoton = ((Button) rootView.findViewById(R.id.ver_ubicacion));
         ubicacionBoton.setOnClickListener(this);
+
+        ((ScrollView) rootView.findViewById(R.id.scrollVerActividad)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+
+        ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         inscribirseBoton = ((Button) rootView.findViewById(R.id.inscribirse));
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
@@ -247,13 +267,15 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
 
         //Descripción
-        if(actividad.getDescripcion() != null)
-            if(actividad.getDescripcion().length() != 0)
+        if(actividad.getDescripcion() != null) {
+            if(actividad.getDescripcion().length() != 0) {
                 tvDescripcion.setText(actividad.getDescripcion());
+            }
             else {
                 rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
                 rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);
             }
+        }
         else {
             rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
             rootView.findViewById(R.id.descripcionVerActividad).setVisibility(View.GONE);

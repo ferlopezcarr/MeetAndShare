@@ -391,14 +391,13 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         if(ubicacionSeleccionada == null)
             ubicacionSeleccionada = actividad.getUbicacion();
 
-
         Actividad act = checkInputActividad();
 
         if (act != null) {
 
             if (AutorizacionFirebase.getUser() != null) {
-                actividad.setUid(AutorizacionFirebase.getUser().getUid());
                 saActividad.save(act);
+                actividad = act;
                 changeToVerActividad();
             } else {
                 String toastMsg = String.format("Error usuario logeado no encontrado");
