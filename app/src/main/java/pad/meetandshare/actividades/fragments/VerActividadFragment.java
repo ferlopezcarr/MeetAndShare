@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -101,9 +102,24 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         initViewElems();
 
-        //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
-        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        ( rootView.findViewById(R.id.scrollVerActividad)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                (rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+
+        (rootView.findViewById(R.id.descripcionVerActividad)).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ( rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         return rootView;
     }
 
@@ -120,26 +136,11 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         tvEstado = ((TextView) rootView.findViewById(R.id.finalizadaVerActividad));
         tvDescripcion = ((TextView) rootView.findViewById(R.id.descripcionVerActividad));
 
+
         ubicacionBoton = ((Button) rootView.findViewById(R.id.ver_ubicacion));
         ubicacionBoton.setOnClickListener(this);
 
-        ((ScrollView) rootView.findViewById(R.id.scrollVerActividad)).setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(false);
-                return false;
-            }
-        });
-
-        ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((TextView) rootView.findViewById(R.id.descripcionVerActividad)).getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        tvDescripcion.setMovementMethod(new ScrollingMovementMethod());
 
         inscribirseBoton = ((Button) rootView.findViewById(R.id.inscribirse));
         verUsuariosInscritosBoton = ((Button) rootView.findViewById(R.id.ver_usuarios_inscritos));
@@ -157,8 +158,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         else
             inscribirseBoton.setVisibility(View.GONE);
 
-        modificarActividadBoton = (FloatingActionButton) rootView.findViewById(R.id.editaActividad);
-        borrarActividad = (Button) rootView.findViewById(R.id.eliminar_actividad);
+        modificarActividadBoton =  rootView.findViewById(R.id.editaActividad);
+        borrarActividad =  rootView.findViewById(R.id.eliminar_actividad);
 
         boolean modificarOK = false;
         boolean borrarOK = false;
@@ -305,6 +306,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
             case R.id.eliminar_actividad:
                 eliminarActividad();
                 break;
+
         }
     }
 
@@ -421,14 +423,9 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     }
 
     private void recargarVista() {
-        Fragment fragmento = VerActividadFragment.newInstance(actividad, nombreUsuario);
-
-        FragmentManager fm = this.getFragmentManager();
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.ContenedorMenuLateral, fragmento);
-        //ft.addToBackStack(null);
-
-        ft.commit();
+        
+        Fragment fr = VerActividadFragment.newInstance(actividad, nombreUsuario);
+        pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) this.getActivity();
+        fc.replaceFragment(fr);
     }
 }

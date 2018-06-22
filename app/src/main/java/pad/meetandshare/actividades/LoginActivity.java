@@ -140,16 +140,13 @@ public class LoginActivity extends AppCompatActivity {
         ParserUsuario pu = new ParserUsuario();
 
         //EMAIL
-        email = pu.procesarEmail(email, mEmailView, focusView);
+        email = pu.procesarEmail(email, mEmailView, mEmailView);
 
         //PASSWORD
-        password = pu.procesarPassword(password, mPasswordView, focusView);
+        password = pu.procesarPassword(password, mPasswordView, mPasswordView);
 
-        if (email == null || password == null) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
+        if (email != null && password != null) {
+
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);

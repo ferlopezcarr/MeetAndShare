@@ -80,7 +80,10 @@ public class Parser {
 
     protected void setError(EditText et, String err, View focusView) {
         int pos = err.indexOf("(at");
-        et.setError(err.substring(0,pos));
+        if(pos!=-1)
+            et.setError(err.substring(0,pos));
+        else
+            et.setError(err);
         if(focusView != null)
             focusView = et;
     }

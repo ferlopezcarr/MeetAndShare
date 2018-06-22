@@ -150,8 +150,7 @@ public class InicioFragment
         Fragment frag = new LeyendaMapaFragment();
 
         this.getFragmentManager().beginTransaction().
-                replace(R.id.ContenedorMenuLateral, frag)
-                .addToBackStack(null).commit();
+                replace(R.id.ContenedorMenuLateral, frag).commit();
     }
 
     @Override

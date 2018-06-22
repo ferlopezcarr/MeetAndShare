@@ -1,22 +1,10 @@
 package pad.meetandshare.negocio.modelo;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
-
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
+
 
 public class  Ubicacion implements Serializable {
 
@@ -28,23 +16,6 @@ public class  Ubicacion implements Serializable {
 
     public Ubicacion(){}
 
-    /*
-    public Ubicacion(String id, List<Integer> placeTypes, String address, String latLng, String  name, String viewPort, Uri websiteUri, String phoneNumber, float rating, int priceLevel, String attributions, Locale locale) {
-        this.id = id;
-        this.placeTypes = placeTypes;
-        this.address = address;
-        this.latLng = latLng;
-        this.name = name;
-        this.viewPort1 = viewPort;
-        this.viewPort2 = viewPort;
-        this.locale=locale;
-        this.websiteUri = websiteUri;
-        this.phoneNumber = phoneNumber;
-        this.rating = rating;
-        this.priceLevel = priceLevel;
-        this.attributions = attributions;
-    }
-    */
 
     public Ubicacion(Place place) {
         this.latitude = place.getLatLng().latitude;
@@ -66,72 +37,5 @@ public class  Ubicacion implements Serializable {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-    //Para las actividades
-
-
-    /*
-    public Ubicacion(String id) {
-        this.id = id;
-    }
-
-    public String getId(){
-       return this.id;
-   };
-
-
-   public List<Integer> getPlaceTypes(){
-
-       return this.placeTypes;
-   };
-
-   public String getAddress(){
-       return this.address;
-   }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public String getLatLng() {
-        return latLng;
-    }
-    
-
-   public String getViewPort1(){
-        return viewPort1;
-   }
-
-    public String getViewPort2(){
-        return viewPort2;
-    }
-
-
-
-   public Uri getWebsiteUri(){
-        return websiteUri;
-   }
-
-   public String getPhoneNumber(){
-        return phoneNumber;
-   }
-
-    public float getRating(){
-        return rating;
-    }
-
-    public int getPriceLevel(){
-        return priceLevel;
-    }
-
-    public String getAttributions(){
-
-       return attributions;
-    }
-
-    public Locale getLocale(){
-       return locale;
-    }
-    */
 
 }

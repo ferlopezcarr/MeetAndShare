@@ -44,8 +44,7 @@ public class MenuLateralActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         if (getFragmentManager().findFragmentById(R.id.ContenedorMenuLateral) == null) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.ContenedorMenuLateral, new InicioFragment())
-                    .addToBackStack(null).commit();
+                    .replace(R.id.ContenedorMenuLateral, new InicioFragment()).commit();
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,21 +54,7 @@ public class MenuLateralActivity extends AppCompatActivity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
-            super.onBackPressed();
-        }
-
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_inicio);
-        if(this.getFragmentManager().getBackStackEntryCount() == 0 && currentFragment != null)
-            finish();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
