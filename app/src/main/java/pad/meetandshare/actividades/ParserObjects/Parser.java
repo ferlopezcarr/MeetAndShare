@@ -16,8 +16,6 @@ import pad.meetandshare.negocio.modelo.Categoria;
 
 public class Parser {
 
-
-
     private static final int PARSE_COD_NULL = 000;
     private static final int PARSE_COD_STRING_EMPTY = 001;
     private static final String PE_MS_CAMPO_OBLIGATORIO = "Por favor, rellena el campo obligatorio";

@@ -39,7 +39,6 @@ import java.util.Date;
 
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.LoginActivity;
-import pad.meetandshare.actividades.MyInfoWindowAdapter;
 import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
 import pad.meetandshare.negocio.modelo.Categoria;

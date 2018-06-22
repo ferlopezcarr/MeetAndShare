@@ -1,4 +1,4 @@
-package pad.meetandshare.actividades;
+package pad.meetandshare.actividades.fragments;
 
 import android.view.LayoutInflater;
 import android.view.View;

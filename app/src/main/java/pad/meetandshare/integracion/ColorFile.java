@@ -27,11 +27,6 @@ public class ColorFile {
     public static final Float ACT_STARTS_TOMORROW_COLOR = (float) 60;//amarillo 1 dia para que empiece
     public static final Float DEFAULT_COLOR = (float) 354;//rojas otros
 
-    public static final String ADMIN_COLOR_RGB = "5B2D76";
-    public static final String PARCITIPANT_COLOR_RGB = "5B2D76";
-    public static final String ACT_STARTS_TOMORROW_COLOR_RGB = "5B2D76";
-    public static final String DEFAULT_COLOR_RGB = "5B2D76";
-
     public static final int TIME_DIFFERENCE = 1;
 
     private static final String FILE = "color.txt";
