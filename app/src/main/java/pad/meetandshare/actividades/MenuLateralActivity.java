@@ -69,12 +69,11 @@ public class MenuLateralActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragmento = null;
-        boolean cambia = false;
         boolean salir = false;
 
         if (id == R.id.nav_Inicio) {
             fragmento = new InicioFragment();
-        } else if (id == R.id.nav_Perfil) {
+         } else if (id == R.id.nav_Perfil) {
             fragmento = PerfilUsuarioFragment.newInstance();
         } else if (id == R.id.nav_CrearActividad) {
             fragmento = CrearActividadFragment.newInstance();
@@ -83,10 +82,7 @@ public class MenuLateralActivity extends AppCompatActivity
         }
 
         if(!salir) {
-
-            FragmentTransaction fc= (FragmentTransaction) this;
-
-            fc.replaceFragment(fragmento);
+                this.replaceFragment(fragmento);
 
 
         }
@@ -129,6 +125,7 @@ public class MenuLateralActivity extends AppCompatActivity
 
         getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).addToBackStack(null).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).addToBackStack(null).commit();
 
         drawer.closeDrawer(GravityCompat.START);
 
