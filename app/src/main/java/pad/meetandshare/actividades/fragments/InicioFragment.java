@@ -2,7 +2,6 @@ package pad.meetandshare.actividades.fragments;
 
 import android.Manifest;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 
 import android.content.Intent;
@@ -298,13 +297,11 @@ public class InicioFragment
                     public void onCallbackUsuario(Usuario usuario) {
                         if(usuario != null) {
                             //hacer la transicion
-                            Fragment fragmento = VerActividadFragment.newInstance(actividad, usuario.getNombre());
 
-                            FragmentTransaction ft = fragmentManager.beginTransaction();
-                            ft.replace(R.id.ContenedorMenuLateral, fragmento);
-                            ft.addToBackStack(null);
+                            Fragment fr = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
+                            pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) getActivity();
+                            fc.replaceFragment(fr);
 
-                            ft.commit();
                         }
                     }
 
@@ -409,6 +406,7 @@ public class InicioFragment
 
         return marcador;
     }
+
 
 
 

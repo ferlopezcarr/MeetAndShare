@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -170,8 +169,8 @@ public class LoginActivity extends AppCompatActivity {
                             AutorizacionFirebase.setUsuario(value);
                             LoginActivity.this.startActivity(myIntent);
                             showProgress(false);
-                            //LoginActivity.this.onResume();
-                            finish();
+                            LoginActivity.this.onResume();
+
                         }
 
                         @Override
@@ -273,15 +272,6 @@ public class LoginActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
 
 
 }

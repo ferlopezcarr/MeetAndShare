@@ -312,15 +312,9 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     private void verUbicacion() {
 
-        Fragment fragmento = InicioFragment.newInstance(actividad.getUbicacion());
-
-        FragmentManager fm = this.getFragmentManager();
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.ContenedorMenuLateral, fragmento);
-        ft.addToBackStack(null);
-
-        ft.commit();
+        Fragment fr = InicioFragment.newInstance(actividad.getUbicacion());
+        pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) this.getActivity();
+        fc.replaceFragment(fr);
 
     }
 

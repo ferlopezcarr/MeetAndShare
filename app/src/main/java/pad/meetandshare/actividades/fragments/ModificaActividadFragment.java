@@ -513,10 +513,17 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
     private void changeToVerActividad() {
 
+        Fragment fragmento = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
 
-        Fragment fr = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
-        pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) this.getActivity();
-        fc.replaceFragment(fr);
+        FragmentManager fm = this.getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ContenedorMenuLateral, fragmento);
+
+        ft.commit();
+
+
+
     }
 
 }

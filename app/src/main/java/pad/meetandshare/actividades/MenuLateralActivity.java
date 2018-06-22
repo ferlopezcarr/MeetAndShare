@@ -85,19 +85,10 @@ public class MenuLateralActivity extends AppCompatActivity
         if(!salir) {
 
             FragmentTransaction fc= (FragmentTransaction) this;
+
             fc.replaceFragment(fragmento);
 
-            /*
-            android.app.FragmentTransaction ft = this.getFragmentManager().beginTransaction().
-                    replace(R.id.ContenedorMenuLateral, fragmento);
-            if(id != R.id.nav_CrearActividad)
-                ft.addToBackStack(null);
-            ft.commit();
 
-
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            */
         }
         else {
             //Log out
@@ -113,6 +104,21 @@ public class MenuLateralActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_inicio);
+        if(this.getFragmentManager().getBackStackEntryCount() == 0 && currentFragment != null)
+            finish();
+    }
+    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
@@ -121,8 +127,9 @@ public class MenuLateralActivity extends AppCompatActivity
     @Override
     public void replaceFragment(Fragment fragment) {
 
-        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).addToBackStack(getFragmentManager().findFragmentById(R.id.fragment_inicio).toString()).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
 
     }
