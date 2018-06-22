@@ -127,7 +127,7 @@ public class MenuLateralActivity extends AppCompatActivity
     @Override
     public void replaceFragment(Fragment fragment) {
 
-        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).addToBackStack(getFragmentManager().findFragmentById(R.id.fragment_inicio).toString()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.ContenedorMenuLateral, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         drawer.closeDrawer(GravityCompat.START);
