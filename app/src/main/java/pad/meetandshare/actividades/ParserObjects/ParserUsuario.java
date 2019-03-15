@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pad.meetandshare.R;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 
 public class ParserUsuario extends Parser {
 

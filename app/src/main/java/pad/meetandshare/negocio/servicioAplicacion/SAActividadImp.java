@@ -12,8 +12,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import pad.meetandshare.negocio.modelo.Actividad;
+import pad.meetandshare.negocio.modelo.User;
 
 import static android.content.ContentValues.TAG;
+
+import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
+
 
 public class SAActividadImp implements SAActividad {
 
@@ -30,11 +34,27 @@ public class SAActividadImp implements SAActividad {
 
         DatabaseReference pushRef = myRef.push();
 
-        String uid = pushRef.getKey();
+        final String uid = pushRef.getKey();
 
         actividad.setUid(uid);
 
         save(actividad);
+
+        final SAUsuario saUsuario = new SAUsuarioImp();
+        saUsuario.get(actividad.getAdminUid(), new MyCallBack() {
+            @Override
+            public void onCallbackUsuario(User value) {
+                value.addCreatedActivityId(uid);
+                value.addRegisteredActivityId(uid);
+                saUsuario.save(value);
+            }
+
+            @Override
+            public void onCallbackActividad(Actividad actividad) { }
+
+            @Override
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
+        });
     }
 
     @Override
@@ -43,14 +63,32 @@ public class SAActividadImp implements SAActividad {
         //borrado fisico
         //myRef.child(ui).child(actividad.getUid()).removeValue();
 
-        actividad.setActiva(false);
+        actividad.setActive(false);
         this.save(actividad);
+
+        final String uid = actividad.getUid();
+
+        final SAUsuario saUsuario = new SAUsuarioImp();
+        saUsuario.get(actividad.getAdminUid(), new MyCallBack() {
+            @Override
+            public void onCallbackUsuario(User value) {
+                value.deleteCreatedActivityId(uid);
+                value.deleteRegisteredActivityId(uid);
+                saUsuario.save(value);
+            }
+
+            @Override
+            public void onCallbackActividad(Actividad actividad) { }
+
+            @Override
+            public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
+        });
     }
 
     @Override
     public void save(Actividad actividad){
 
-        myRef.child(actividad.getIdAdministrador()).child(actividad.getUid()).setValue(actividad);
+        myRef.child(actividad.getUid()).setValue(actividad);
 
     }
 
@@ -96,12 +134,10 @@ public class SAActividadImp implements SAActividad {
 
                 Iterable<DataSnapshot> dataSnapshotRoot = dataSnapshot.getChildren();
 
-                for(DataSnapshot child : dataSnapshotRoot){
-
-                    Iterable<DataSnapshot> dataSnapshotChild = child.getChildren();
-
-                    for (DataSnapshot ds : dataSnapshotChild) {
-                        Actividad act = ds.getValue(Actividad.class);
+                for(DataSnapshot child : dataSnapshotRoot) {
+                    Object obj = child.getValue(Actividad.class);
+                    if(obj instanceof Actividad) {
+                        Actividad act = (Actividad) obj;
                         lista.add(act);
                     }
                 }
@@ -137,11 +173,11 @@ public class SAActividadImp implements SAActividad {
             //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
             if (actividadCreada != null && act != null) {
 
-                if (act.getNombre() != null) {
+                if (act.getName() != null) {
                     if (!act.getUid().equalsIgnoreCase(actividadCreada.getUid())) {
 
-                        sameName = act.getNombre().equalsIgnoreCase(actividadCreada.getNombre());
-                        sameAdmin = act.getIdAdministrador().equalsIgnoreCase(actividadCreada.getIdAdministrador());
+                        sameName = act.getName().equalsIgnoreCase(actividadCreada.getName());
+                        sameAdmin = act.getAdminUid().equalsIgnoreCase(actividadCreada.getAdminUid());
 
                         if (sameName && sameAdmin) {
                             ds.getRef().removeValue();

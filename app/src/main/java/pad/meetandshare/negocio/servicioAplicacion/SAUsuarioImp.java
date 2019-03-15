@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 
 import static android.content.ContentValues.TAG;
 
@@ -20,11 +20,11 @@ public class SAUsuarioImp implements SAUsuario {
 
     public SAUsuarioImp(){
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(Usuario.UsersDataBaseName);
+        myRef = database.getReference(User.UsersDataBaseName);
     }
 
     @Override
-    public void create(Usuario usuario) {
+    public void create(User usuario) {
 
         DatabaseReference pushRef = myRef.push();
 
@@ -37,24 +37,24 @@ public class SAUsuarioImp implements SAUsuario {
         save(usuario);
     }
 
-    public void delete(Usuario usuario){
+    public void delete(User usuario){
 
-        usuario.setActivo(false);
+        usuario.setActive(false);
 
         this.save(usuario);
     }
 
 
-    public void save(Usuario usuario){
+    public void save(User usuario){
 
-        myRef = database.getReference(Usuario.UsersDataBaseName);
+        myRef = database.getReference(User.UsersDataBaseName);
         myRef.child(usuario.getUid()).setValue(usuario);
     }
 
     @Override
     public void get(String ui, final MyCallBack myCallBack) {
 
-        myRef = database.getReference(Usuario.UsersDataBaseName);
+        myRef = database.getReference(User.UsersDataBaseName);
         myRef = myRef.child(ui);
 
         ValueEventListener listener= new ValueEventListener(){
@@ -62,7 +62,7 @@ public class SAUsuarioImp implements SAUsuario {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Usuario user = dataSnapshot.getValue(Usuario.class);
+                User user = dataSnapshot.getValue(User.class);
                 Log.d(TAG, "Value is: " + user);
                 myCallBack.onCallbackUsuario(user);
             }
@@ -84,13 +84,13 @@ public class SAUsuarioImp implements SAUsuario {
     }
 
     @Override
-    public boolean checkUsuario(Usuario usuarioModificado, DataSnapshot dataSnapshot) {
+    public boolean checkUsuario(User usuarioModificado, DataSnapshot dataSnapshot) {
         boolean sameEmail = false;
 
         Iterable<DataSnapshot> dataSnapshotChid = dataSnapshot.child(AutorizacionFirebase.getCurrentUser().getUid()).getChildren();
 
         for (DataSnapshot ds : dataSnapshotChid) {
-            Usuario usr = ds.getValue(Usuario.class);
+            User usr = ds.getValue(User.class);
 
             //si la actividad ha sido creada y la actividad que se encuentra en la bd no es ella misma
             if (usuarioModificado != null && usr != null) {

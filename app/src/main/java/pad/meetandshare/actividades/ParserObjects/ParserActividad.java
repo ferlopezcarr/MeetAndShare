@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Ubicacion;
+import pad.meetandshare.negocio.modelo.Ubication;
 
 public class ParserActividad extends Parser {
 
@@ -337,7 +337,7 @@ public class ParserActividad extends Parser {
     }
 
 
-    public boolean procesarUbicacion(Ubicacion ubicacion, Activity activity) {
+    public boolean procesarUbicacion(Ubication ubicacion, Activity activity) {
         if(ubicacion == null) {
             Toast toast3 = Toast.makeText(activity, "Selecciona una ubicación", Toast.LENGTH_SHORT);
             toast3.setGravity(Gravity.CENTER, 0, 0);

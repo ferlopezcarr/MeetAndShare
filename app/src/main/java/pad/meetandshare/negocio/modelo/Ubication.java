@@ -6,7 +6,7 @@ import com.google.android.gms.location.places.Place;
 import java.io.Serializable;
 
 
-public class  Ubicacion implements Serializable {
+public class  Ubication implements Serializable {
 
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static final int PLACE_PICKER_REQUEST = 1;
@@ -14,10 +14,10 @@ public class  Ubicacion implements Serializable {
     private double latitude;
     private double longitude;
 
-    public Ubicacion(){}
+    public Ubication(){}
 
 
-    public Ubicacion(Place place) {
+    public Ubication(Place place) {
         this.latitude = place.getLatLng().latitude;
         this.longitude = place.getLatLng().longitude;
     }

@@ -18,33 +18,33 @@ public class Actividad implements Serializable {
     // -------- ATRIBUTOS -------- //
     private String uid;
 
-    private String nombre;
+    private String name;
 
-    private Date fechaInicio;
+    private Date startDate;
 
-    private Date fechaFin;
+    private Date endDate;
 
-    private int maxParticipantes;
+    private int maxRegistered;
 
-    private String descripcion;
+    private String description;
 
-    private Ubicacion ubicacion;
+    private Ubication ubication;
 
-    private String idAdministrador;
+    private String adminUid;
 
-    private List<Categoria> categorias;
+    private List<Category> categories;
 
-    private List<String> idUsuariosInscritos;
+    private List<String> registeredUserIds;
 
-    private boolean activa;
+    private boolean active;
 
-    private boolean finalizada;
+    private boolean finished;
 
     // -- Datos para integracion -- //
     public final static String ActivitiesDatabaseName = "activities";
 
     public static String rootDataBase(String userUid) {
-        return Usuario.UsersDataBaseName + "/" + userUid + "/" + ActivitiesDatabaseName;
+        return User.UsersDataBaseName + "/" + userUid + "/" + ActivitiesDatabaseName;
     }
 
     // -------- METODOS -------- //
@@ -55,27 +55,27 @@ public class Actividad implements Serializable {
 
     /**
      * Constructora con argumentos de Actividad
-     * @param nombre
-     * @param fechaInicio
-     * @param fechaFin
-     * @param maxParticipantes
-     * @param descripcion
-     * @param ubicacion
+     * @param name
+     * @param startDate
+     * @param endDate
+     * @param maxRegistered
+     * @param description
+     * @param ubication
      */
-    public Actividad(String nombre, Date fechaInicio, Date fechaFin, int maxParticipantes, String descripcion, Ubicacion ubicacion, ArrayList<Categoria> lista, String idAdministrador) {
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.maxParticipantes = maxParticipantes;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.idAdministrador = idAdministrador;
-        this.activa = true;
-        this.finalizada = false;
-        this.categorias = lista;
-        this.idUsuariosInscritos = new ArrayList<String>();
-        if(!this.idUsuariosInscritos.contains(idAdministrador)) {
-            this.idUsuariosInscritos.add(idAdministrador);
+    public Actividad(String name, Date startDate, Date endDate, int maxRegistered, String description, Ubication ubication, ArrayList<Category> categories, String adminUid) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxRegistered = maxRegistered;
+        this.description = description;
+        this.ubication = ubication;
+        this.adminUid = adminUid;
+        this.active = true;
+        this.finished = false;
+        this.categories = categories;
+        this.registeredUserIds = new ArrayList<String>();
+        if(!this.registeredUserIds.contains(adminUid)) {
+            this.registeredUserIds.add(adminUid);
         }
     }
 
@@ -91,123 +91,123 @@ public class Actividad implements Serializable {
         this.uid = uid;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public int getMaxParticipantes() {
-        return this.maxParticipantes;
+    public int getMaxRegistered() {
+        return this.maxRegistered;
     }
 
-    public void setMaxParticipantes(int maxParticipantes) {
-        this.maxParticipantes = maxParticipantes;
+    public void setMaxRegistered(int maxRegistered) {
+        this.maxRegistered = maxRegistered;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Ubicacion getUbicacion() {
-        return ubicacion;
+    public Ubication getUbication() {
+        return ubication;
     }
 
-    public void setUbicacion(Ubicacion ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setUbication(Ubication ubication) {
+        this.ubication = ubication;
     }
 
-    public String getIdAdministrador() {
-        return this.idAdministrador;
+    public String getAdminUid() {
+        return this.adminUid;
     }
 
-    public void setIdAdministrador(String idAdministrador) {
-        this.idAdministrador = idAdministrador;
+    public void setAdminUid(String adminUid) {
+        this.adminUid = adminUid;
     }
 
-    public boolean getActiva() {
-        return activa;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setActiva(boolean activa) {
-        this.activa = activa;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public boolean getFinalizada() {
-        return finalizada;
+    public boolean getFinished() {
+        return finished;
     }
 
-    public void setFinalizada(boolean finalizada) {
-        this.finalizada = finalizada;
+    public void setFinished(boolean finalizada) {
+        this.finished = finished;
     }
 
-    public boolean isEnCurso() {
+    public boolean activityInProgess() {
         Date ahora = new Date();
-        return (!finalizada && fechaInicio.after(ahora) && fechaFin.before(ahora));
+        return (!finished && startDate.after(ahora) && endDate.before(ahora));
     }
 
-    public boolean isActividadFinalizada() {
+    public boolean activityFinished() {
 
-        if(!finalizada)
-            finalizada = (fechaFin.before(new Date()));
+        if(!finished)
+            finished = (endDate.before(new Date()));
 
-        return finalizada;
+        return finished;
     }
 
 
     // -- Categorias -- //
 
-    public List<Categoria> getCategorias() {
-        return categorias;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    public boolean addCategoria(Categoria categoria) {
-        if (categorias == null) {
-            categorias = new ArrayList<Categoria>();
+    public boolean addCategory(Category category) {
+        if (categories == null) {
+            categories = new ArrayList<Category>();
         }
 
-        if (categorias.contains(categoria)) {
+        if (categories.contains(category)) {
             return false;
         }
         else {
-            categorias.add(categoria);
+            categories.add(category);
             return true;
         }
     }
 
-    public boolean deleteCategoria(Categoria categoria) {
-        if (categorias == null || categorias.isEmpty()) {
+    public boolean deleteCategory(Category category) {
+        if (categories == null || categories.isEmpty()) {
             return false;
         }
 
-        if (categorias.contains(categoria)) {
-            categorias.remove(categoria);
+        if (categories.contains(category)) {
+            categories.remove(category);
             return true;
         }
         else {
@@ -215,43 +215,43 @@ public class Actividad implements Serializable {
         }
     }
 
-    public void replaceAllCategorias(List<Categoria> categorias) {
-        this.categorias.clear();
-        this.categorias.addAll(categorias);
+    public void replaceAllCategories(List<Category> categories) {
+        this.categories.clear();
+        this.categories.addAll(categories);
     }
 
 
     // -- Usuarios inscritos -- //
 
-    public List<String> getIdUsuariosInscritos() {
-        return this.idUsuariosInscritos;
+    public List<String> getRegisteredUserIds() {
+        return this.registeredUserIds;
     }
 
-    public void setUsuariosInscritos(List<String> idUsuariosInscritos) {
-        this.idUsuariosInscritos = idUsuariosInscritos;
+    public void setRegisteredUserIds(List<String> registeredUserIds) {
+        this.registeredUserIds = registeredUserIds;
     }
 
-    public boolean addUsuario(String uidUsuario) {
-        if (idUsuariosInscritos == null) {
-            idUsuariosInscritos = new ArrayList<String>();
+    public boolean addRegisteredUser(String uidUsuario) {
+        if (registeredUserIds == null) {
+            registeredUserIds = new ArrayList<String>();
         }
 
-        if (idUsuariosInscritos.contains(uidUsuario)) {
+        if (registeredUserIds.contains(uidUsuario)) {
             return false;
         }
         else {
-            idUsuariosInscritos.add(uidUsuario);
+            registeredUserIds.add(uidUsuario);
             return true;
         }
     }
 
-    public boolean deleteUsuario(String idUsuario) {
-        if (idUsuariosInscritos == null || idUsuariosInscritos.isEmpty()) {
+    public boolean deleteRegisteredUser(String idUsuario) {
+        if (registeredUserIds == null || registeredUserIds.isEmpty()) {
             return false;
         }
 
-        if (idUsuariosInscritos.contains(idUsuario)) {
-            idUsuariosInscritos.remove(idUsuario);
+        if (registeredUserIds.contains(idUsuario)) {
+            registeredUserIds.remove(idUsuario);
             return true;
         }
         else {

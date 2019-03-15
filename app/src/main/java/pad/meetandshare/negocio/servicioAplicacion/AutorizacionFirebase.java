@@ -3,13 +3,13 @@ package pad.meetandshare.negocio.servicioAplicacion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 
 public class AutorizacionFirebase {
 
     private static FirebaseAuth mAuth;
 
-    private static Usuario user;
+    private static User user;
 
     public static FirebaseAuth getFirebaseAuth() {
 
@@ -25,11 +25,11 @@ public class AutorizacionFirebase {
     }
 
 
-    public static Usuario getUser(){
+    public static User getUser(){
         return user;
     }
 
-    public static void setUsuario(Usuario usuario) {
+    public static void setUsuario(User usuario) {
         user = usuario;
     }
 

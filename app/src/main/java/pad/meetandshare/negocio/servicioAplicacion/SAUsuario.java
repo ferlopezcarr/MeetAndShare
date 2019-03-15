@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 
 public interface SAUsuario {
 
@@ -13,14 +13,14 @@ public interface SAUsuario {
      * Método que recibe un usuario, le asigna un uid, y lo persiste en la base de datos
      * @param usuario
      */
-    void create(Usuario usuario);
+    void create(User usuario);
 
     /**
     * Método que recibe un Usuario y lo guarda en la base de datos desactivado
     * @param usuario
     * @return si ha sido borrado o no
     */
-    void delete(Usuario usuario);
+    void delete(User usuario);
 
     /**
     * Método que recibe un Usuario y lo persiste en la base de datos,
@@ -29,12 +29,12 @@ public interface SAUsuario {
     * @param usuario
     * @return usuario guardado
     */
-    void save(Usuario usuario);
+    void save(User usuario);
 
     void get(String ui, MyCallBack myCallBack);
 
     DatabaseReference getDatabaseReference();
 
-    boolean checkUsuario(Usuario usuarioModificado, DataSnapshot dataSnapshot);
+    boolean checkUsuario(User usuarioModificado, DataSnapshot dataSnapshot);
 
 }

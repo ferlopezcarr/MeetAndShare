@@ -35,16 +35,16 @@ import java.util.Date;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.ParserObjects.ParserActividad;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Ubicacion;
+import pad.meetandshare.negocio.modelo.Ubication;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
-import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static pad.meetandshare.negocio.modelo.Ubicacion.PLACE_PICKER_REQUEST;
+import static pad.meetandshare.negocio.modelo.Ubication.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static pad.meetandshare.negocio.modelo.Ubication.PLACE_PICKER_REQUEST;
 
 
 public class CrearActividadFragment extends Fragment implements View.OnClickListener {
@@ -72,7 +72,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     //CREAR ACTIVIDAD
     private Button crearActividadBoton;
 
-    private Ubicacion ubicacionSeleccionada;
+    private Ubication ubicacionSeleccionada;
 
     private String[] listItems;
     private boolean[] checkedItems;
@@ -100,7 +100,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listItems = Categoria.getArray();
+        listItems = Category.getArray();
         checkedItems = new boolean[listItems.length];
 
         saActividad = new SAActividadImp();
@@ -296,7 +296,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
 
     private void changeToVerActividad() {
 
-        Fragment fragmento = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
+        Fragment fragmento = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getName());
 
         FragmentManager fm = this.getFragmentManager();
 
@@ -379,7 +379,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this.getActivity());
 
-                ubicacionSeleccionada = new Ubicacion(place);
+                ubicacionSeleccionada = new Ubication(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
@@ -463,7 +463,7 @@ public class CrearActividadFragment extends Fragment implements View.OnClickList
         maxParticipantes = pa.procesarMaxParticipantes(maxParticipantesString, etMaxParticipantes, focusView);
 
         //INTERESES
-        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
+        Pair<Boolean, ArrayList<Category>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
         unlessOneInteres = resIntereses.first;
 
         //UBICACION

@@ -29,9 +29,9 @@ import java.util.Date;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
@@ -61,7 +61,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private String userPassword;
 
 
-    private Usuario miUsuario;
+    private User miUsuario;
 
     /* ------------ MÉTODOS PÚBLICOS ------------ */
 
@@ -76,7 +76,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        listItems = Categoria.getArray();
+        listItems = Category.getArray();
         checkedItems = new boolean[listItems.length];
         setContentView(R.layout.activity_registro);
 
@@ -143,7 +143,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         SAUsuario saUsuario = new SAUsuarioImp();
         saUsuario.get(user.getUid(), new MyCallBack() {
             @Override
-            public void onCallbackUsuario(Usuario value) {
+            public void onCallbackUsuario(User value) {
                 AutorizacionFirebase.setUsuario(value);
                 Intent myIntent = new Intent(RegistroActivity.this, MenuLateralActivity.class);
                 RegistroActivity.this.startActivity(myIntent);
@@ -263,7 +263,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
      * @param checkedItems
      * @return si son correctos o no todos los datos
      */
-    private Usuario checkInputUsuario(
+    private User checkInputUsuario(
             Activity activity,
             String[] listItems,
             boolean[] checkedItems
@@ -294,7 +294,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         Date fechaNacimiento = null;
 
         View focusView = null;
-        Usuario user = null;
+        User user = null;
 
         // --- CHECKS --- //
         ParserUsuario pu = new ParserUsuario();
@@ -315,7 +315,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         fechaNacimiento = pu.procesarFechaNacimiento(fechaNacString, etFecha, focusView);
 
         //INTERESES
-        Pair<Boolean, ArrayList<Categoria>> resIntereses = pu.procesarIntereses(listItems, checkedItems, activity);
+        Pair<Boolean, ArrayList<Category>> resIntereses = pu.procesarIntereses(listItems, checkedItems, activity);
         unlessOneInteres = resIntereses.first;
 
         //DESCRIPCION
@@ -331,7 +331,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         if(nombre != null && email != null && password != null && passwordConfirm != null && fechaNacimiento != null && unlessOneInteres) {
             userEmail = email;
             userPassword = password;
-            user = new Usuario(email, nombre, fechaNacimiento, descripcion, resIntereses.second);
+            user = new User(email, nombre, fechaNacimiento, descripcion, resIntereses.second);
         }
 
         return user;

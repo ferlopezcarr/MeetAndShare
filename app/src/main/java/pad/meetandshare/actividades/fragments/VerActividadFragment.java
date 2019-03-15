@@ -25,9 +25,9 @@ import java.util.List;
 
 import pad.meetandshare.R;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
@@ -56,7 +56,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     private FloatingActionButton modificarActividadBoton;
     private Button borrarActividad;
 
-    private List<Usuario> usuarios;
+    private List<User> usuarios;
 
 
     private Actividad actividad;
@@ -150,8 +150,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         //si el usuario NO esta inscrito en la actividad y esta activa
         inscribirseOK = (
-                !actividad.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())
-                        && actividad.getActiva());
+                !actividad.getRegisteredUserIds().contains(AutorizacionFirebase.getCurrentUser().getUid())
+                        && actividad.getActive());
 
         if(inscribirseOK)
             inscribirseBoton.setOnClickListener(this);
@@ -165,10 +165,10 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         boolean borrarOK = false;
 
         //si el admin eres tu
-        if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getUser().getUid())) {
-            if(actividad.getActiva()) {//y la actividad esta activa
+        if(actividad.getAdminUid().equalsIgnoreCase(AutorizacionFirebase.getUser().getUid())) {
+            if(actividad.getActive()) {//y la actividad esta activa
                 //si ya ha empezado (o terminado)
-                modificarOK = (actividad.getFechaInicio().after(new Date()));
+                modificarOK = (actividad.getStartDate().after(new Date()));
                 borrarOK = true;
             }
         }
@@ -189,19 +189,19 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
     public void onStart() {
         super.onStart();
 
-        usuarios= new ArrayList<Usuario>();
+        usuarios= new ArrayList<User>();
         traeUsuariosActividad();
 
-        String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getFechaInicio());
+        String fechaIni = FechaUtil.getDateWithHourFormat().format(actividad.getStartDate());
         String arrayFechaIni[] = fechaIni.split(" ");
 
-        String fechaFin = FechaUtil.getDateWithHourFormat().format(actividad.getFechaFin());
+        String fechaFin = FechaUtil.getDateWithHourFormat().format(actividad.getEndDate());
         String arrayFechaFin[] = fechaFin.split(" ");
 
-        Integer maxParticipantes = actividad.getMaxParticipantes();
+        Integer maxParticipantes = actividad.getMaxRegistered();
 
         //Nombre
-        tvNombre.setText(actividad.getNombre());
+        tvNombre.setText(actividad.getName());
 
         //FechaIni
         tvFechaIni.setText(arrayFechaIni[0]);
@@ -217,7 +217,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         tvMaxParticipantes.setText(maxParticipantes.toString());
 
         //Plazas libres
-        Integer plazasLibres = maxParticipantes - actividad.getIdUsuariosInscritos().size();
+        Integer plazasLibres = maxParticipantes - actividad.getRegisteredUserIds().size();
         if(plazasLibres <= 0) {
             tvPlazasLibres.setText("-");
         }
@@ -228,17 +228,17 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         //NombreAdmin
         String nombreAdmin = nombreUsuario;
         //si el adminstrador es el usuario de la sesion
-        if(actividad.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+        if(actividad.getAdminUid().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
             nombreAdmin = "Tú";
         }
         tvNombreAdmin.setText(nombreAdmin);
 
         //Estado
         String estado = "";
-        if (actividad.getFinalizada()) {
+        if (actividad.getFinished()) {
             estado = "Finalizada";
         } else {//no finalizada
-            if(actividad.getActiva()) {
+            if(actividad.getActive()) {
                 estado = "Activa";
             }
             else {
@@ -248,15 +248,15 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         tvEstado.setText(estado);
 
         //Categorias
-        if(!actividad.getActiva()){
+        if(!actividad.getActive()){
             TextView cancelado = (TextView) miInflater.inflate(R.layout.layout_interes, null);
             cancelado.setText("Cancelado");
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             cancelado.setLayoutParams(llp);
             ((LinearLayout) rootView.findViewById(R.id.containercancelado)).addView(cancelado);
         }
-        if(actividad.getCategorias() != null) {
-            for (Categoria interes : actividad.getCategorias()) {
+        if(actividad.getCategories() != null) {
+            for (Category interes : actividad.getCategories()) {
                 TextView interesVista = (TextView) miInflater.inflate(R.layout.layout_interes, null);
                 interesVista.setText(interes.getDisplayName());
                 LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -268,9 +268,9 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         }
 
         //Descripción
-        if(actividad.getDescripcion() != null) {
-            if(actividad.getDescripcion().length() != 0) {
-                tvDescripcion.setText(actividad.getDescripcion());
+        if(actividad.getDescription() != null) {
+            if(actividad.getDescription().length() != 0) {
+                tvDescripcion.setText(actividad.getDescription());
             }
             else {
                 rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
@@ -312,17 +312,35 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     private void verUbicacion() {
 
-        Fragment fr = InicioFragment.newInstance(actividad.getUbicacion());
+        Fragment fr = InicioFragment.newInstance(actividad.getUbication());
         pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) this.getActivity();
         fc.replaceFragment(fr);
 
     }
 
     private void inscribirse() {
-        if(actividad.addUsuario(AutorizacionFirebase.getCurrentUser().getUid())) {
+        String uidUsuario = AutorizacionFirebase.getCurrentUser().getUid();
+
+        if(actividad.addRegisteredUser(uidUsuario)) {
             SAActividad saActividad = new SAActividadImp();
             saActividad.save(actividad);
-            Toast.makeText(getActivity(), "¡Te has inscrito a la actividad '"+actividad.getNombre()+"'!", Toast.LENGTH_LONG).show();
+
+            final SAUsuario saUsuario = new SAUsuarioImp();
+            saUsuario.get(uidUsuario, new MyCallBack() {
+                @Override
+                public void onCallbackUsuario(User value) {
+                    value.addRegisteredActivityId(actividad.getUid());
+                    saUsuario.save(value);
+                }
+
+                @Override
+                public void onCallbackActividad(Actividad actividad) { }
+
+                @Override
+                public void onCallbackActividadAll(ArrayList<Actividad> actividad) { }
+            });
+
+            Toast.makeText(getActivity(), "¡Te has inscrito a la actividad '"+actividad.getName()+"'!", Toast.LENGTH_LONG).show();
             inscribirseBoton.setVisibility(View.GONE);
         }
         else {//si ya contiene al usuario
@@ -336,8 +354,8 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
         alertDialog.setTitle("Usuarios inscritos");
 
         String usersNames= "";
-        for(Usuario user: usuarios){
-            usersNames += user.getNombre()+"\n";
+        for(User user: usuarios){
+            usersNames += user.getName()+"\n";
         }
         usersNames += "\n";
         usersNames += "Total: " + String.valueOf(usuarios.size());
@@ -358,7 +376,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
     private void changeToModificarActividad() {
 
-        Fragment fragmento = ModificaActividadFragment.newInstance(actividad, actividad.getIdUsuariosInscritos().size());
+        Fragment fragmento = ModificaActividadFragment.newInstance(actividad, actividad.getRegisteredUserIds().size());
 
         FragmentManager fm = this.getFragmentManager();
 
@@ -399,11 +417,11 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         SAUsuario saUsuario = new SAUsuarioImp();
 
-        for(String id : actividad.getIdUsuariosInscritos()){
+        for(String id : actividad.getRegisteredUserIds()){
 
             saUsuario.get(id, new MyCallBack() {
                 @Override
-                public void onCallbackUsuario(Usuario user) {
+                public void onCallbackUsuario(User user) {
                     usuarios.add(user);
                 }
 

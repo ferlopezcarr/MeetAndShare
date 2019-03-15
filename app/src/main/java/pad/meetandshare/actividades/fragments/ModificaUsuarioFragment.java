@@ -21,9 +21,9 @@ import java.util.List;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.FragmentTransaction;
 import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuarioImp;
 
@@ -38,7 +38,7 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
     private Button botonIntereses;
     private Button botonGuardar;
 
-    private Usuario miUser;
+    private User miUser;
     private SAUsuarioImp saUsuario;
 
     private boolean btnModificarPressed = false;
@@ -62,7 +62,7 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listItems = Categoria.getArray();
+        listItems = Category.getArray();
         checkedItems = new boolean[listItems.length];
 
         saUsuario = new SAUsuarioImp();
@@ -74,11 +74,11 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         // Inflate the layout for this fragment
         miUser = AutorizacionFirebase.getUser();
 
-        List<Categoria> lista = miUser.getCategorias();
+        List<Category> lista = miUser.getCategories();
 
         int k=0;
-        for(int i=0; i< Categoria.getArray().length && k < lista.size();++i){
-            if(lista.get(k).getDisplayName()==Categoria.getArray()[i]){
+        for(int i=0; i< Category.getArray().length && k < lista.size();++i){
+            if(lista.get(k).getDisplayName()==Category.getArray()[i]){
                 checkedItems[i]=true;
                 k++;
             }
@@ -88,19 +88,19 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
         //Nombre
         etNombreUsuario = ((EditText) rootView.findViewById(R.id.nombreModifica));
-        etNombreUsuario.setText(miUser.getNombre());
+        etNombreUsuario.setText(miUser.getName());
 
         //FechaNac
         etFechaNac = ((EditText) rootView.findViewById(R.id.fechaNacimientoModificar));
-        String fechaNac = FechaUtil.getDateFormat().format(miUser.getFechaNacimiento());
+        String fechaNac = FechaUtil.getDateFormat().format(miUser.getBirthday());
         etFechaNac.setText(fechaNac);
         ibObtenerFechaNac = (ImageButton) rootView.findViewById(R.id.ib_obtener_fecha);
         ibObtenerFechaNac.setOnClickListener(this);
 
         //Descripción
         etDescripcion = ((EditText) rootView.findViewById(R.id.descripcionPerfilModificar));
-        if(miUser.getDescripcion().length() != 0)
-            etDescripcion.setText(miUser.getDescripcion());
+        if(miUser.getDescription().length() != 0)
+            etDescripcion.setText(miUser.getDescription());
         /*
         tvDescripcion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -212,10 +212,10 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
         mDialog.show();
     }
 
-    private Usuario checkUsuario() {
+    private User checkUsuario() {
         View focusView = null;
 
-        Usuario usr = miUser;
+        User usr = miUser;
 
         String nombre = etNombreUsuario.getText().toString().trim();
         String fechaStr = etFechaNac.getText().toString().trim();
@@ -225,31 +225,31 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
         //NOMBRE
         nombre = pu.procesarNombre(nombre, etNombreUsuario, focusView);
-        if(nombre != null && !nombre.equalsIgnoreCase(usr.getNombre())) {
-            usr.setNombre(nombre);
+        if(nombre != null && !nombre.equalsIgnoreCase(usr.getName())) {
+            usr.setName(nombre);
         }
 
         //FECHA DE NACIMIENTO
         Date fechaNueva = pu.procesarFechaNacimiento(fechaStr,etFechaNac,focusView);
         //si es valida y distinta
-        if(fechaNueva != null && fechaNueva.compareTo(usr.getFechaNacimiento()) != 0) {
-            usr.setFechaNacimiento(fechaNueva);
+        if(fechaNueva != null && fechaNueva.compareTo(usr.getBirthday()) != 0) {
+            usr.setBirthday(fechaNueva);
         }
         else {
-            etFechaNac.setText(FechaUtil.getDateFormat().format(usr.getFechaNacimiento()));
+            etFechaNac.setText(FechaUtil.getDateFormat().format(usr.getBirthday()));
         }
 
         //INTERESES
-        Pair<Boolean, ArrayList<Categoria>> resIntereses = pu.procesarIntereses(listItems, checkedItems, this.getActivity());
+        Pair<Boolean, ArrayList<Category>> resIntereses = pu.procesarIntereses(listItems, checkedItems, this.getActivity());
         if(resIntereses.first) {
-            usr.setCategorias(resIntereses.second);
+            usr.setCategories(resIntereses.second);
         }
 
         //DESCRIPCION
         if (descripcion == null) {
             descripcion = "";
         }
-        usr.setDescripcion(descripcion);
+        usr.setDescription(descripcion);
 
         if(focusView != null)
             focusView.setFocusable(true);
@@ -262,11 +262,11 @@ public class ModificaUsuarioFragment extends Fragment implements View.OnClickLis
 
     private void modificarUsuario() {
 
-        Usuario usrModificado = checkUsuario();
+        User usrModificado = checkUsuario();
 
         if(usrModificado != null){
 
-            ArrayList<Categoria> intereses = new ArrayList<>();
+            ArrayList<Category> intereses = new ArrayList<>();
 
             saUsuario.save(usrModificado);
 

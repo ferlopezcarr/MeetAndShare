@@ -1,8 +1,6 @@
 package pad.meetandshare.negocio.modelo;
 
-import java.util.Arrays;
-
-public enum Categoria {
+public enum Category {
 
     //Mantenerlo ordenado para facilitar la busqueda
     Aventura("Aventura"),
@@ -31,7 +29,7 @@ public enum Categoria {
 
     private final String displayName;
 
-    Categoria(String displayName) {
+    Category(String displayName) {
         this.displayName = displayName;
     }
 
@@ -39,9 +37,9 @@ public enum Categoria {
         return displayName;
     }
 
-    public static Categoria getCategoria(String displayName) {
-        Categoria res = null;
-        Categoria categoriasEnumValues[] = Categoria.values();
+    public static Category getCategory(String displayName) {
+        Category res = null;
+        Category categoriasEnumValues[] = Category.values();
 
         int i = 0;
         boolean found = false;
@@ -57,10 +55,9 @@ public enum Categoria {
     }
 
     public static String[] getArray() {
-        String[] array =new String[Categoria.values().length];
+        String[] array =new String[Category.values().length];
         int i=0;
-        for (Categoria cat : Categoria.values()) {
-
+        for (Category cat : Category.values()) {
             array[i]=cat.displayName;
             ++i;
         }

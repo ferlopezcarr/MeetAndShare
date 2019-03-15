@@ -40,10 +40,10 @@ import pad.meetandshare.R;
 import pad.meetandshare.actividades.LoginActivity;
 import pad.meetandshare.integracion.ColorFile;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Ubicacion;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.Ubication;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
@@ -80,13 +80,13 @@ public class InicioFragment
 
     public static final String UBICACION = "ubication";
 
-    private Ubicacion ubicacionVerAct = null;
+    private Ubication ubicacionVerAct = null;
 
     public InicioFragment() {
         // Required empty public constructor
     }
 
-    public static InicioFragment newInstance(Ubicacion ubication) {
+    public static InicioFragment newInstance(Ubication ubication) {
         InicioFragment fragment = new InicioFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(UBICACION, ubication);
@@ -113,7 +113,7 @@ public class InicioFragment
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
-            ubicacionVerAct = (Ubicacion) bundle.getSerializable(UBICACION);
+            ubicacionVerAct = (Ubication) bundle.getSerializable(UBICACION);
         }
 
         //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
@@ -292,13 +292,13 @@ public class InicioFragment
 
                 SAUsuario saUsuario = new SAUsuarioImp();
 
-                saUsuario.get(actividad.getIdAdministrador(), new MyCallBack() {
+                saUsuario.get(actividad.getAdminUid(), new MyCallBack() {
                     @Override
-                    public void onCallbackUsuario(Usuario usuario) {
+                    public void onCallbackUsuario(User usuario) {
                         if(usuario != null) {
                             //hacer la transicion
 
-                            Fragment fr = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
+                            Fragment fr = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getName());
                             pad.meetandshare.actividades.FragmentTransaction fc=(pad.meetandshare.actividades.FragmentTransaction) getActivity();
                             fc.replaceFragment(fr);
 
@@ -326,7 +326,7 @@ public class InicioFragment
 
         saActividad.getAll(new MyCallBack() {
             @Override
-            public void onCallbackUsuario(Usuario usuario) {
+            public void onCallbackUsuario(User usuario) {
             }
 
             @Override
@@ -338,12 +338,13 @@ public class InicioFragment
 
                 for(Actividad actual : actividades) {
                     //si la fecha de fin es mas tarde de ahora se finaliza
-                    if(actual.getFechaFin().before(new Date()) && !actual.getFinalizada()) {
-                        actual.setFinalizada(true);
+                    Date date = new Date();
+                    if(actual.getEndDate().before(date) && !actual.getFinished()) {
+                        actual.setFinished(true);
                         saActividad.save(actual);
                     }
 
-                    if(!actual.getFinalizada()) {
+                    if(!actual.getFinished()) {
                         mMap.addMarker(construirMarcador(actual)).setTag(actual);
                     }
                 }
@@ -358,12 +359,12 @@ public class InicioFragment
 
         if(actividad != null) {
             String snippet = "";
-            if(!actividad.getActiva())
+            if(!actividad.getActive())
                  snippet += "CANCELADA \n";
 
-            if(actividad.getCategorias() != null) {
+            if(actividad.getCategories() != null) {
                 snippet = snippet + "Categorías:";
-                for (Categoria cat : actividad.getCategorias()) {
+                for (Category cat : actividad.getCategories()) {
                     snippet = snippet + '\n' + cat.getDisplayName();
                 }
             }
@@ -375,8 +376,8 @@ public class InicioFragment
     }
 
     private MarkerOptions construirMarcador(Actividad act) {
-        MarkerOptions marcador = new MarkerOptions().position(new LatLng(act.getUbicacion().getLatitude(), act.getUbicacion().getLongitude()));
-        marcador.title(act.getNombre());
+        MarkerOptions marcador = new MarkerOptions().position(new LatLng(act.getUbication().getLatitude(), act.getUbication().getLongitude()));
+        marcador.title(act.getName());
         Float x = (float) 0.7;
         Float y = (float) 0.7;
         marcador.infoWindowAnchor(x,y);
@@ -385,9 +386,9 @@ public class InicioFragment
 
 
         //si estas inscrito en la actividad
-        if (act.getIdUsuariosInscritos().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
+        if (act.getRegisteredUserIds().contains(AutorizacionFirebase.getCurrentUser().getUid())) {
             //si eres el admin de la actividad
-            if (act.getIdAdministrador().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
+            if (act.getAdminUid().equalsIgnoreCase(AutorizacionFirebase.getCurrentUser().getUid())) {
                 marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ADMIN_COLOR));//morado
             } else {
                 marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.PARTICIPANT_COLOR));
@@ -399,7 +400,7 @@ public class InicioFragment
         Date tommorrow = new Date();
         tommorrow = FechaUtil.sumarRestarDiasFecha(tommorrow, ColorFile.TIME_DIFFERENCE);
         //si la activadad empieza mañana
-        if (act.getFechaInicio().before(tommorrow)) {
+        if (act.getStartDate().before(tommorrow)) {
             marcador.icon(BitmapDescriptorFactory.defaultMarker(ColorFile.ACT_STARTS_TOMORROW_COLOR));
         }
 

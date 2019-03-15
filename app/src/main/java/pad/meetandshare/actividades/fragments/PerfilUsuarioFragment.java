@@ -15,14 +15,14 @@ import android.widget.TextView;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.FragmentTransaction;
 import pad.meetandshare.actividades.LoginActivity;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 
 public class PerfilUsuarioFragment extends Fragment {
 
-    private Usuario user;
+    private User user;
     private View rootView;
 
 
@@ -55,14 +55,14 @@ public class PerfilUsuarioFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
 
-        Usuario miUser = AutorizacionFirebase.getUser();
+        User miUser = AutorizacionFirebase.getUser();
 
-        ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getNombre());
+        ((TextView) rootView.findViewById(R.id.nombrePerfil)).setText(miUser.getName());
         ((TextView) rootView.findViewById(R.id.emailPerfil)).setText(miUser.getEmail());
-        ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescripcion());
+        ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setText(miUser.getDescription());
         ((TextView) rootView.findViewById(R.id.descripcionPerfil)).setMovementMethod(new ScrollingMovementMethod());
 
-        for (Categoria interes : miUser.getCategorias()) {
+        for (Category interes : miUser.getCategories()) {
             TextView interesVista = (TextView) inflater.inflate(R.layout.layout_interes, null);
             interesVista.setText(interes.getDisplayName());
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -72,17 +72,17 @@ public class PerfilUsuarioFragment extends Fragment {
             ((LinearLayout) rootView.findViewById(R.id.containerInteresesPerfil)).addView(interesVista);
         }
 
-        ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(FechaUtil.getDateFormat().format(miUser.getFechaNacimiento()));
+        ((TextView) rootView.findViewById(R.id.fechaNacimientoPerfil)).setText(FechaUtil.getDateFormat().format(miUser.getBirthday()));
 
         //PARA QUE NO SALGA EL TECLADO SEGUN CARGA LA PANTALLA
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        if(miUser.getDescripcion() == null) {
+        if(miUser.getDescription() == null) {
             rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
             rootView.findViewById(R.id.descripcionPerfil).setVisibility(View.GONE);
         }
         else {
-            if(miUser.getDescripcion().length() == 0) {
+            if(miUser.getDescription().length() == 0) {
                 rootView.findViewById(R.id.labelDescripcion).setVisibility(View.GONE);
                 rootView.findViewById(R.id.descripcionPerfil).setVisibility(View.GONE);
             }

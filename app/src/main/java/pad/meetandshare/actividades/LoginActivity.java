@@ -35,7 +35,7 @@ import java.util.List;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.ParserObjects.ParserUsuario;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Usuario;
+import pad.meetandshare.negocio.modelo.User;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.MyCallBack;
 import pad.meetandshare.negocio.servicioAplicacion.SAUsuario;
@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private FirebaseAuth mAuth;
-    private Usuario usuario;
+    private User usuario;
 
     private boolean _doubleBackToExitPressedOnce = false;
 
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                     SAUsuario saUsuario = new SAUsuarioImp();
                     saUsuario.get(user.getUid(), new MyCallBack() {
                         @Override
-                        public void onCallbackUsuario(Usuario value) {
+                        public void onCallbackUsuario(User value) {
                             AutorizacionFirebase.setUsuario(value);
                             LoginActivity.this.startActivity(myIntent);
                             showProgress(false);

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 
 public class Parser {
 
@@ -40,14 +40,14 @@ public class Parser {
         return true;
     }
 
-    public Pair<Boolean, ArrayList<Categoria>> procesarIntereses(String[] listItems, boolean[] checkedItems, Activity activity) {
+    public Pair<Boolean, ArrayList<Category>> procesarIntereses(String[] listItems, boolean[] checkedItems, Activity activity) {
         Boolean unlessOneInteres = false;
 
-        ArrayList<Categoria> intereses = new ArrayList<>();
+        ArrayList<Category> intereses = new ArrayList<>();
 
         for (int i = 0; i < checkedItems.length; ++i) {
             if (checkedItems[i]) {
-                Categoria cat = Categoria.getCategoria(listItems[i]);
+                Category cat = Category.getCategory(listItems[i]);
                 intereses.add(cat);
             }
         }

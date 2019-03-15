@@ -35,16 +35,16 @@ import java.util.List;
 import pad.meetandshare.R;
 import pad.meetandshare.actividades.ParserObjects.ParserActividad;
 import pad.meetandshare.negocio.modelo.Actividad;
-import pad.meetandshare.negocio.modelo.Categoria;
+import pad.meetandshare.negocio.modelo.Category;
 import pad.meetandshare.actividades.utils.FechaUtil;
-import pad.meetandshare.negocio.modelo.Ubicacion;
+import pad.meetandshare.negocio.modelo.Ubication;
 import pad.meetandshare.negocio.servicioAplicacion.AutorizacionFirebase;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividad;
 import pad.meetandshare.negocio.servicioAplicacion.SAActividadImp;
 
 import static android.app.Activity.RESULT_OK;
-import static pad.meetandshare.negocio.modelo.Ubicacion.PLACE_PICKER_REQUEST;
-import static pad.meetandshare.negocio.modelo.Ubicacion.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static pad.meetandshare.negocio.modelo.Ubication.PLACE_PICKER_REQUEST;
+import static pad.meetandshare.negocio.modelo.Ubication.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 public class ModificaActividadFragment extends Fragment implements View.OnClickListener {
 
@@ -71,7 +71,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     //MODIFICAR ACTIVIDAD
     private Button modificarActividadBoton;
 
-    private Ubicacion ubicacionSeleccionada;
+    private Ubication ubicacionSeleccionada;
     private int numUsuariosInscritos;
 
     private String[] listItems;
@@ -115,14 +115,14 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             numUsuariosInscritos = (int) getArguments().getSerializable(NUM_USUARIOS_INCRITOS);
         }
 
-        listItems = Categoria.getArray();
+        listItems = Category.getArray();
         checkedItems = new boolean[listItems.length];
 
-        List<Categoria> lista = actividad.getCategorias();
+        List<Category> lista = actividad.getCategories();
 
         int k=0;
-        for(int i=0; i< Categoria.getArray().length && k < lista.size();++i){
-            if(lista.get(k).getDisplayName()==Categoria.getArray()[i]){
+        for(int i=0; i< Category.getArray().length && k < lista.size();++i){
+            if(lista.get(k).getDisplayName()==Category.getArray()[i]){
                 checkedItems[i]=true;
                 k++;
             }
@@ -150,12 +150,12 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
         //NOMBRE
         etNombre = ((EditText) rootView.findViewById(R.id.nombreModificarActividad));
-        etNombre.setText(actividad.getNombre());
+        etNombre.setText(actividad.getName());
 
         //FECHA INI
         //Widget EditText donde se mostrara la fecha obtenida
         etFechaIni = (EditText) rootView.findViewById(R.id.fechaIniModificarActividad);
-        etFechaIni.setText(FechaUtil.getDateFormat().format(actividad.getFechaInicio()));
+        etFechaIni.setText(FechaUtil.getDateFormat().format(actividad.getStartDate()));
         //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
         ibObtenerFechaIni = (ImageButton) rootView.findViewById(R.id.ib_obtener_fechaIniModificar);
         ibObtenerFechaIni.setOnClickListener(this);
@@ -163,13 +163,13 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //HORA INI
         //Widget EditText donde se mostrara la hora obtenida
         etHoraIni = (EditText) rootView.findViewById(R.id.horaIniModificarActividad);
-        etHoraIni.setText(FechaUtil.horaMostrarString(actividad.getFechaInicio()));
+        etHoraIni.setText(FechaUtil.horaMostrarString(actividad.getStartDate()));
         //Widget ImageButton del cual usaremos el evento clic para obtener la hora
         ibObtenerHoraIni = (ImageButton) rootView.findViewById(R.id.ib_obtener_horaIniModificar);
         //Evento setOnClickListener - clic
         ibObtenerHoraIni.setOnClickListener(this);
 
-        if(actividad.getFechaInicio().before(new Date())) {//si ya ha empezado
+        if(actividad.getStartDate().before(new Date())) {//si ya ha empezado
             etFechaIni.setEnabled(false);
             etHoraIni.setEnabled(false);
         }
@@ -177,7 +177,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //FECHA FIN
         //Widget EditText donde se mostrara la fecha obtenida
         etFechaFin = (EditText) rootView.findViewById(R.id.fechaFinModificarActividad);
-        etFechaFin.setText(FechaUtil.getDateFormat().format(actividad.getFechaFin()));
+        etFechaFin.setText(FechaUtil.getDateFormat().format(actividad.getEndDate()));
         //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
         ibObtenerFechaFin = (ImageButton) rootView.findViewById(R.id.ib_obtener_fechaFinModificar);
         ibObtenerFechaFin.setOnClickListener(this);
@@ -185,7 +185,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //HORA FIN
         //Widget EditText donde se mostrara la hora obtenida
         etHoraFin = (EditText) rootView.findViewById(R.id.horaFinModificarActividad);
-        etHoraFin.setText(FechaUtil.horaMostrarString(actividad.getFechaFin()));
+        etHoraFin.setText(FechaUtil.horaMostrarString(actividad.getEndDate()));
         //Widget ImageButton del cual usaremos el evento clic para obtener la hora
         ibObtenerHoraFin = (ImageButton) rootView.findViewById(R.id.ib_obtener_horaFinModificar);
         //Evento setOnClickListener - clic
@@ -193,7 +193,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
         //MAX PARTICIPANTES
         etMaxParticipantes = (EditText) rootView.findViewById(R.id.maxParticipantesModificarActividad);
-        etMaxParticipantes.setText(String.valueOf(actividad.getMaxParticipantes()));
+        etMaxParticipantes.setText(String.valueOf(actividad.getMaxRegistered()));
 
         //INTERESES
         interesesBoton = (Button) rootView.findViewById(R.id.botonInteresModificarActividad);
@@ -205,7 +205,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
         //DESCRIPCION
         etDescripcion = (EditText) rootView.findViewById(R.id.descripcionModificarActividad);
-        etDescripcion.setText(actividad.getDescripcion());
+        etDescripcion.setText(actividad.getDescription());
 
         //MODIFICAR ACTIVIDAD
         modificarActividadBoton = (Button) rootView.findViewById(R.id.modificarActividadPost);
@@ -218,7 +218,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
         switch (v.getId()) {
             case R.id.ib_obtener_fechaIniModificar:
-                if(actividad.getFechaInicio().before(new Date())) {
+                if(actividad.getStartDate().before(new Date())) {
                     String toastMsg = String.format("¡La actividad ya ha empezado!");
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
                 }
@@ -228,7 +228,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
                 break;
 
             case R.id.ib_obtener_horaIniModificar:
-                if(actividad.getFechaInicio().before(new Date())) {
+                if(actividad.getStartDate().before(new Date())) {
                     String toastMsg = String.format("¡La actividad ya ha empezado!");
                     Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
                 }
@@ -377,7 +377,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this.getActivity());
 
-                ubicacionSeleccionada = new Ubicacion(place);
+                ubicacionSeleccionada = new Ubication(place);
 
                 String toastMsg = String.format("Ubicación seleccionada satisfactoriamente");
                 Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
@@ -389,7 +389,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
     private void modificarActividad() {
 
         if(ubicacionSeleccionada == null)
-            ubicacionSeleccionada = actividad.getUbicacion();
+            ubicacionSeleccionada = actividad.getUbication();
 
         Actividad act = checkInputActividad();
 
@@ -444,7 +444,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //NOMBRE
         nombre = pa.procesarNombre(nombre, etNombre, focusView);
         if(nombre != null) {
-            act.setNombre(nombre);
+            act.setName(nombre);
         }
 
         //FECHA INI
@@ -456,7 +456,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //FECHA INI Y HORA INI
         fechaIni = pa.procesarFechaIniCompleta(fechaIniString, horaIniString, etHoraIni, focusView);
         if(fechaIni != null) {
-            act.setFechaInicio(fechaIni);
+            act.setStartDate(fechaIni);
         }
 
         //FECHA FIN
@@ -468,26 +468,26 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
         //FECHA FIN Y HORA FIN
         fechaFin = pa.procesarFechaFinCompleta(fechaIni, fechaFinString, horaFinString, etHoraFin, focusView);
         if(fechaFin != null) {
-            act.setFechaFin(fechaFin);
+            act.setEndDate(fechaFin);
         }
 
         //MAX PARTICIPANTES
         maxParticipantes = pa.procesarMaxParticipantesModificar(maxParticipantesString, numUsuariosInscritos, etMaxParticipantes, focusView);
         if(maxParticipantes != null) {
             if(maxParticipantes != 0)
-                act.setMaxParticipantes(maxParticipantes);
+                act.setMaxRegistered(maxParticipantes);
         }
 
         //INTERESES
-        Pair<Boolean, ArrayList<Categoria>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
+        Pair<Boolean, ArrayList<Category>> resIntereses = pa.procesarIntereses(listItems, checkedItems, this.getActivity());
         if(resIntereses.first) {
-            act.setCategorias(resIntereses.second);
+            act.setCategories(resIntereses.second);
         }
 
         //UBICACION
         ubicacionOK = pa.procesarUbicacion(ubicacionSeleccionada, this.getActivity());
         if(ubicacionOK) {
-            act.setUbicacion(ubicacionSeleccionada);
+            act.setUbication(ubicacionSeleccionada);
         }
 
         //DESCRIPCION
@@ -495,7 +495,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
             descripcion = "";
         }
 
-        act.setDescripcion(descripcion);
+        act.setDescription(descripcion);
 
         // -------------- //
 
@@ -513,7 +513,7 @@ public class ModificaActividadFragment extends Fragment implements View.OnClickL
 
     private void changeToVerActividad() {
 
-        Fragment fragmento = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getNombre());
+        Fragment fragmento = VerActividadFragment.newInstance(actividad, AutorizacionFirebase.getUser().getName());
 
         FragmentManager fm = this.getFragmentManager();
 
