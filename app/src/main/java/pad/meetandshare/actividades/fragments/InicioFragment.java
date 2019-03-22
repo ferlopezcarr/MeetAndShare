@@ -337,14 +337,8 @@ public class InicioFragment
             public void onCallbackActividadAll(ArrayList<Actividad> actividades) {
 
                 for(Actividad actual : actividades) {
-                    //si la fecha de fin es mas tarde de ahora se finaliza
-                    Date date = new Date();
-                    if(actual.getEndDate().before(date) && !actual.getFinished()) {
-                        actual.setFinished(true);
-                        saActividad.save(actual);
-                    }
-
-                    if(!actual.getFinished()) {
+                    //si la fecha de fin es mas tarde de ahora
+                    if(!actual.activityFinished()) {
                         mMap.addMarker(construirMarcador(actual)).setTag(actual);
                     }
                 }

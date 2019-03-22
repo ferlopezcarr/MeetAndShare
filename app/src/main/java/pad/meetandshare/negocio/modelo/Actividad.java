@@ -38,8 +38,6 @@ public class Actividad implements Serializable {
 
     private boolean active;
 
-    private boolean finished;
-
     // -- Datos para integracion -- //
     public final static String ActivitiesDatabaseName = "activities";
 
@@ -71,7 +69,6 @@ public class Actividad implements Serializable {
         this.ubication = ubication;
         this.adminUid = adminUid;
         this.active = true;
-        this.finished = false;
         this.categories = categories;
         this.registeredUserIds = new ArrayList<String>();
         if(!this.registeredUserIds.contains(adminUid)) {
@@ -155,25 +152,13 @@ public class Actividad implements Serializable {
         this.active = active;
     }
 
-    public boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finalizada) {
-        this.finished = finished;
-    }
-
     public boolean activityInProgess() {
         Date ahora = new Date();
-        return (!finished && startDate.after(ahora) && endDate.before(ahora));
+        return (startDate.after(ahora) && endDate.before(ahora));
     }
 
     public boolean activityFinished() {
-
-        if(!finished)
-            finished = (endDate.before(new Date()));
-
-        return finished;
+        return (endDate.before(new Date()));
     }
 
 

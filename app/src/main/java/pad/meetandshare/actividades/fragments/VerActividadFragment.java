@@ -235,7 +235,7 @@ public class VerActividadFragment extends Fragment implements View.OnClickListen
 
         //Estado
         String estado = "";
-        if (actividad.getFinished()) {
+        if (actividad.activityFinished()) {
             estado = "Finalizada";
         } else {//no finalizada
             if(actividad.getActive()) {
